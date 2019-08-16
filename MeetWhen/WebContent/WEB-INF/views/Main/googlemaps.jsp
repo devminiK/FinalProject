@@ -10,6 +10,7 @@
 	//Hybrid(photographic map + roads and city names)
 	//Terrain(map with mountains, rivers, etc.)		
 	//center맵의 중심이 어디일지 지정, LatLng맵에 특정 포인트 지정, zoom 줌레벨 정의
+	
  -->
 <script>
 	var myCenter = new google.maps.LatLng(25.086105, 179.581105);
