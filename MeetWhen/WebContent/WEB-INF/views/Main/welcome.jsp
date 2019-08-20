@@ -7,7 +7,7 @@
 <title>mini's</title>
 </head>
 <body>
-	<jsp:include page="menu.jsp"/>
+	<jsp:include page="header.jsp"/>
 	
 	<%!
 		String greeting = "Welcome to Mini's Web Shopping Mall";

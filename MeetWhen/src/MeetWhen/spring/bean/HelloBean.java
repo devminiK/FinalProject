@@ -28,6 +28,12 @@ public class HelloBean {
 	public String googlemaps() {
 		return "/Main/googlemaps";
 	}
+	
+	//추후 삭제할것
+	@RequestMapping("maptest.mw")
+	public String maptest() {
+		return "/Main/maptest";
+	}
 
 
 }

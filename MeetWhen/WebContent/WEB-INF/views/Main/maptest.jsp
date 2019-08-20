@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
+<%--test용, 추후 삭제할 것 --%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -62,13 +63,13 @@ body {
  -->
 <script>
 	var myCenter = new google.maps.LatLng(25.086105, 179.581105);
-	var EuPos = new google.maps.LatLng(54.577821, 15.175375); //zoom(4)
+	var EuPos = new google.maps.LatLng(54.577821, 15.175375);
 
 	<%--맵을 초기화 하기 위한 함수--%>
 	function initialize() {
 		var mapProp = {
-			center : myCenter,
-			zoom : 1.4,
+			center : EuPos,
+			zoom : 4,
 			mapTypeId : google.maps.MapTypeId.ROADMAP,
 			
 			disableDefaultUI:true,
@@ -86,7 +87,7 @@ body {
 
 		<%-- zoom 하기위한 marker --%>
 		var marker = new google.maps.Marker({
-			position: myCenter,
+			position: EuPos,
 			title:'Center of WorldMap'
 		});
 		marker.setMap(map);
@@ -94,21 +95,6 @@ body {
 		var infowindow = new google.maps.InfoWindow({
 			  content:"Hello World!"
 		});
-
-		<%-- 클릭, 2zoom --%>		
-		google.maps.event.addListener(marker,'click',function(){
-			map.setZoom(2);
-			map.serCenter(marker.getPosition());
-			//infowindow.open(map,marker);
-		});
-
-		<%-- 3초마다 마커로 이동 --%>
-		google.maps.event.addListener(map,'center_changed',function() {
-			  window.setTimeout(function() {
-			    map.panTo(marker.getPosition());
-			  },60000);
-		});
-
 
 	}
 	<%-- 페이지가 로드될 때 initialize()함수 실행--%>
@@ -135,51 +121,10 @@ function openCity(evt, cityName) {
 	<h2>세계지도</h2>
 	<p>관심있는 지역을 골라보세요:</p>
 
-	<div class="tab">
-		<button class="tablinks" onclick="openCity(event, 'Europe')">Europe</button>
-		<button class="tablinks" onclick="openCity(event, 'Africa')">Africa</button>
-		<button class="tablinks" onclick="openCity(event, 'Middle-East')">Middle-East</button>
-		<button class="tablinks" onclick="openCity(event, 'Asia')">Asia</button>
-		<button class="tablinks" onclick="openCity(event, 'Oceania')">Oceania</button>
-		<button class="tablinks" onclick="openCity(event, 'N-America')">N-America</button>
-		<button class="tablinks" onclick="openCity(event, 'S-America')">S-America</button>
-	</div>
 
-	<div id="Europe" class="tabcontent">
-		<h3>Europe</h3>
-		<p>~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~.</p>
+
 		<div id="goMap" style="width: 1000px; height: 380px;"/>
-	</div>
 
-	<div id="Africa" class="tabcontent">
-		<h3>Africa</h3>
-		<p>~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~.</p>
-	</div>
-
-	<div id="Middle-East" class="tabcontent">
-		<h3>Middle-East</h3>
-		<p>~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~.</p>
-	</div>
-
-	<div id="Asia" class="tabcontent">
-		<h3>Asia</h3>
-		<p>~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~.</p>
-	</div>
-
-	<div id="Oceania" class="tabcontent">
-		<h3>Oceania</h3>
-		<p>~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~.</p>
-	</div>
-
-	<div id="N-America" class="tabcontent">
-		<h3>N-America</h3>
-		<p>~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~.</p>
-	</div>
-
-	<div id="S-America" class="tabcontent">
-		<h3>S-America</h3>
-		<p>~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~.</p>
-	</div>
 	
 </body>
 
