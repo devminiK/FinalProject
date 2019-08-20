@@ -40,6 +40,7 @@
         var infoWindow = new google.maps.InfoWindow;
 
           // Change this depending on the name of your PHP or XML file
+          // 'https://storage.googleapis.com/mapsdevsite/json/mapmarkers2.xml'
           downloadUrl('mapmarkers2.xml', function(data) {
             var xml = data.responseXML;
             var markers = xml.documentElement.getElementsByTagName('marker');
