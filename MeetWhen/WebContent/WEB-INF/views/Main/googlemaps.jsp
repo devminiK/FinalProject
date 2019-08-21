@@ -63,12 +63,12 @@ body {
 <script>
 	var myCenter = new google.maps.LatLng(25.086105, 179.581105);
 	var EuPos = new google.maps.LatLng(54.577821, 15.175375); //zoom(4)
-	var AfPos
+	var AfPos = new google.maps.LatLng(3.740811, 23.643909); //zoom(3)
 	var MEPos
 	var AsPos
 	var OcePos
-	var SAmPos
-	var NAmPos
+	var NAmePos = new google.maps.LatLng(48.604936, -108.279445) //zoom(3)
+	var SAmePos = new google.maps.LatLng(-21.033396, -62.316496) //zoom(3)
 
 	<%--맵을 초기화 하기 위한 함수--%>
 	function initialize() {

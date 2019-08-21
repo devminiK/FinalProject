@@ -21,8 +21,11 @@
   </head>
   <body>
     <div id="map"></div>
-
-    <script>
+    <%
+    
+    
+    %>
+	<script>
       var customLabel = {
         restaurant: {
           label: 'R'
@@ -41,7 +44,8 @@
 
           // Change this depending on the name of your PHP or XML file
           // 'https://storage.googleapis.com/mapsdevsite/json/mapmarkers2.xml'
-          downloadUrl('mapmarkers2.xml', function(data) {
+          
+          downloadUrl('https://storage.googleapis.com/mapsdevsite/json/mapmarkers2.xml', function(data) {
             var xml = data.responseXML;
             var markers = xml.documentElement.getElementsByTagName('marker');
             Array.prototype.forEach.call(markers, function(markerElem) {
