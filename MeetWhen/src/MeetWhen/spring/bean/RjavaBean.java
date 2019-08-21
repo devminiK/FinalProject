@@ -74,6 +74,9 @@ public class RjavaBean {
 				"  }" + 
 				"}");
 		
+		conn.eval("rownames(reDf)<-NULL");
+		//이걸 엑셀에 저장->DB로 변환 / DB에 바로 저장하기
+		
 		REXP result = conn.eval("reDf");
 		RList list2 = result.asList();
 		System.out.println("ListSize="+list2.size()+
