@@ -13,9 +13,9 @@ public class HelloBean {
 		return "/Main/welcome";
 	}
 	
-	@RequestMapping("menu.mw")
-	public String menu() {
-		return "/Main/menu";
+	@RequestMapping("header.mw")
+	public String header() {
+		return "/Main/header";
 	}
 	
 	@RequestMapping("footer.mw")
@@ -30,10 +30,11 @@ public class HelloBean {
 	}
 	
 	//추후 삭제할것
-	@RequestMapping("maptest.mw")
-	public String maptest() {
-		return "/Main/maptest";
+	@RequestMapping("test_map.mw")
+	public String test_map() {
+		return "/Main/test_map";
 	}
+
 
 
 }
