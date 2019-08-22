@@ -1,8 +1,10 @@
 package MeetWhen.spring.bean;
 
+import org.mybatis.spring.SqlSessionTemplate;
 import org.rosuda.REngine.REXP;
 import org.rosuda.REngine.RList;
 import org.rosuda.REngine.Rserve.RConnection;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -10,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/rjava/")
 public class RjavaBean {
+	@Autowired
+	private SqlSessionTemplate sql = null;
 	
 	@RequestMapping("test_data.mw")
 	public String test_data() throws Exception{
@@ -74,7 +78,8 @@ public class RjavaBean {
 				"  }" + 
 				"}");
 		
-		conn.eval("rownames(reDf)<-NULL");
+		conn.eval("rownames(reDf)<-NULL"); //결과물
+		
 		//이걸 엑셀에 저장->DB로 변환 / DB에 바로 저장하기
 		
 		REXP result = conn.eval("reDf");
@@ -82,13 +87,45 @@ public class RjavaBean {
 		System.out.println("ListSize="+list2.size()+
 							"\nListLength="+list2.at(0).length());
 		
-		//2019.08.21 -이까지 ok문제 없음
+		int count = (Integer)sql.selectOne("airport.countinfo");
+		System.out.println("count확인="+count);
+		/*
+		String [][] s = new String[list2.size()][]; //가변배열로 작성 후  값 삽입
+		for(int i=0; i<list2.size(); i++) {
+			s[i] = list2.at(i).asStrings();
+		}
+
+		//배열 값 확인용 출력.
+		for(int i=0;i<list2.size();i++) {  
+			for(int j=0; j<list2.at(0).length(); j++) 
+				System.out.print("s["+i+"]["+j+"]"+" ");
+			System.out.println();
+		}
+		for(int i=0;i<list2.size();i++) {           //출력
+			for(int j=0; j<list2.at(0).length(); j++) 
+				System.out.print(s[i][j]+" ");
+			System.out.println();
+		}
+		*/
+		
+		
+		/*
+		//배열 값 확인용 출력.>> DB에 넣으려면 3값씩 끊어야함
+		for(int i=0;i<list2.at(0).length();i++) {  
+			for(int j=0; j<list2.size(); j++) 
+				System.out.print("s["+j+"]["+i+"]"+" ");
+			System.out.println();
+		}
+		for(int i=0;i<list2.at(0).length();i++) {  
+			for(int j=0; j<list2.size(); j++) 
+				System.out.print(s[j][i]+" ");
+			System.out.println();
+		}
+		*/
+		
+		
 		//엑셀 db에 저장하는 방법 알아보기 or db에 일일이 저장하는 방법 할것.
 		
-		
-		
-		//통계자료 엑셀 정규화 과정.
-		//...
 		
 		conn.close();
 		return "/rjava/test_data";

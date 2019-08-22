@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-		xmlns:context="http://www.springframework.org/schema/context"
-		xmlns:p="http://springframework.org/schema/p"
-		xsi:schemaLocation="http://www.springframework.org/schema/beans
-		http://www.springframework.org/schema/beans/spring-beans.xsd
-		http://www.springframework.org/schema/context
-		http://www.springframework.org/schema/context/spring-context-4.3.xsd"
-		>
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xmlns:context="http://www.springframework.org/schema/context"
+      xmlns:aop="http://www.springframework.org/schema/aop"
+      xmlns:p="http://www.springframework.org/schema/p"
+      xsi:schemaLocation="http://www.springframework.org/schema/beans
+      http://www.springframework.org/schema/beans/spring-beans.xsd
+      http://www.springframework.org/schema/context
+      http://www.springframework.org/schema/context/spring-context-4.3.xsd
+      http://www.springframework.org/schema/aop
+      http://www.springframework.org/schema/aop/spring-aop-4.3.xsd">
 	
 	<!-- 모든 Bean 연결 -->
 	<context:component-scan base-package="MeetWhen.spring.bean"/>
@@ -19,13 +21,14 @@
 	</bean>	
 	
 	<!-- mybatis설정 -->
-	<bean id="dataSource"
-			class="org.apache.tomcat.dbcp.dbcp2.BasicDataSource"
-			p:driverClassName="oracle.jdbc.driver.OracleDriver"
-			p:url="jdbc:oracle:thin:@nullmaster.iptime.org:1521:xe"
-			p:username="class03"
-			p:password="class03"
-			destroy-method="close"/>
+	<bean id="dataSource" 
+        class="org.apache.tomcat.dbcp.dbcp2.BasicDataSource"
+        p:driverClassName="oracle.jdbc.driver.OracleDriver"
+        p:url="jdbc:oracle:thin:@nullmaster.iptime.org:1521:xe"
+        p:username="TEAM04"
+        p:password="TEAM04"
+        destroy-method="close"
+   />
 			
 			
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
@@ -33,7 +36,8 @@
 		<property name="configLocation" value="/WEB-INF/mybatis/mybatis-config.xml"/>
 	</bean>
 	
-	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate" destroy-method="clearCache">
+	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate" 
+			destroy-method="clearCache">
 		<constructor-arg name="sqlSessionFactory" ref="sqlSessionFactory"/>
 	</bean>
 </beans>
