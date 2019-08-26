@@ -61,7 +61,6 @@ input[type=text]:focus, input[type=password]:focus {
 </head>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 <body id="logMain">
-
 	<jsp:include page="/Main/header.mw"/>
 	<div>
 	<br>
@@ -77,7 +76,7 @@ input[type=text]:focus, input[type=password]:focus {
 				<button type="submit" class="btn">Login</button>
 				<button type="reset" class="btn">Reset</button>
 				<button type="button" 
-				class="btn" onclick="javascript:window.location='/hmjm/Register/register.jsp'">Join Us</button>
+				class="btn" onclick="javascript:window.location='/MeetWhen/Member/registerForm.mw'">Join Us</button>
 			</form>
 			<%}else{ //로그아웃시 main.jsp로 이동
 				session.invalidate();
