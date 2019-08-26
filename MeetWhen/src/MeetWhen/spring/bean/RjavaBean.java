@@ -50,7 +50,7 @@ public class RjavaBean {
 		REXP df = conn.eval("july_all");
 		RList list = df.asList();
 		System.out.println("ListSize="+list.size()+
-							"\nListLength="+list.at(0).length());
+							" / ListLength="+list.at(0).length());
 		
 		conn.eval("test <- july_all");
 		conn.eval("reVec<-NULL; reDf <-NULL");
