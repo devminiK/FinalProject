@@ -4,7 +4,20 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="airport">
-	<select id="countinfo" resultType="int">
+	<select id="countNum" resultType="int">
 		select count(*) from airportinfo 
 	</select>
+	
+	<select id="getNum" resultType="int">
+		select airportinfo_seq.nextval from dual
+	</select>
+	
+	<insert id="insertinfo">
+		insert into airportinfo values(#{a_num}, #{a_con}, #{a_reg}, #{a_cnt})
+	</insert>
+	
+	<delete id="deleteinfo">
+		delete from airportinfo
+	</delete>
+	
 </mapper>
