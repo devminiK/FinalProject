@@ -1,10 +1,11 @@
 package MeetWhen.spring.vo;
 
+/*공항통계 정보 저장 변수*/
 public class AirportVO {
-	private int a_num;
-	private String a_con;
-	private String a_reg;
-	private int a_cnt;
+	private int a_num; 	  //시퀀스 증가 값
+	private String a_con; //나라 정보
+	private String a_reg; //지역 정보
+	private int a_cnt;    //방문자 수
 
 	
 	public int getA_num() {

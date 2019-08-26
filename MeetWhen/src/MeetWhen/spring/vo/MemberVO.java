@@ -1,15 +1,14 @@
 package MeetWhen.spring.vo;
 
 public class MemberVO {
-	private int m_num;
-	private int m_state;
-	private String m_id;
-	private String m_pw;
-	private String m_name;
-	private String m_email;
-	private String m_phone;
-	private String m_add;
-	
+	private int m_num;     //고유번화
+	private int m_state;   //회원상태
+	private String m_id;   //id
+	private String m_pw;   //password
+	private String m_name; //실명
+	private String m_email;//이메일(인증용)
+	private String m_phone;//전화번호
+	private String m_add;  //집 주소
 	
 	public int getM_num() {
 		return m_num;

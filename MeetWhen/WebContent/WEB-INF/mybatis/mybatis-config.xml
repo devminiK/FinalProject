@@ -10,5 +10,6 @@
 
 	<mappers>
 		<mapper resource="/sql/airportSQL.xml" />
+		<mapper resource="/sql/memberSQL.xml" />
 	</mappers>
 </configuration>
