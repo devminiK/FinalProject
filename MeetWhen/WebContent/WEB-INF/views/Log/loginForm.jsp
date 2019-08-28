@@ -80,7 +80,7 @@ input[type=text]:focus, input[type=password]:focus {
 				class="btn" onclick="javascript:window.location='/MeetWhen/Member/registerForm.mw'">Join Us</button>
 				<hr>
 				<%--다른 것들도 추가하기 --%>
-				<jsp:include page="/Log/naverlogin.mw"/>
+				<jsp:include page="/Naver/naverlogin.mw"/>
 			</form>
 			<%}else{ //로그아웃시 main.jsp로 이동
 				session.invalidate();
