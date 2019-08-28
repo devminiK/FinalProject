@@ -7,23 +7,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/Member/")
 public class MemberBean {
 	
-	//-------------------------------------------Log
-	@RequestMapping("loginForm.mw")
-	public String loginForm() {
-		
-		return "/Log/loginForm";
-	}
-	@RequestMapping("loginPro.mw")
-	public String loginPro() {
-		
-		return "/Log/loginPro";
-	}
-	@RequestMapping("logout.mw")
-	public String logout() {
-		
-		return "/Log/logout";
-	}
-	
 	//-------------------------------------------Register
 	@RequestMapping("comfirmId.mw")
 	public String comfirmId() {
