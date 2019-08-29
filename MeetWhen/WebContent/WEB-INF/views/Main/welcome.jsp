@@ -30,8 +30,7 @@
 	<div class="jumbotron">
 		<div class="container">
 			<h1 class="display-3">
-				<h3>카테고리 추가하기</h3>
-				<jsp:include page="googlemaps.jsp"/>
+				<jsp:include page="map_all.jsp"/>
 			</h1>
 		</div>
 	</div>	

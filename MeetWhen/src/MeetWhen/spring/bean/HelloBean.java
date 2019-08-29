@@ -35,6 +35,16 @@ public class HelloBean {
 		return "/Main/test_map";
 	}
 
+	//추후 삭제할것
+	@RequestMapping("map_all.mw")
+	public String map_all() {
+		return "/Main/map_all";
+	}
 
+	//추후 삭제할것
+	@RequestMapping("map_europe.mw")
+	public String map_europe() {
+		return "/Main/map_europe";
+	}
 
 }

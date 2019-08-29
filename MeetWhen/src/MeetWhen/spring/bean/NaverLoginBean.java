@@ -23,5 +23,4 @@ public class NaverLoginBean {
 		
 		return "/Log/navercallback";
 	}
-
 }

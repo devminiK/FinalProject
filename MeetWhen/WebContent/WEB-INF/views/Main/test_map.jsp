@@ -1,15 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
-<!DOCTYPE html >
+<!DOCTYPE html>
 <html>
-<head>
-    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
-    <title>Using MySQL and PHP with Google Maps</title>
+  <head>
+    <meta charset="utf-8">
+    <title>Marker Animations With setTimeout()</title>
     <style>
       /* Always set the map height explicitly to define the size of the div
        * element that contains the map. */
       #map {
-        height: 500px;
+        height: 50%;
       }
       /* Optional: Makes the sample page fill the window. */
       html, body {
@@ -17,91 +16,80 @@
         margin: 0;
         padding: 0;
       }
+      #floating-panel {
+        position: absolute;
+        top: 10px;
+        left: 25%;
+        z-index: 5;
+        background-color: #fff;
+        padding: 5px;
+        border: 1px solid #999;
+        text-align: center;
+        font-family: 'Roboto','sans-serif';
+        line-height: 30px;
+        padding-left: 10px;
+      }
+      #floating-panel {
+        margin-left: -52px;
+      }
     </style>
   </head>
-  <body>
-    <div id="map"></div>
-    <%
-    
-    
-    %>
-	<script>
-      var customLabel = {
-        restaurant: {
-          label: 'R'
-        },
-        bar: {
-          label: 'B'
-        }
-      };
-
-        function initMap() {
-        var map = new google.maps.Map(document.getElementById('map'), {
-          center: new google.maps.LatLng(-33.863276, 151.207977),
-          zoom: 12
-        });
-        var infoWindow = new google.maps.InfoWindow;
-
-          // Change this depending on the name of your PHP or XML file
-          // 'https://storage.googleapis.com/mapsdevsite/json/mapmarkers2.xml'
-          
-          downloadUrl('https://storage.googleapis.com/mapsdevsite/json/mapmarkers2.xml', function(data) {
-            var xml = data.responseXML;
-            var markers = xml.documentElement.getElementsByTagName('marker');
-            Array.prototype.forEach.call(markers, function(markerElem) {
-              var id = markerElem.getAttribute('id');
-              var name = markerElem.getAttribute('name');
-              var address = markerElem.getAttribute('address');
-              var type = markerElem.getAttribute('type');
-              var point = new google.maps.LatLng(
-                  parseFloat(markerElem.getAttribute('lat')),
-                  parseFloat(markerElem.getAttribute('lng')));
-
-              var infowincontent = document.createElement('div');
-              var strong = document.createElement('strong');
-              strong.textContent = name
-              infowincontent.appendChild(strong);
-              infowincontent.appendChild(document.createElement('br'));
-
-              var text = document.createElement('text');
-              text.textContent = address
-              infowincontent.appendChild(text);
-              var icon = customLabel[type] || {};
-              var marker = new google.maps.Marker({
-                map: map,
-                position: point,
-                label: icon.label
-              });
-              marker.addListener('click', function() {
-                infoWindow.setContent(infowincontent);
-                infoWindow.open(map, marker);
-              });
-            });
-          });
-        }
-
-
-
-      function downloadUrl(url, callback) {
-        var request = window.ActiveXObject ?
-            new ActiveXObject('Microsoft.XMLHTTP') :
-            new XMLHttpRequest;
-
-        request.onreadystatechange = function() {
-          if (request.readyState == 4) {
-            request.onreadystatechange = doNothing;
-            callback(request, request.status);
-          }
-        };
-
-        request.open('GET', url, true);
-        request.send(null);
-      }
-
-      function doNothing() {}
-    </script>
-    <script async defer
+  <script async defer
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCexlJx5Gqv4JLwdSxZIeYwAE2IIRN_iGw&callback=initMap">
     </script>
+  <script>
+
+      // If you're adding a number of markers, you may want to drop them on the map
+      // consecutively rather than all at once. This example shows how to use
+      // window.setTimeout() to space your markers' animation.
+
+      var neighborhoods = [
+        {lat: 52.511, lng: 13.447},
+        {lat: 52.549, lng: 13.422},
+        {lat: 52.497, lng: 13.396},
+        {lat: 52.517, lng: 13.394}
+      ];
+
+      var markers = [];
+      var map;
+
+      function initMap() {
+        map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 12,
+          center: {lat: 52.520, lng: 13.410}
+        });
+      }
+
+      function drop() {
+        clearMarkers();
+        for (var i = 0; i < neighborhoods.length; i++) {
+          addMarkerWithTimeout(neighborhoods[i], i * 200);
+        }
+      }
+
+      function addMarkerWithTimeout(position, timeout) {
+        window.setTimeout(function() {
+          markers.push(new google.maps.Marker({
+            position: position,
+            map: map,
+            animation: google.maps.Animation.DROP
+          }));
+        }, timeout);
+      }
+
+      function clearMarkers() {
+        for (var i = 0; i < markers.length; i++) {
+          markers[i].setMap(null);
+        }
+        markers = [];
+      }
+    </script>
+    
+  <body>
+    <div id="floating-panel">
+      <button id="drop" onclick="drop()">Drop Markers</button>
+    </div>
+    <div id="map"></div>
+    
   </body>
 </html>
