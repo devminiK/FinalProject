@@ -8,12 +8,19 @@
 		select lonlatinfo_seq.nextval from dual
 	</select>
 	
-	<insert id="insertinfo"><!-- DB에 표준정규화 후 엑셀 정보 저장 -->
+	<select id="getCnt" resultType="int">
+		select count(*) from lonlatinfo
+	</select>
+	<insert id="insertinfo"><!--표준정규화 후 엑셀 정보+위도/경도 정보 DB에 저장 -->
 		insert into lonlatinfo values(#{l_num}, #{l_conreg}, #{l_lon}, #{l_lat}, #{l_cnt})
 	</insert>
 	
 	<delete id="deleteinfo"><!-- DB리셋을 위한 delete -->
 		delete from lonlatinfo
 	</delete>
+	
+	<select id="getAll" resultType="lv"> <!-- DB에 모든 정보 가져오기 -->
+			select *from lonlatinfo
+	</select>
 	
 </mapper>

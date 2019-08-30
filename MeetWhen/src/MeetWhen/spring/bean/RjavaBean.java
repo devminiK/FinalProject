@@ -1,11 +1,17 @@
 package MeetWhen.spring.bean;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.rosuda.REngine.REXP;
 import org.rosuda.REngine.RList;
 import org.rosuda.REngine.Rserve.RConnection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import MeetWhen.spring.vo.AirportVO;
@@ -17,15 +23,16 @@ public class RjavaBean {
 	@Autowired
 	private SqlSessionTemplate sql = null;
 	
-	@RequestMapping("delete_data.mw")
-	public String delete_data(){         //airportinfo TABLE 리셋
+	@RequestMapping("delete_data.mw") 	//airportinfo&lonlatinfo TABLE 리셋
+	public String delete_data(){         
 			sql.delete("airport.deleteinfo");	
+			sql.delete("lonlat.deleteinfo");
 		return "/rjava/delete_data";
 	}
 	
 	//R로 표준정규화 > DB에 저장
-	@RequestMapping("test_data.mw")
-	public String test_data() throws Exception{    //엑셀 파일로 DB생성
+	@RequestMapping("test_data.mw")		//엑셀 파일로 DB생성
+	public String test_data() throws Exception{    
 		RConnection conn = new RConnection();
 	
 		//국제공항-7월 정보
@@ -163,32 +170,11 @@ public class RjavaBean {
 			vo.setL_lat(Double.parseDouble(ss[2][a]));
 			vo.setL_cnt(Integer.parseInt(ss[3][a]));
 			sql.insert("lonlat.insertinfo",vo);
-		}	
-
-			
-			
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+		}		
 		conn.close();
 		return "/rjava/test_data";
 	}
+	
+	
 
 }

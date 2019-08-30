@@ -1,6 +1,6 @@
 package MeetWhen.spring.bean;
 
-//네이버 로그인 연동 도전...2019.08.28 어려워서 그만 둠(추후 해결할것)
+//네이버 로그인 연동 도전
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
