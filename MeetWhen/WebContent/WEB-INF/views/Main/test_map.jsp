@@ -1,95 +1,62 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
+<%-- 지환이가 준 코드: 참고 중--%>
 <!DOCTYPE html>
 <html>
   <head>
     <meta charset="utf-8">
     <title>Marker Animations With setTimeout()</title>
-    <style>
-      /* Always set the map height explicitly to define the size of the div
-       * element that contains the map. */
-      #map {
-        height: 50%;
-      }
-      /* Optional: Makes the sample page fill the window. */
-      html, body {
-        height: 100%;
-        margin: 0;
-        padding: 0;
-      }
-      #floating-panel {
-        position: absolute;
-        top: 10px;
-        left: 25%;
-        z-index: 5;
-        background-color: #fff;
-        padding: 5px;
-        border: 1px solid #999;
-        text-align: center;
-        font-family: 'Roboto','sans-serif';
-        line-height: 30px;
-        padding-left: 10px;
-      }
-      #floating-panel {
-        margin-left: -52px;
-      }
-    </style>
   </head>
   <script async defer
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCexlJx5Gqv4JLwdSxZIeYwAE2IIRN_iGw&callback=initMap">
     </script>
-  <script>
+  <script type="text/javascript">
+   //반복문으로 자바스크립트 배열내에 이름과 좌표를 넣어야한다.
+   var locations = new Array;
+   <c:forEach var="a1" items="${total}" begin="0" step="1" end="${buslistsize}">
+   	var locations2 = new Array;   
+    <c:forEach var="a2" items="${a1}" begin="0" step="1" end="3" varStatus="st">     
+    	locations2.push(${a2});        
+    </c:forEach>     
+    locations.push(locations2);       
+   </c:forEach>
 
-      // If you're adding a number of markers, you may want to drop them on the map
-      // consecutively rather than all at once. This example shows how to use
-      // window.setTimeout() to space your markers' animation.
+   ////지도 표시부분 --------------------------------------
+    var mapOptions = {
+         center : new google.maps.LatLng(${myylat}, ${myxlat}), /* 지도에 보여질 위치 */             
+         zoom : 16, /* 지도 줌 (0축소 ~ 18확대),  */    
+         mapTypeId : google.maps.MapTypeId.ROADMAP
+      };
+    var map = new google.maps.Map(document.getElementById("map_canvas"),mapOptions);
+    var infowindow = new google.maps.InfoWindow();
 
-      var neighborhoods = [			//경도, 위도 좌표 배열
-        {lat: 52.511, lng: 13.447},
-        {lat: 52.549, lng: 13.422},
-        {lat: 52.497, lng: 13.396},
-        {lat: 52.517, lng: 13.394}
-      ];
+    ////마커 관련 옵션---------------------------------------
+    var marker, i;
 
-      var markers = [];	//마크들
-      var map;			//지도
+    ////전달받은 마커들을 전부 찍는 작업(맵에 표시 까지 하는 부분)
+    for (i = 0; i < locations.length; i++) {  
+      marker = new google.maps.Marker({
+        position: new google.maps.LatLng(locations[i][2], locations[i][1]),
+        map: map
+      });
 
-      function initMap() {/*지도 초기화*/
-        map = new google.maps.Map(document.getElementById('map'), {
-          zoom: 12,
-          center: {lat: 52.520, lng: 13.410}
+      google.maps.event.addListener(marker, 'click', (function(marker, i) {
+        return function() {
+          infowindow.setContent(locations[i][0]);
+          infowindow.open(map, marker);
+        }
+      })(marker, i));
+      
+      if(marker){
+        marker.addListener('click', function() {
+          map.setZoom(16);
+          map.setCenter(this.getPosition());
         });
-      }
-
-      function drop() {/*마크를 떨어 뜨림*/
-        clearMarkers();	//마크를 제거한다.
-        for (var i = 0; i < neighborhoods.length; i++) {	//배열의 길이만큼 반복
-          addMarkerWithTimeout(neighborhoods[i], i * 200);	//순차적으로 마크찍기
         }
-      }
-
-      function addMarkerWithTimeout(position, timeout) {
-        window.setTimeout(function() {
-          markers.push(new google.maps.Marker({
-            position: position,
-            map: map,
-            animation: google.maps.Animation.DROP //DROP:떨어뜨림, BOUNCE:통통뛰기
-          }));
-        }, timeout);
-      }
-
-      function clearMarkers() {/*마크 제거*/
-        for (var i = 0; i < markers.length; i++) {
-          markers[i].setMap(null);
-        }
-        markers = [];
-      }
-    </script>
+    } 
+    
+</script>
     
   <body>
-    <div id="floating-panel">
-      <button id="drop" onclick="drop()">Drop Markers</button>
-    </div>
-    <div id="map"></div>
-    
+    <div id="map_canvas"></div>
   </body>
 </html>

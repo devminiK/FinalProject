@@ -30,7 +30,7 @@
 	<div class="jumbotron">
 		<div class="container">
 			<h1 class="display-3">
-				<jsp:include page="map_all.jsp"/>
+				<jsp:include page="test_map.jsp"/>
 			</h1>
 		</div>
 	</div>	

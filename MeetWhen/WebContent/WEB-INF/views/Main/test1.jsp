@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%-- 웹에서 긁어온거 : 참고용--%>
+<%-- DB내용 이용해서 정보 보여주기.--%>
 
  
 <!DOCTYPE html>

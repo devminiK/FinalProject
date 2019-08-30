@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
+<%--대륙 카테고리랑 전체 화면 보여주기 --%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -65,6 +66,7 @@ body {font-family: Arial;}
 	var OcePos
 	var NAmePos = new google.maps.LatLng(48.604936, -108.279445) //zoom(3)
 	var SAmePos = new google.maps.LatLng(-21.033396, -62.316496) //zoom(3)
+	
 	<%--맵을 초기화 하기 위한 함수--%>
 	function initialize() {
 		var mapProp = {
@@ -81,9 +83,10 @@ body {font-family: Arial;}
 			streetViewControl:false,
 			zoomControl:false
 		};
+		
 		<%-- 맵 생성 객체 --%>
-		var map = new google.maps.Map(document.getElementById("goMap"),
-				mapProp);
+		var map = new google.maps.Map(document.getElementById("goMap"), mapProp);
+		
 		<%-- zoom 하기위한 marker --%>
 		var marker = new google.maps.Marker({
 			position: myCenter,

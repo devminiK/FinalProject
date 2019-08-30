@@ -54,10 +54,23 @@ public class HelloBean {
 
 	//추후 삭제할것
 	@RequestMapping("map_europe.mw")
-	public String map_europe() {
+	public String map_europe(HttpServletRequest request) {
+		List<LonlatVO> infoList = new ArrayList<LonlatVO>();
+
+		int count = sql.selectOne("lonlat.getCnt");
+		System.out.println("DB정보 갯수="+count);
+
+		infoList = sql.selectList("lonlat.getAll");
+		//infoList의 길이
+		int size = infoList.size();
+		
+		request.setAttribute("infoList", infoList);	//리스트 통째로
+		request.setAttribute("size", size);			//for.문을 위한 사이즈
 		return "/Main/map_europe";
 	}
-	//추후 삭제할것
+	
+	
+	//lonlatinfo DB정보 출력
 	@RequestMapping("test_data2.mw") //DB가져와 리스트 작성.
 	public String test_data2(HttpServletRequest request) {
 		List<LonlatVO> infoList = new ArrayList<LonlatVO>();
@@ -68,13 +81,6 @@ public class HelloBean {
 		infoList = sql.selectList("lonlat.getAll");
 
 		request.setAttribute("infoList", infoList);
-
-		//String[][] total = new String[buslist.size()][3];
-
-		//model.addAttribute("buslistsize", buslist.size());
-		//model.addAttribute("total", total);
-
-
 		return "/Main/test_data2";
 	}
 
