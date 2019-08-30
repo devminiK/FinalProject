@@ -19,14 +19,17 @@
 	var NAmePos = new google.maps.LatLng(48.604936, -108.279445) //zoom(3)
 	var SAmePos = new google.maps.LatLng(-21.033396, -62.316496) //zoom(3)
 --%>
-	var locations = new Array[][];
+	<%-- 
+	var locations = new Array;
 	
-	<c:forEach items="${infoList}" var="infos">
+	<c:forEach var="a1" items="${infoList}" begin="0" step="1" end="${size}">
+		var locations2= new Array;
+		<c:forEach var="a2" items="${a1}" begin="0" step>
 		<c:set var="info" value="${infos}"/>
 			location
 		${info.l_conreg} / ${info.l_lon} / ${info.l_lat}<br>
 	</c:forEach>
-
+--%>
 
 
 	
