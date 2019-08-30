@@ -75,7 +75,6 @@ public class HelloBean {
 		//model.addAttribute("total", total);
 
 
-
 		return "/Main/test_data2";
 	}
 
