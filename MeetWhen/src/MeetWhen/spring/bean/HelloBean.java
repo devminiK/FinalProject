@@ -38,12 +38,6 @@ public class HelloBean {
 
 	//대륙 별 버튼 클릭을 위한 카테고리
 	@RequestMapping("category.mw")
-	public String category() {
-		return "/Main/category";
-	}
-
-	//삭제
-	@RequestMapping("map_total.mw")
 	public String map_total(HttpServletRequest request) {
 		List<LonlatVO> dataList = new ArrayList<LonlatVO>();
 
@@ -63,7 +57,7 @@ public class HelloBean {
 		request.setAttribute("total", total);	
 		request.setAttribute("listSize", listSize);	
 
-		return "/Map/map_total";
+		return "/Main/category";
 	}
 	
 	
