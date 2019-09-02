@@ -30,9 +30,9 @@ public class RjavaBean {
 		return "/rjava/delete_data";
 	}
 	
-	//R로 표준정규화 > DB에 저장
-	@RequestMapping("test_data.mw")		//엑셀 파일로 DB생성
-	public String test_data() throws Exception{    
+	//xlsx 파일 -R 표준정규화- AIRPORTINFO, LONLATINFO DB 저장
+	@RequestMapping("createDB.mw")		//엑셀 파일로 DB생성
+	public String createDB() throws Exception{    
 		RConnection conn = new RConnection();
 	
 		//국제공항-7월 정보
@@ -172,7 +172,7 @@ public class RjavaBean {
 			sql.insert("lonlat.insertinfo",vo);
 		}		
 		conn.close();
-		return "/rjava/test_data";
+		return "/rjava/createDB";
 	}
 	
 	

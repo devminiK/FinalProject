@@ -1,4 +1,4 @@
 eclipse.preferences.version=1
-encoding//WebContent/WEB-INF/views/Log/navercallback.jsp=UTF-8
-encoding//WebContent/WEB-INF/views/Log/naverlogin.jsp=UTF-8
-encoding//WebContent/WEB-INF/views/Main/map_all.jsp=UTF-8
+encoding//WebContent/WEB-INF/views/Main/category.jsp=UTF-8
+encoding//WebContent/WEB-INF/views/Naver/naverCallback.jsp=UTF-8
+encoding//WebContent/WEB-INF/views/Naver/naverLogin.jsp=UTF-8

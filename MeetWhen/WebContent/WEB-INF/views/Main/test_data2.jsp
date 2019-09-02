@@ -94,11 +94,7 @@
       <button id="drop" onclick="drop()">Drop Markers</button>
     </div>
     <div id="map"></div>
-    
-	<c:forEach items="${infoList}" var="infos">
-		<c:set var="info" value="${infos}"/>
-		${info.l_conreg} / ${info.l_lon} / ${info.l_lat}<br>
-	</c:forEach>
+
 	
 </body>
 </html>

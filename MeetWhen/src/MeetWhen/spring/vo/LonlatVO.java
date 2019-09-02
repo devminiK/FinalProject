@@ -3,10 +3,12 @@ package MeetWhen.spring.vo;
 /*공항통계 +위도/경도 정보 저장 변수*/
 public class LonlatVO {
 	private int l_num;			//고유번호
+	
 	private String l_conreg;	//나라+지역
 	private double l_lon; 		//경도
 	private double l_lat; 		//위도
 	private int l_cnt;			//방문자수
+	
 	public int getL_num() {
 		return l_num;
 	}

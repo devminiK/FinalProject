@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%--유럽 카테고리만 보여주기// 이걸로 하는 중 --%>
+<%--세계 지도 보여주기.--%>
 <!DOCTYPE html>
 <html>
 <head>

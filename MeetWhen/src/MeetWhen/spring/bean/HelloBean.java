@@ -35,38 +35,35 @@ public class HelloBean {
 	}
 	/*--------------------------------테스트 용------*/
 	
-	@RequestMapping("googlemaps.mw")
-	public String googlemaps() {
-		return "/Main/googlemaps";
-	}
-	
-	//추후 삭제할것
-	@RequestMapping("test_map.mw")
-	public String test_map() {
-		return "/Main/test_map";
+
+	//대륙 별 버튼 클릭을 위한 카테고리
+	@RequestMapping("category.mw")
+	public String category() {
+		return "/Main/category";
 	}
 
-	//추후 삭제할것
-	@RequestMapping("map_all.mw")
-	public String map_all() {
-		return "/Main/map_all";
-	}
+	//삭제
+	@RequestMapping("map_total.mw")
+	public String map_total(HttpServletRequest request) {
+		List<LonlatVO> dataList = new ArrayList<LonlatVO>();
 
-	//추후 삭제할것
-	@RequestMapping("map_europe.mw")
-	public String map_europe(HttpServletRequest request) {
-		List<LonlatVO> infoList = new ArrayList<LonlatVO>();
+		int count = sql.selectOne("lonlat.getCnt"); //DB레코드 갯수
 
-		int count = sql.selectOne("lonlat.getCnt");
-		System.out.println("DB정보 갯수="+count);
+		dataList = sql.selectList("lonlat.getAll"); //모든 정보 가져오기
+		int listSize = dataList.size();//infoList의 길이
+		String [][] total = new String[listSize][4];
 
-		infoList = sql.selectList("lonlat.getAll");
-		//infoList의 길이
-		int size = infoList.size();
+		for(int i=0;i<listSize;i++) {
+				total[i][0] = dataList.get(i).getL_conreg();
+				total[i][1] = Double.toString(dataList.get(i).getL_lon());
+				total[i][2] = Double.toString(dataList.get(i).getL_lat());
+				total[i][3] = Integer.toString(dataList.get(i).getL_cnt());
+		}
 		
-		request.setAttribute("infoList", infoList);	//리스트 통째로
-		request.setAttribute("size", size);			//for.문을 위한 사이즈
-		return "/Main/map_europe";
+		request.setAttribute("total", total);	
+		request.setAttribute("listSize", listSize);	
+
+		return "/Map/map_total";
 	}
 	
 	

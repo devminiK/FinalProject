@@ -9,7 +9,7 @@
 </head>
 <body>
  <script type="text/javascript">
-  var naver_id_login = new naver_id_login("aEtf99yR3kaHUriPUGkA", "http://localhost:8080/MeetWhen/Naver/navercallback.mw");
+  var naver_id_login = new naver_id_login("aEtf99yR3kaHUriPUGkA", "http://localhost:8080/MeetWhen/Naver/naverCallback.mw");
   var token, email,name,nick;
   
   // 접근 토큰 값 출력
@@ -20,13 +20,15 @@
   
   function naverSignInCallback() {
 	  var e =naver_id_login.getProfileData('email');
+	  elementbyid.innerHTNL=e;
     alert("네이버 이메일: "+naver_id_login.getProfileData('email'));
     alert("네이버 이름: "+naver_id_login.getProfileData('name'));
     alert("네이버 닉네임: "+naver_id_login.getProfileData('nickname'))
-
+	
     //window.close(); //윈도우 닫기
   }
   </script>
+<label id="email"></label>
 
 </body>
 </html>

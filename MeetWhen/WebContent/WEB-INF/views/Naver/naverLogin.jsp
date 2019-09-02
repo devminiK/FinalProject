@@ -12,7 +12,7 @@
   
   <div id="naver_id_login"></div>
   <script type="text/javascript">
-  	var naver_id_login = new naver_id_login("aEtf99yR3kaHUriPUGkA", "http://localhost:8080/MeetWhen/Naver/navercallback.mw");
+  	var naver_id_login = new naver_id_login("aEtf99yR3kaHUriPUGkA", "http://localhost:8080/MeetWhen/Naver/naverCallback.mw");
   	var state = naver_id_login.getUniqState();
   	naver_id_login.setButton("green", 2,40);
   	naver_id_login.setDomain("http://localhost:8080/MeetWhen/Log/loginForm.mw");//service URL
