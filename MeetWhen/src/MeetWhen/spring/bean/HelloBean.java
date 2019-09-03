@@ -35,51 +35,6 @@ public class HelloBean {
 	}
 	/*--------------------------------테스트 용------*/
 	
-	
-	@RequestMapping("map_europe.mw") //맵 테스트중
-	public String map_europe(HttpServletRequest request) {
-		List<LonlatVO> dataList = new ArrayList<LonlatVO>();
-
-		int count = sql.selectOne("lonlat.getCnt"); //DB레코드 갯수
-
-		dataList = sql.selectList("lonlat.getAll"); //모든 정보 가져오기
-		int listSize = dataList.size();//infoList의 길이
-		String [][] total = new String[listSize][4];
-
-		for(int i=0;i<listSize;i++) {
-				total[i][0] = dataList.get(i).getL_conreg();
-				total[i][1] = Double.toString(dataList.get(i).getL_lon());
-				total[i][2] = Double.toString(dataList.get(i).getL_lat());
-				total[i][3] = Integer.toString(dataList.get(i).getL_cnt());
-		}
-		
-		request.setAttribute("total", total);	
-		request.setAttribute("listSize", listSize);	
-		return "/Main/map_europe";
-	}
-	//대륙 별 버튼 클릭을 위한 카테고리
-	@RequestMapping("category.mw")
-	public String category(HttpServletRequest request) {
-		List<LonlatVO> dataList = new ArrayList<LonlatVO>();
-
-		int count = sql.selectOne("lonlat.getCnt"); //DB레코드 갯수
-
-		dataList = sql.selectList("lonlat.getAll"); //모든 정보 가져오기
-		int listSize = dataList.size();//infoList의 길이
-		String [][] total = new String[listSize][4];
-
-		for(int i=0;i<listSize;i++) {
-				total[i][0] = dataList.get(i).getL_conreg();
-				total[i][1] = Double.toString(dataList.get(i).getL_lon());
-				total[i][2] = Double.toString(dataList.get(i).getL_lat());
-				total[i][3] = Integer.toString(dataList.get(i).getL_cnt());
-		}
-		
-		request.setAttribute("total", total);	
-		request.setAttribute("listSize", listSize);	
-
-		return "/Main/category";
-	}
 	//lonlatinfo DB정보 출력
 	@RequestMapping("test_data2.mw") //DB가져와 리스트 작성.
 	public String test_data2(HttpServletRequest request) {
@@ -93,29 +48,7 @@ public class HelloBean {
 		request.setAttribute("infoList", infoList);
 		return "/Main/test_data2";
 	}
-	
-	//대륙 별 버튼 클릭을 위한 카테고리 -test중
-	@RequestMapping("categoryTest.mw") //맵 테스트중
-	public String categoryTest(HttpServletRequest request) {
-		List<LonlatVO> dataList = new ArrayList<LonlatVO>();
-
-		int count = sql.selectOne("lonlat.getCnt"); //DB레코드 갯수
-
-		dataList = sql.selectList("lonlat.getAll"); //모든 정보 가져오기
-		int listSize = dataList.size();//infoList의 길이
-		String [][] total = new String[listSize][4];
-
-		for(int i=0;i<listSize;i++) {
-				total[i][0] = dataList.get(i).getL_conreg();
-				total[i][1] = Double.toString(dataList.get(i).getL_lon());
-				total[i][2] = Double.toString(dataList.get(i).getL_lat());
-				total[i][3] = Integer.toString(dataList.get(i).getL_cnt());
-		}
-		
-		request.setAttribute("total", total);	
-		request.setAttribute("listSize", listSize);	
-		return "/Main/map_europe";
-	}
+	//모든 Map 페이지
 	@RequestMapping("cate1_All.mw")
 	public String cate1_All(HttpServletRequest request) {			//세계지도
 		List<LonlatVO> dataList = new ArrayList<LonlatVO>();
@@ -134,6 +67,7 @@ public class HelloBean {
 		request.setAttribute("listSize", listSize);
 		return "/Main/cate1_All";
 	}
+	
 	@RequestMapping("cate2.mw")
 	public String cate2(HttpServletRequest request) {			//세계지도
 		List<LonlatVO> dataList = new ArrayList<LonlatVO>();
@@ -168,6 +102,14 @@ public class HelloBean {
 	@RequestMapping("cate6.mw")
 	public String cate6() {
 		return "/Main/cate6";
+	}
+	@RequestMapping("cate7.mw")
+	public String cate7() {
+		return "/Main/cate7";
+	}
+	@RequestMapping("cate8.mw")
+	public String cate8() {
+		return "/Main/cate8";
 	}
 	
 	

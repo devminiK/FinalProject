@@ -55,8 +55,8 @@
 <%--맵을 초기화 하기 위한 함수--%>
 	function initialize() {
 		var mapOp = {
-			center : new google.maps.LatLng(-26.157216, 154.010955), //오세아니아
-			zoom : 3.5,
+			center : new google.maps.LatLng(-21.033396, -62.316496), //북 아메리카
+			zoom : 3,
 			mapTypeId : google.maps.MapTypeId.ROADMAP,
 			disableDefaultUI : true,
 			panControl : false,
@@ -110,12 +110,12 @@
 		<button onclick="location.href='cate3.mw'">Africa</button>
 		<button onclick="location.href='cate4.mw'">Middle-East</button>
 		<button onclick="location.href='cate5.mw'">Asia</button>
-		<button onclick="openCity(event, 'contry')" id="defaultOpen">Oceania</button>
+		<button onclick="location.href='cate6.mw'">Oceania</button>
 		<button onclick="location.href='cate7.mw'">N-America</button>
-		<button onclick="location.href='cate8.mw'">S-America</button>
+		<button onclick="openCity(event, 'contry')" id="defaultOpen">S-America</button>
 	</div>
 	<div id="contry" class="tabcontent">
-		<h3>[대륙] 오세아니아</h3>
+		<h3>[대륙] 남 아메리카</h3>
 		<p>~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~.</p>
 		<div id="goMap" style="width: 1000px; height: 500px;"></div>
 	</div>
