@@ -10,7 +10,7 @@
 	<jsp:include page="header.jsp"/>
 	
 	<%!
-		String greeting = "Welcome to Mini's Web Shopping Mall";
+		String greeting = "이곳에 맵 넣을 것";
 		String tagline = "Welcome to Web Market!";
 	%>
 	<%
@@ -30,7 +30,7 @@
 	<div class="jumbotron">
 		<div class="container">
 			<h1 class="display-3">
-				<jsp:include page="category.jsp"/>
+				<jsp:include page="cate1_All.jsp"/>
 			</h1>
 		</div>
 	</div>	

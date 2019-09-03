@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<body>
+	<article>
+	
+	</article>
+ <input type="button" value="fetch" onclick="
+	 /*
+	 fetch('css.html').then(function(response){    // 서버에게 html이라는 파일을 요청
+		    response.text().then(function(text){
+		       // 서버가 응답해 준 데이터가 text에 저장된다.
+		       document.querySelector('article').innerHTML = text;
+		    })
+		});
+	*/
+	//Asynchronous
+
+	fetch('1.html').then(function (response){
+	 console.log(response);
+ 	});
+	console.log(1);
+	console.log(2);
+	"/>
+</body>
+</html>

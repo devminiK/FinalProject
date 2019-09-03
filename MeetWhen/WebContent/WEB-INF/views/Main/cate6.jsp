@@ -3,6 +3,8 @@
 <!DOCTYPE html>
 <html>
 <head>
+<!-- use Ajax -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <!-- Abt category -->
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
@@ -88,6 +90,7 @@ function openCity(evt, cityName) {
 function start(){
 	document.getElementById("defaultOpen").click();
 }
+
 </script>
 
 </head>
@@ -97,9 +100,9 @@ function start(){
 <p>관심있는 지역을 골라보세요:</p>
 
 <div class="tab">
-	<button class="tablinks" onclick="openCity(event, 'All')" id="defaultOpen">All</button>
-  	<button class="tablinks" onclick="openCity(event, 'Europe')">Europe</button>
-	<button class="tablinks" onclick="openCity(event, 'Africa'); initMap()">Africa</button>
+	<button class="tablinks" onclick="location.href='category.mw'">All</button>
+  	<button class="tablinks" onclick="openCity(event, 'Europe');" id="defaultOpen">Europe</button>
+	<button class="tablinks" onclick="openCity(event, 'Africa');">Africa</button>
 	<button class="tablinks" onclick="openCity(event, 'Middle-East')">Middle-East</button>
 	<button class="tablinks" onclick="openCity(event, 'Asia')">Asia</button>
 	<button class="tablinks" onclick="openCity(event, 'Oceania')">Oceania</button>
@@ -111,17 +114,17 @@ function start(){
 		<h3>세계지도</h3>
 		<p>~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~.</p>
 	</div>
-	<div id="map"></div>
+	
 	
 	<div id="Europe" class="tabcontent">
 		<h3>[대륙]유럽</h3>
 		<p>~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~.</p>
+		<div id="map"></div>
 	</div>
 
 	<div id="Africa" class="tabcontent">
 		<h3>아프리카</h3>
 		<p>~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~.</p>
-		<div id="map"></div>
 	</div>
 
 	<div id="Middle-East" class="tabcontent">

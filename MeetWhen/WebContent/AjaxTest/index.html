@@ -1,0 +1,60 @@
+<!doctype html>
+<html>
+<head>
+  <title>WEB1 - Welcome</title>
+  <meta charset="utf-8">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="colors.js"></script>
+</head>
+<body>
+  <h1><a href="index.html">WEB</a></h1>
+  <input id="night_day" type="button" value="night" onclick="nightDayHandler(this);"> 
+  <ol id="nav">
+  	<!--  a태그의 href는  url뒤의 북마크 기능을 위해 넣은것(링크공유를 했을 때, 원하는 페이지를 줄 수 있도록) -->
+  	
+  </ol>
+  <article></article>
+  <script>
+    /*Ex01) onclick에 삽입되는 중복코드를 간결하게 하기위한, 함수 정의 */
+  	function fetchPage(name){//변할수 있는 부분은 인자로 넘겨준다.
+  		fetch(name).then(function(response){     // 서버에게 인자 파일을 요청
+		    response.text().then(function(text){ // 서버가 응답해 준 데이터가 text에 저장된다.
+		       document.querySelector('article').innerHTML = text;
+		    })
+		});
+  	}
+  	
+ 	/*Ex02)  북마크 기능이 존재할 때 / 아닐 때 */
+  	if(location.hash){	
+  		fetchPage(location.hash.substr(2));
+  	}else{
+  		fetchPage('welcome.html');
+  	}
+  	
+ 	/*Ex03) list.html의 내용을 id nav에 뿌려주는 기능 추가*/
+  	fetch('list.html').then(function(response){    
+	    response.text().then(function(text){
+			
+	        
+	        var items= text.split(',');
+	        var i=0;
+	        var tags='';
+	        while(i<items.length){
+	        	//<li><a href="#!html.html" onclick="fetchPage('html.html')">HTML</a></li>
+	        	var item=items[i];
+	        	console.log('item['+i+']='+items[i]);
+	        	item = item.trim();
+	        	var tag='<li><a herf="#!'+item+'.html'+'" onclick="fetchPage(\''+item+'.html\')">'+item+'</a></li>';
+	        	tags=tags+tag;
+	        	i=i+1;
+	        }
+	        document.querySelector('#nav').innerHTML = tags;
+	        console.log(text);
+	        console.log(items);
+
+	    })
+	});
+  	
+  </script>
+</body>
+</html>
