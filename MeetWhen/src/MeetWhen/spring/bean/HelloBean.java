@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import MeetWhen.spring.vo.LonlatVO;
+import MeetWhen.spring.vo.LatlonVO;
 
 @Controller
 @RequestMapping("/Main/")
@@ -38,7 +38,7 @@ public class HelloBean {
 	//lonlatinfo DB정보 출력
 	@RequestMapping("test_data2.mw") //DB가져와 리스트 작성.
 	public String test_data2(HttpServletRequest request) {
-		List<LonlatVO> infoList = new ArrayList<LonlatVO>();
+		List<LatlonVO> infoList = new ArrayList<LatlonVO>();
 
 		int count = sql.selectOne("lonlat.getCnt");
 		System.out.println("DB정보 갯수="+count);
@@ -51,17 +51,18 @@ public class HelloBean {
 	//모든 Map 페이지
 	@RequestMapping("cate1_All.mw")
 	public String cate1_All(HttpServletRequest request) {			//세계지도
-		List<LonlatVO> dataList = new ArrayList<LonlatVO>();
+		List<LatlonVO> dataList = new ArrayList<LatlonVO>();
 		dataList = sql.selectList("lonlat.getAll"); //모든 정보 가져오기
 		int listSize = dataList.size();//infoList의 길이
 		String [][] total = new String[listSize][4];
-
+		/*
 		for(int i=0;i<listSize;i++) {
 				total[i][0] = dataList.get(i).getL_conreg();
 				total[i][1] = Double.toString(dataList.get(i).getL_lon());
 				total[i][2] = Double.toString(dataList.get(i).getL_lat());
 				total[i][3] = Integer.toString(dataList.get(i).getL_cnt());
 		}
+		*/
 		
 		request.setAttribute("total", total);	
 		request.setAttribute("listSize", listSize);
@@ -70,18 +71,18 @@ public class HelloBean {
 	
 	@RequestMapping("cate2.mw")
 	public String cate2(HttpServletRequest request) {			//세계지도
-		List<LonlatVO> dataList = new ArrayList<LonlatVO>();
+		List<LatlonVO> dataList = new ArrayList<LatlonVO>();
 		dataList = sql.selectList("lonlat.getAll"); //모든 정보 가져오기
 		int listSize = dataList.size();//infoList의 길이
 		String [][] total = new String[listSize][4];
-
+		/*	
 		for(int i=0;i<listSize;i++) {
 				total[i][0] = dataList.get(i).getL_conreg();
 				total[i][1] = Double.toString(dataList.get(i).getL_lon());
 				total[i][2] = Double.toString(dataList.get(i).getL_lat());
 				total[i][3] = Integer.toString(dataList.get(i).getL_cnt());
 		}
-		
+		*/
 		request.setAttribute("total", total);	
 		request.setAttribute("listSize", listSize);
 		return "/Main/cate2";

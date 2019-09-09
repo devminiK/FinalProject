@@ -5,7 +5,8 @@
 	
 <configuration>
 	<typeAliases>
-		<typeAlias alias="lv" type="MeetWhen.spring.vo.LonlatVO"/>
+		<typeAlias alias="ar" type="MeetWhen.spring.vo.AirportVO"/>
+		<typeAlias alias="lv" type="MeetWhen.spring.vo.LatlonVO"/>
 	</typeAliases>
 
 	<mappers>

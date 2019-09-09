@@ -4,23 +4,28 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="lonlat">
-	<select id="getNum" resultType="int"><!-- 시퀀스 증가값 가져오기 -->
+
+<!--
+	<select id="getNum" resultType="int"> 시퀀스 증가값 가져오기 
 		select lonlatinfo_seq.nextval from dual
 	</select>
-	
+-->
 	<select id="getCnt" resultType="int">
-		select count(*) from lonlatinfo
+		select count(*) from lcontry
 	</select>
-	<insert id="insertinfo"><!--표준정규화 후 엑셀 정보+위도/경도 정보 DB에 저장 -->
-		insert into lonlatinfo values(#{l_num}, #{l_conreg}, #{l_lon}, #{l_lat}, #{l_cnt})
-	</insert>
+	
 	
 	<delete id="deleteinfo"><!-- DB리셋을 위한 delete -->
-		delete from lonlatinfo
+		delete from lcontry
 	</delete>
 	
 	<select id="getAll" resultType="lv"> <!-- DB에 모든 정보 가져오기 -->
-			select *from lonlatinfo
+			select *from lcontry
 	</select>
+	
+	<!-- DB에 정보 삽입 -->
+	<insert id="insertLcontry">
+		insert into lcontry values(#{place}, #{cnt}, #{lat}, #{lon})
+	</insert>
 	
 </mapper>
