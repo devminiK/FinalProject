@@ -2,4 +2,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <h1>DB내용 작성 PAGE</h1>
-<c:redirect url="createDB.mw"></c:redirect>
+<%-- 
+<c:redirect url="dbControl.mw"></c:redirect>
+--%>

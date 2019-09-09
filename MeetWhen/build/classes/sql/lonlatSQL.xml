@@ -27,5 +27,8 @@
 	<insert id="insertLcontry">
 		insert into lcontry values(#{place}, #{cnt}, #{lat}, #{lon})
 	</insert>
+	<insert id="insertLregion">
+		insert into lregion values(#{place}, #{cnt}, #{lat}, #{lon})
+	</insert>
 	
 </mapper>

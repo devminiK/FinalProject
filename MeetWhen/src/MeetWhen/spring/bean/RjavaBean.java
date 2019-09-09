@@ -144,7 +144,7 @@ public class RjavaBean {
 				break;
 				
 			//인천공항-7월 정보
-			case 3: System.out.println("CASE 3 & 4"); //인천통계 엑셀 정보 가져오기-> 데이터프레임 작성
+			case 3: System.out.print("CASE 3 & 4"); //인천통계 엑셀 정보 가져오기-> 데이터프레임 작성
 			case 4:
 				conn.eval("reg1<-NULL");
 				conn.eval("reg1<-reDf[1,]");
@@ -160,13 +160,13 @@ public class RjavaBean {
 						"}");
 				conn.eval("reg1<-reg1[,-1]");
 				conn.eval("colnames(reg1)<-c('국가명','여객')"); //reg1 작성 완료
-				/*
+				
 				conn.eval("reg2<-NULL;temp<-con2");
 				conn.eval("for(i in 1:nrow(temp)){ " + 
 						"  j<-0;" + 
 						"  while(j<nrow(con1)){" + 
 						"    j<-j+1;" + 
-						"    if(temp$국가명[i]==con1$국가명[j]){#같을경우, 저장x" + 
+						"    if(temp$국가명[i]==con1$국가명[j]){" + 
 						"      if(temp$국가명[i]=='사이판'|temp$국가명[i]=='괌'){" + 
 						"        temp$여객[i] <- as.integer(temp$여객[i])+as.integer(con1$여객[j]);" + 
 						"        reg2<-rbind(reg2,temp[i,])" + 
@@ -178,9 +178,7 @@ public class RjavaBean {
 						"    reg2<-rbind(reg2,temp[i,])" + 
 						"  }" + 
 						"}"); //reg2작성
-				*/
 				break;
-				
 		}
 		
 		
@@ -231,11 +229,56 @@ public class RjavaBean {
 				
 				
 		}else if(num==3) {
-			System.out.println("if-else문: 3이야");
+			conn.eval("DB3<-NULL");
+			conn.eval("DB3<-rbind(DB3,reg1)");
+			conn.eval("DB3<-rbind(DB3,reg2)");
+			DB = conn.eval("DB3");
+			list = DB.asList();
+			arr=new String[list.size()][];
+			for(i=0;i<list.size();i++) {
+				arr[i]=list.at(i).asStrings();
+			}
+			
+			for(i=0; i<list.at(0).length();i++) {
+				AirportVO vo = new AirportVO();
+				vo.setPlace(arr[0][i]);
+				vo.setCnt(Integer.parseInt(arr[1][i]));
+				sql.insert("airport.insertRegion",vo);	
+			}
+			System.out.println(">>RegionTable에 정보저장완료");
 			
 			
-		}else if(num==4) {
-			System.out.println("if-else문: 4이야");
+			
+		}else if(num==4) {//에러 발생 , 여기서 부터 진행하면됨
+			/*
+			conn.eval("latlon<-NULL;lat<-NULL;lon<-NULL");
+			conn.eval("DB4<-DB3");
+			conn.eval("for(i in 1:nrow(DB4)){" + 
+					"  latlon<-geocode(location=enc2utf8(x=DB4[,1][i])," + 
+					"                  output='latlon',source='google');" + 
+					"  lat <-c(lat,latlon$lat);" + 
+					"  lon <-c(lon,latlon$lon)" + 
+					"}");
+			conn.eval("DB4 <-cbind(DB4,lat)");
+			conn.eval("DB4 <-cbind(DB4,lon)");
+			
+			DB = conn.eval("DB4");
+			list = DB.asList();
+			arr = new String[list.size()][];
+			for(i=0;i<list.size();i++) {
+				arr[i]=list.at(i).asStrings();
+			}
+			
+			for(i=0; i<list.at(0).length();i++) {
+				LatlonVO vo = new LatlonVO();
+				vo.setPlace(arr[0][i]);
+				vo.setCnt(Integer.parseInt(arr[1][i]));
+				vo.setLat(Double.parseDouble(arr[2][i]));
+				vo.setLon(Double.parseDouble(arr[3][i]));
+				sql.insert("lonlat.insertLregion",vo);	
+			}
+			System.out.println(">>LRegionTable에 정보저장완료");
+			*/
 			
 		}
 		
