@@ -33,7 +33,7 @@ public class RjavaBean {
 	
 	@RequestMapping("dbControl.mw")	
 	public String dbControl(){
-		System.out.println("관리자가 DB생성 및 삭제 할수 있는 페이지");
+		System.out.print("관리자가 DB생성 및 삭제 할수 있는 페이지");
 		//관리자일경우만 확인할 수 있는 page로 설정하기
 		return "/Main/dbControl";
 	}
@@ -227,8 +227,7 @@ public class RjavaBean {
 				vo.setLon(Double.parseDouble(arr[3][i]));
 				sql.insert("lonlat.insertLcontry",vo);	
 			}
-			System.out.println(">>LcontryTable에 정보저장완료");
-				
+			System.out.println(">>LcontryTable에 정보저장완료");	
 				
 		}else if(num==3) {//DB3작성 [Region]
 			conn.eval("DB3<-NULL");
@@ -249,9 +248,7 @@ public class RjavaBean {
 			}
 			System.out.println(">>RegionTable에 정보저장완료");
 			
-		}else if(num==4) {//DB4 [Lregion]
-			//에러 발생 , 여기서 부터 진행하면됨
-			
+		}else if(num==4) {//DB4 [Lregion]	
 			conn.eval("latlon<-NULL;lat<-NULL;lon<-NULL");
 			conn.eval("DB4<-DB3");
 			conn.eval("for(i in 1:nrow(DB4)){" + 
@@ -290,20 +287,20 @@ public class RjavaBean {
 	public String dbDelete(HttpServletRequest request, int num) {
 		switch(num) {
 		case 1:
-			System.out.println("contry db비우기");
 			sql.delete("airport.deleContry");
+			System.out.println(">>Contry Table 포멧");
 			break;
 		case 2:
-			System.out.println("lcontry 비우기");
-			//sql.delete("airport.deleLcontry");
+			sql.delete("latlon.deleLcontry");
+			System.out.println(">>Lcontry Table 포멧");
 			break;
 		case 3:
-			System.out.println("region 비우기");
-			//sql.delete("airport.deleContry");
+			sql.delete("airport.deleRegion");
+			System.out.println(">>Region Table 포멧");
 			break;
 		case 4:
-			System.out.println("lregion 비우기");
-			//sql.delete("airport.deleContry");
+			sql.delete("latlon.deleLregion");
+			System.out.println(">>Lregion Table 포멧");
 			break;
 		}
 		request.setAttribute("num", num);

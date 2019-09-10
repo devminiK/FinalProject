@@ -69,9 +69,14 @@
 			</tr>
 		</table>
 	</form>
-<%-- 
-
---%>
+	
+	<b>DB내용 확인</b>
+	<button class="btn info">DB1</button>
+	<button class="btn info">DB2</button>
+	<button class="btn info">DB3</button>
+	<button class="btn info">DB4</button>
+	<p></p>
+	
 <%--
 <button class="btn success">Success</button>
 <button class="btn info">Info</button>

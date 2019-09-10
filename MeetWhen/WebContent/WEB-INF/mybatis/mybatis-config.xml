@@ -11,7 +11,7 @@
 
 	<mappers>
 		<mapper resource="/sql/airportSQL.xml" />
-		<mapper resource="/sql/lonlatSQL.xml" />
+		<mapper resource="/sql/latlonSQL.xml" />
 		<mapper resource="/sql/memberSQL.xml" />
 	</mappers>
 </configuration>

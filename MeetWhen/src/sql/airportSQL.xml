@@ -11,6 +11,9 @@
 	<!-- DB정보 리셋 -->
 	<delete id="deleContry">
 		delete contry
+	</delete>
+	<delete id="deleRegion">
+		delete region
 	</delete>	
 	
 	<!-- DB에 정보 삽입 -->
