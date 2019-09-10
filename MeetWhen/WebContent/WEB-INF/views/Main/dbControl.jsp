@@ -44,7 +44,7 @@
 </head>
 <body>
 
-<h1>Create DB-Buttons</h1>
+<h1>DB-Control PAGE</h1>
 <h1>관리자가 DB생성 및 삭제 할수 있는 페이지</h1>
 <form id="createfrm" action="dbCreate.mw">
 		<table>

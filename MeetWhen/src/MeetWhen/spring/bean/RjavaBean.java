@@ -29,9 +29,7 @@ public class RjavaBean {
 	@Autowired
 	private SqlSessionTemplate sql = null;
 
-	//xlsx 파일 -R 표준정규화- AIRPORTINFO, LONLATINFO DB 저장
-	//생성 및 삭제, 정보 보여주기.
-	//DB1 ,DB2, DB3, DB4
+	//DB 생성 및 삭제, 정보 보여주기 : DB1 ,DB2, DB3, DB4
 	
 	@RequestMapping("dbControl.mw")	
 	public String dbControl(){
@@ -43,9 +41,9 @@ public class RjavaBean {
 	@RequestMapping("dbCreate.mw")		//엑셀 파일로 DB생성
 	public String dbCreate(HttpServletRequest request, int num) throws Exception{   
 		RConnection conn = new RConnection();
-		
+		//학원은 D:, 집은 C:
 		//경로 재 설정 및 라이브러리 설치,추가
-		conn.eval("setwd('D:/R-workspace')");
+		conn.eval("setwd('C:/R-workspace')");
 		conn.eval("install.packages(\"xlsx\")");
 		conn.eval("library(xlsx)");
 		conn.eval("install.packages(\"ggmap\")");
@@ -61,7 +59,7 @@ public class RjavaBean {
 			//국제공항-7월 정보
 			case 1: System.out.print("CASE 1 & 2"); //전체통계 엑셀 정보 가져오기-> 데이터프레임 작성
 			case 2:
-				conn.eval("allAir <- read.xlsx2('D:/R-workspace/Airport/7월_전체지역별통계.xlsx',1, stringsAsFactors=F)");
+				conn.eval("allAir <- read.xlsx2('C:/R-workspace/Airport/7월_전체지역별통계.xlsx',1, stringsAsFactors=F)");
 				conn.eval("allAir<- allAir[,-4:-7]");
 				conn.eval("allAir <- allAir[,-5:-9]");
 				conn.eval("colnames(allAir)<- c('국가명','도시명','','여객')");
@@ -123,7 +121,7 @@ public class RjavaBean {
 						conn.eval("names(con1)<-c('국가명','여객')"); //con1 작성 완료.
 						
 						//인천통계 엑셀 정보 가져오기
-						conn.eval("InchAir <- read.xlsx2('D:/R-workspace/Airport/7월_인천지역별통계.xlsx',1, stringsAsFactors=F)");
+						conn.eval("InchAir <- read.xlsx2('C:/R-workspace/Airport/7월_인천지역별통계.xlsx',1, stringsAsFactors=F)");
 						conn.eval("con2<- InchAir[,-7:-11]");
 						conn.eval("con2<-con2[-1,-3:-5]");
 						conn.eval("con2<-con2[-nrow(con2),-1]");
@@ -158,6 +156,11 @@ public class RjavaBean {
 						"    reg1<-rbind(reg1,reDf[i,])" + 
 						"  }" + 
 						"}");
+				//(추가)일본일 경우 지역명 정보에 국가명을 덧붙여야 "오이다"지역에서 Na값이 발생하지 않음
+				conn.eval("for(i in 1:nrow(reg1)){" + 
+						"  if(reg1$국가명[i]=='일본')" + 
+						"    reg1$도시명[i]<-c(paste(reg1$국가명[i],reg1$도시명[i]))" + 
+						"}");
 				conn.eval("reg1<-reg1[,-1]");
 				conn.eval("colnames(reg1)<-c('국가명','여객')"); //reg1 작성 완료
 				
@@ -180,10 +183,9 @@ public class RjavaBean {
 						"}"); //reg2작성
 				break;
 		}
-		
-		
+				
 		//구체적 DB작성하는 곳
-		if(num==1) {						
+		if(num==1) {//DB1작성[Contry]						
 			DB = conn.eval("DB1");
 			list = DB.asList();
 			arr = new String[list.size()][];//가변배열로 작성
@@ -199,7 +201,7 @@ public class RjavaBean {
 			}
 			System.out.println(">>ContryTable에 정보저장완료");
 			
-		}else if(num==2) {		
+		}else if(num==2) {//DB2작성[Lcontry]		
 			conn.eval("latlon<-NULL;lat<-NULL;lon<-NULL;");
 			conn.eval("DB2<-DB1");
 			conn.eval("for(i in 1:nrow(DB2)){" + 
@@ -228,7 +230,7 @@ public class RjavaBean {
 			System.out.println(">>LcontryTable에 정보저장완료");
 				
 				
-		}else if(num==3) {
+		}else if(num==3) {//DB3작성 [Region]
 			conn.eval("DB3<-NULL");
 			conn.eval("DB3<-rbind(DB3,reg1)");
 			conn.eval("DB3<-rbind(DB3,reg2)");
@@ -247,15 +249,13 @@ public class RjavaBean {
 			}
 			System.out.println(">>RegionTable에 정보저장완료");
 			
+		}else if(num==4) {//DB4 [Lregion]
+			//에러 발생 , 여기서 부터 진행하면됨
 			
-			
-		}else if(num==4) {//에러 발생 , 여기서 부터 진행하면됨
-			/*
 			conn.eval("latlon<-NULL;lat<-NULL;lon<-NULL");
 			conn.eval("DB4<-DB3");
 			conn.eval("for(i in 1:nrow(DB4)){" + 
-					"  latlon<-geocode(location=enc2utf8(x=DB4[,1][i])," + 
-					"                  output='latlon',source='google');" + 
+					"  latlon<-geocode(location=enc2utf8(x=DB4[,1][i]),output='latlon',source='google');" + 
 					"  lat <-c(lat,latlon$lat);" + 
 					"  lon <-c(lon,latlon$lon)" + 
 					"}");
@@ -278,8 +278,7 @@ public class RjavaBean {
 				sql.insert("lonlat.insertLregion",vo);	
 			}
 			System.out.println(">>LRegionTable에 정보저장완료");
-			*/
-			
+
 		}
 		
 		request.setAttribute("num", num);
