@@ -49,7 +49,7 @@
 <form id="createfrm" action="dbCreate.mw">
 		<table>
 			<tr>
-				<th>DB 정보 생성</th>
+				<th>DB 정보 생성: 이전 dB가 생성x일경우 이전꺼 만들라는 msg 추가</th>
 				<td><button name="num" value="1" id=crtDb class="btn success">DB1</button></td>
 				<td><button name="num" value="2" id=crtDb class="btn success">DB2</button></td>
 				<td><button name="num" value="3" id=crtDb class="btn success">DB3</button></td>
@@ -61,7 +61,7 @@
 	<form id="deletefrm" action="dbDelete.mw">
 		<table>
 			<tr>
-				<th>DB내용 삭제</th>
+				<th>DB내용 삭제: 삭제할꺼냐는 팝업 확인 내용 추가하기</th>
 				<td><button name="num" value="1" id=deleDb class="btn danger">DB1</button></td>
 				<td><button name="num" value="2" id=deleDb class="btn danger">DB2</button></td>
 				<td><button name="num" value="3" id=deleDb class="btn danger">DB3</button></td>
@@ -74,7 +74,7 @@
 	<form id="deletefrm" action="dbInfoCheck.mw">
 		<table>
 			<tr>
-				<th>DB내용 확인</th>
+				<th>DB내용 확인: 제대로 구현하고나면, ajax로 구현해보기</th>
 				<td><button name="num" value="1" id=checkDb class="btn info">DB1</button></td>
 				<td><button name="num" value="2" id=checkDb class="btn info">DB2</button></td>
 				<td><button name="num" value="3" id=checkDb class="btn info">DB3</button></td>

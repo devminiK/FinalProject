@@ -321,6 +321,7 @@ public class RjavaBean {
 			rs = airList;
 			System.out.println(">>Contry Table 내용확인");
 			break;
+			/*
 		case 2:
 			lList = sql.selectList("latlon.getLcontry");
 			rs = lList;
@@ -336,22 +337,13 @@ public class RjavaBean {
 			rs = lList;
 			System.out.println(">>Lregion Table 내용확인");
 			break;
+			*/
 		}
 		int siz = rs.size();
-		System.out.println("리스트 사이즈="+siz);
-		
-		
-		//for(int i=0;i<siz;i++) {
-			String str="";
-			str = airList.get(0).toString();
-			//str = airList.get(i).getPlace();
-			//str+=airList.get(i).getCnt();
-			System.out.println(str);
-		//}
-		
+		System.out.println("리스트 사이즈="+siz);	
 	
-		//request.setAttribute("listSize", siz);
-		//request.setAttribute("dataList", rs);
+		request.setAttribute("listSize", siz);
+		request.setAttribute("dataList", airList);
 		
 		return "/Main/dbInfoCheck";
 	}
