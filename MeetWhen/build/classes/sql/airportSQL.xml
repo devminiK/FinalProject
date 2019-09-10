@@ -8,6 +8,15 @@
 		select count(*) from contry 
 	</select>
 	
+	<!-- DB정보 확인 -->
+	<select id="getContry" resultType="av"> 
+			select *from contry
+	</select>
+	<select id="getRegion" resultType="av"> 
+			select *from region
+	</select>
+	
+	
 	<!-- DB정보 리셋 -->
 	<delete id="deleContry">
 		delete contry

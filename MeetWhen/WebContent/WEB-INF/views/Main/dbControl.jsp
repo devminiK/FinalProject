@@ -71,12 +71,69 @@
 	</form>
 	
 	<b>DB내용 확인</b>
-	<button class="btn info">DB1</button>
-	<button class="btn info">DB2</button>
-	<button class="btn info">DB3</button>
-	<button class="btn info">DB4</button>
-	<p></p>
+	<form id="deletefrm" action="dbInfoCheck.mw">
+		<table>
+			<tr>
+				<th>DB내용 확인</th>
+				<td><button name="num" value="1" id=checkDb class="btn info">DB1</button></td>
+				<td><button name="num" value="2" id=checkDb class="btn info">DB2</button></td>
+				<td><button name="num" value="3" id=checkDb class="btn info">DB3</button></td>
+				<td><button name="num" value="4" id=checkDb class="btn info">DB4</button></td>
+			</tr>
+		</table>
+	</form>
 	
+	
+	
+	
+	
+	<%-- -
+	<button class="btn info" onclick="fetchPage('dbInfoCheck.mw')">DB1</button>
+	-%>
+	<%-- <li><a href="#!html.html" onclick="fetchPage('html.html')">HTML</a></li>--%>
+	<article></article>
+	
+	<script>
+    /*Ex01) onclick에 삽입되는 중복코드를 간결하게 하기위한, 함수 정의 */
+  	function fetchPage(name){//변할수 있는 부분은 인자로 넘겨준다.
+  		fetch(name).then(function(response){     // 서버에게 인자 파일을 요청
+		    response.text().then(function(text){ // 서버가 응답해 준 데이터가 text에 저장된다.
+		       document.querySelector('article').innerHTML = text;
+		    })
+		});
+  	}
+  	
+ 	/*Ex02)  북마크 기능이 존재할 때 / 아닐 때 
+  	if(location.hash){	
+  		fetchPage(location.hash.substr(2));
+  	}else{
+  		fetchPage('welcome.html');
+  	}*/
+  	
+ 	/*Ex03) list.html의 내용을 id nav에 뿌려주는 기능 추가
+  	fetch('list.html').then(function(response){    
+	    response.text().then(function(text){
+			
+	        
+	        var items= text.split(',');
+	        var i=0;
+	        var tags='';
+	        while(i<items.length){
+	        	//<li><a href="#!html.html" onclick="fetchPage('html.html')">HTML</a></li>
+	        	var item=items[i];
+	        	console.log('item['+i+']='+items[i]);
+	        	item = item.trim();
+	        	var tag='<li><a herf="#!'+item+'.html'+'" onclick="fetchPage(\''+item+'.html\')">'+item+'</a></li>';
+	        	tags=tags+tag;
+	        	i=i+1;
+	        }
+	        document.querySelector('#nav').innerHTML = tags;
+	        console.log(text);
+	        console.log(items);
+	    })
+	});*/
+  	
+  </script>
 <%--
 <button class="btn success">Success</button>
 <button class="btn info">Info</button>

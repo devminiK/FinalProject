@@ -15,8 +15,13 @@
 	</select>
 	
 	
-	<select id="getAll" resultType="lv"> <!-- DB에 모든 정보 가져오기 -->
+	
+	<!-- DB 정보 확인 -->
+	<select id="getLcontry" resultType="lv"> 
 			select *from lcontry
+	</select>
+	<select id="getLregion" resultType="lv"> 
+			select *from lregion
 	</select>
 	
 	<!-- DB정보 삭제 -->

@@ -43,7 +43,7 @@
 	src="http://maps.googleapis.com/maps/api/js?key=AIzaSyCexlJx5Gqv4JLwdSxZIeYwAE2IIRN_iGw"></script>
 <script type="text/javascript">
 	
-<%-- 배열 생성해보기. --%>
+<%-- 배열 생성해보기--%>
 	var total = new Array;
 	<c:forEach var="ent" items="${total}" begin="0" step="1" end="${listSize}">
 	var eachRow = new Array;

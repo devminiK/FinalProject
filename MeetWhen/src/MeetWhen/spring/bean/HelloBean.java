@@ -48,6 +48,7 @@ public class HelloBean {
 		request.setAttribute("infoList", infoList);
 		return "/Main/test_data2";
 	}
+	
 	//모든 Map 페이지
 	@RequestMapping("cate1_All.mw")
 	public String cate1_All(HttpServletRequest request) {			//세계지도

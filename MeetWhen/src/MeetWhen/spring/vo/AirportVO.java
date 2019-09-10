@@ -2,7 +2,6 @@ package MeetWhen.spring.vo;
 
 /*공항통계 정보 저장 변수*/
 public class AirportVO {
-	
 	private String place; 	//나라or지역 정보
 	private int cnt;   	 	//방문자 수
 	
