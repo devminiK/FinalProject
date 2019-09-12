@@ -292,12 +292,15 @@ public class RjavaBean {
 		switch(num) {
 		case 1:
 			sql.delete("airport.deleContry");
+			System.out.println("1삭제함");
 			break;
 		case 2:
 			sql.delete("latlon.deleLContry");
+			System.out.println("2삭제함");
 			break;
 		case 3:
 			sql.delete("airport.deleRegion");
+			System.out.println("3삭제함");
 			break;
 		case 4:
 			sql.delete("latlon.deleLRegion");
@@ -339,7 +342,7 @@ public class RjavaBean {
 		request.setAttribute("dataList", rsList);
 		return "/Main/dbInfoCheck";
 	}
-
+	
 
 
 }

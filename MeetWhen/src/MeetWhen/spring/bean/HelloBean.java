@@ -114,6 +114,10 @@ public class HelloBean {
 		return "/Main/cate8";
 	}
 	
+	@RequestMapping("test.mw")
+	public String test() {
+		return "/Main/test";
+	}
 	
 
 

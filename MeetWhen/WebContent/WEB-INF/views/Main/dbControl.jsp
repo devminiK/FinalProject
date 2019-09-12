@@ -40,6 +40,14 @@
 			});
 	});
 	*/
+	function deleteInfo(num){
+		var msg = confirm("해당 DB의 내용을 삭제하시겠습니까?");
+		if(msg){
+			alert("삭제를 진행합니다.");
+			location.href="/MeetWhen/rjava/dbDelete.mw?num="+num;
+		}
+		//else는 아무동작 x
+	}
 </script>
 </head>
 <body>
@@ -49,7 +57,7 @@
 <form id="createfrm" action="dbCreate.mw">
 		<table>
 			<tr>
-				<th>DB 정보 생성: 이전 dB가 생성x일경우 이전꺼 만들라는 msg 추가</th>
+				<th>DB정보 생성</th>
 				<td><button name="num" value="1" id=crtDb class="btn success">DB1</button></td>
 				<td><button name="num" value="2" id=crtDb class="btn success">DB2</button></td>
 				<td><button name="num" value="3" id=crtDb class="btn success">DB3</button></td>
@@ -58,38 +66,25 @@
 		</table>
 	</form>
 	
-	<form id="deletefrm" action="dbDelete.mw">
 		<table>
 			<tr>
-				<th>DB내용 삭제: 삭제할꺼냐는 팝업 확인 내용 추가하기</th>
-				<td><button name="num" value="1" id=deleDb class="btn danger">DB1</button></td>
-				<td><button name="num" value="2" id=deleDb class="btn danger">DB2</button></td>
-				<td><button name="num" value="3" id=deleDb class="btn danger">DB3</button></td>
-				<td><button name="num" value="4" id=deleDb class="btn danger">DB4</button></td>
+				<th>DB내용 삭제</th>
+				<td><button name="num" value="1" id=deleDb class="btn danger" onclick="deleteInfo(1)">DB1</button></td>
+				<td><button name="num" value="2" id=deleDb class="btn danger" onclick="deleteInfo(2)">DB2</button></td>
+				<td><button name="num" value="3" id=deleDb class="btn danger" onclick="deleteInfo(3)">DB3</button></td>
+				<td><button name="num" value="4" id=deleDb class="btn danger" onclick="deleteInfo(4)">DB4</button></td>
 			</tr>
 		</table>
-	</form>
-	
-	<b>DB내용 확인</b>
-	<form id="deletefrm" action="dbInfoCheck.mw">
+
 		<table>
 			<tr>
-				<th>DB내용 확인: 제대로 구현하고나면, ajax로 구현해보기</th>
-				<td><button name="num" value="1" id=checkDb class="btn info">DB1</button></td>
-				<td><button name="num" value="2" id=checkDb class="btn info">DB2</button></td>
-				<td><button name="num" value="3" id=checkDb class="btn info">DB3</button></td>
-				<td><button name="num" value="4" id=checkDb class="btn info">DB4</button></td>
+				<th>DB내용 확인</th>
+				<td><button name="num" value="1" id=checkDb class="btn info" onclick="fetchPage('dbInfoCheck.mw?num=1')">DB1</button></td>
+				<td><button name="num" value="2" id=checkDb class="btn info" onclick="fetchPage('dbInfoCheck.mw?num=2')">DB2</button></td>
+				<td><button name="num" value="3" id=checkDb class="btn info" onclick="fetchPage('dbInfoCheck.mw?num=3')">DB3</button></td>
+				<td><button name="num" value="4" id=checkDb class="btn info" onclick="fetchPage('dbInfoCheck.mw?num=4')">DB4</button></td>
 			</tr>
 		</table>
-	</form>
-	
-	
-	
-	
-	
-	<%-- -
-	<button class="btn info" onclick="fetchPage('dbInfoCheck.mw')">DB1</button>
-	-%>
 	<%-- <li><a href="#!html.html" onclick="fetchPage('html.html')">HTML</a></li>--%>
 	<article></article>
 	

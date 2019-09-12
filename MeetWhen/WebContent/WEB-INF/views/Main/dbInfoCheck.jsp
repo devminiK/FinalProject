@@ -1,7 +1,7 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR" pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<h1>DB³»¿ë È®ÀÎ</h1>
+<h1>DBë‚´ìš© í™•ì¸ PAGE</h1>
 
 <c:forEach items="${dataList}" var="ent" begin="0" step="1" end="${listSize}">
 	<c:if test="${num==1}">
