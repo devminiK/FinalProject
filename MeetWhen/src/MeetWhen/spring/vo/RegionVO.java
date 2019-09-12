@@ -1,15 +1,15 @@
 package MeetWhen.spring.vo;
 
-/*공항통계 정보 저장 변수*/
+/*전체 공항통계 정보 저장 변수*/
 public class RegionVO {
-	private String r_con; //지역 정보
+	private String r_reg; //지역 정보
 	private int r_cnt;    //방문자 수
 	
-	public String getR_con() {
-		return r_con;
+	public String getR_reg() {
+		return r_reg;
 	}
-	public void setR_con(String r_con) {
-		this.r_con = r_con;
+	public void setR_reg(String r_reg) {
+		this.r_reg = r_reg;
 	}
 	public int getR_cnt() {
 		return r_cnt;
@@ -18,7 +18,6 @@ public class RegionVO {
 		this.r_cnt = r_cnt;
 	}
 	
-
 
 
 }

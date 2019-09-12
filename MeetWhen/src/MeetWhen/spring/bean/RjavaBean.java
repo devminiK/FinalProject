@@ -20,8 +20,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import MeetWhen.spring.vo.AirportVO;
-import MeetWhen.spring.vo.LatlonVO;
+import MeetWhen.spring.vo.ContryVO;
+import MeetWhen.spring.vo.LContryVO;
 
 @Controller
 @RequestMapping("/rjava/")
@@ -193,8 +193,8 @@ public class RjavaBean {
 			}		
 			
 			for(i=0; i<list.at(0).length();i++) {
-				AirportVO vo = new AirportVO();
-				vo.setPlace(arr[0][i]);
+				ContryVO vo = new ContryVO();
+				vo.setC_con(arr[0][i]);
 				vo.setCnt(Integer.parseInt(arr[1][i]));
 				sql.insert("airport.insertContry",vo);	
 			}
@@ -219,7 +219,7 @@ public class RjavaBean {
 			}
 			
 			for(i=0; i<list.at(0).length();i++) {
-				LatlonVO vo = new LatlonVO();
+				LContryVO vo = new LContryVO();
 				vo.setPlace(arr[0][i]);
 				vo.setCnt(Integer.parseInt(arr[1][i]));
 				vo.setLat(Double.parseDouble(arr[2][i]));
@@ -240,8 +240,8 @@ public class RjavaBean {
 			}
 			
 			for(i=0; i<list.at(0).length();i++) {
-				AirportVO vo = new AirportVO();
-				vo.setPlace(arr[0][i]);
+				ContryVO vo = new ContryVO();
+				vo.setC_con(arr[0][i]);
 				vo.setCnt(Integer.parseInt(arr[1][i]));
 				sql.insert("airport.insertRegion",vo);	
 			}
@@ -266,7 +266,7 @@ public class RjavaBean {
 			}
 			
 			for(i=0; i<list.at(0).length();i++) {
-				LatlonVO vo = new LatlonVO();
+				LContryVO vo = new LContryVO();
 				vo.setPlace(arr[0][i]);
 				vo.setCnt(Integer.parseInt(arr[1][i]));
 				vo.setLat(Double.parseDouble(arr[2][i]));
@@ -307,44 +307,39 @@ public class RjavaBean {
 	}
 
 
-	@RequestMapping("dbInfoCheck.mw")//-------------------------------------------
+	@RequestMapping("dbInfoCheck.mw")//-------------------------------------------ing
 	public String dbInfoCheck(HttpServletRequest request, int num) throws Exception{
-		System.out.println("DB내용 확인 페이지");
+		System.out.println("DB내용 확인 페이지"+"num="+num);
 		
-		List<AirportVO> airList = new ArrayList<AirportVO>();
-		List<LatlonVO> lList = new ArrayList<LatlonVO>();
-		List rs = new ArrayList();
+		//List<LatlonVO> lList = new ArrayList<LatlonVO>();
+		List<ContryVO> airList = new ArrayList<ContryVO>();
+		airList = sql.selectList("airport.getContry");
+		int listSize = airList.size();
+		System.out.println("리스트 사이즈="+listSize); //테스트확이용
 		
-		switch(num) {
-		case 1:
-			airList = sql.selectList("airport.getContry");
-			rs = airList;
-			System.out.println(">>Contry Table 내용확인");
-			break;
-			/*
-		case 2:
-			lList = sql.selectList("latlon.getLcontry");
-			rs = lList;
-			System.out.println(">>Lcontry Table 내용확인");
-			break;
-		case 3:
-			airList = sql.selectList("airport.getRegion");
-			rs = airList;
-			System.out.println(">>Region Table 내용확인");
-			break;
-		case 4:
-			lList = sql.selectList("latlon.getLregion");
-			rs = lList;
-			System.out.println(">>Lregion Table 내용확인");
-			break;
-			*/
+		String [][] conList = new String[listSize][2];
+		for(int i=0;i<listSize;i++) {
+			conList[i][0] = airList.get(i).getC_con();
+			conList[i][1] = Integer.toString(airList.get(i).getCnt());
 		}
-		int siz = rs.size();
-		System.out.println("리스트 사이즈="+siz);	
-	
-		request.setAttribute("listSize", siz);
-		request.setAttribute("dataList", airList);
 		
+		//출력확인해보기
+		for(int j=0;j<listSize;j++) {
+			for(int a=0;a<2;a++) {
+				System.out.print(conList[j][a]+" ");
+			}
+			System.out.println();
+		}
+		
+		
+		
+			
+		
+		
+		
+		//request.setAttribute("dataList", airList);
+		//request.setAttribute("listSize", listSize);
+		//
 		return "/Main/dbInfoCheck";
 	}
 

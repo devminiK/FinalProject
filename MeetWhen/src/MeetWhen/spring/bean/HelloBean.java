@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import MeetWhen.spring.vo.LatlonVO;
+import MeetWhen.spring.vo.LContryVO;
 
 @Controller
 @RequestMapping("/Main/")
@@ -38,7 +38,7 @@ public class HelloBean {
 	//lonlatinfo DB정보 출력
 	@RequestMapping("test_data2.mw") //DB가져와 리스트 작성.
 	public String test_data2(HttpServletRequest request) {
-		List<LatlonVO> infoList = new ArrayList<LatlonVO>();
+		List<LContryVO> infoList = new ArrayList<LContryVO>();
 
 		int count = sql.selectOne("lonlat.getCnt");
 		System.out.println("DB정보 갯수="+count);
@@ -52,7 +52,7 @@ public class HelloBean {
 	//모든 Map 페이지
 	@RequestMapping("cate1_All.mw")
 	public String cate1_All(HttpServletRequest request) {			//세계지도
-		List<LatlonVO> dataList = new ArrayList<LatlonVO>();
+		List<LContryVO> dataList = new ArrayList<LContryVO>();
 		dataList = sql.selectList("lonlat.getAll"); //모든 정보 가져오기
 		int listSize = dataList.size();//infoList의 길이
 		String [][] total = new String[listSize][4];
@@ -72,7 +72,7 @@ public class HelloBean {
 	
 	@RequestMapping("cate2.mw")
 	public String cate2(HttpServletRequest request) {			//세계지도
-		List<LatlonVO> dataList = new ArrayList<LatlonVO>();
+		List<LContryVO> dataList = new ArrayList<LContryVO>();
 		dataList = sql.selectList("lonlat.getAll"); //모든 정보 가져오기
 		int listSize = dataList.size();//infoList의 길이
 		String [][] total = new String[listSize][4];

@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import MeetWhen.spring.vo.LatlonVO;
+import MeetWhen.spring.vo.LContryVO;
 /*지도에 관련된 모든 것 */
 @Controller
 @RequestMapping("/Map/")
@@ -21,7 +21,7 @@ public class MapBean {
 	//DB내용으로 마크 여러개 찍기_하는중
 		@RequestMapping("map_total.mw")
 		public String map_total(HttpServletRequest request) {
-			List<LatlonVO> dataList = new ArrayList<LatlonVO>();
+			List<LContryVO> dataList = new ArrayList<LContryVO>();
 
 			int count = sql.selectOne("lonlat.getCnt"); //DB레코드 갯수
 

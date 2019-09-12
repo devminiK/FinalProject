@@ -5,8 +5,10 @@
 	
 <configuration>
 	<typeAliases>
-		<typeAlias alias="av" type="MeetWhen.spring.vo.AirportVO"/>
-		<typeAlias alias="lv" type="MeetWhen.spring.vo.LatlonVO"/>
+		<typeAlias alias="cv" type="MeetWhen.spring.vo.ContryVO"/>
+		<typeAlias alias="lcv" type="MeetWhen.spring.vo.LContryVO"/>
+		<typeAlias alias="rv" type="MeetWhen.spring.vo.RegionVO"/>
+		<typeAlias alias="lrv" type="MeetWhen.spring.vo.LRegionVO"/>
 	</typeAliases>
 
 	<mappers>

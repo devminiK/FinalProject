@@ -46,11 +46,11 @@
 <%-- 배열 생성해보기--%>
 	var total = new Array;
 	<c:forEach var="ent" items="${total}" begin="0" step="1" end="${listSize}">
-	var eachRow = new Array;
-	<c:forEach var="atrr" items="${ent}" begin="0" step="1" end="4">
-	eachRow.push("${atrr}");
-	</c:forEach>
-	total.push(eachRow);
+		var eachRow = new Array;
+		<c:forEach var="atrr" items="${ent}" begin="0" step="1" end="4">
+			eachRow.push("${atrr}");
+		</c:forEach>
+		total.push(eachRow);
 	</c:forEach>
 <%--맵을 초기화 하기 위한 함수--%>
 	function initialize() {
