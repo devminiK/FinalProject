@@ -27,10 +27,10 @@
 	
 	<!-- DB에 정보 삽입 -->
 	<insert id="insertContry">
-		insert into contry values(#{place}, #{cnt})
+		insert into contry values(#{c_con}, #{c_cnt})
 	</insert>
 	<insert id="insertRegion">
-		insert into region values(#{place}, #{cnt})
+		insert into region values(#{r_reg}, #{r_cnt})
 	</insert>	
 	
 </mapper>

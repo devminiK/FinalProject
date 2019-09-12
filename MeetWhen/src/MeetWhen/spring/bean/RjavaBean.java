@@ -22,6 +22,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import MeetWhen.spring.vo.ContryVO;
 import MeetWhen.spring.vo.LContryVO;
+import MeetWhen.spring.vo.LRegionVO;
+import MeetWhen.spring.vo.RegionVO;
 
 @Controller
 @RequestMapping("/rjava/")
@@ -195,7 +197,7 @@ public class RjavaBean {
 			for(i=0; i<list.at(0).length();i++) {
 				ContryVO vo = new ContryVO();
 				vo.setC_con(arr[0][i]);
-				vo.setCnt(Integer.parseInt(arr[1][i]));
+				vo.setC_cnt(Integer.parseInt(arr[1][i]));
 				sql.insert("airport.insertContry",vo);	
 			}
 			System.out.println(">>ContryTable에 정보저장완료");
@@ -220,10 +222,10 @@ public class RjavaBean {
 			
 			for(i=0; i<list.at(0).length();i++) {
 				LContryVO vo = new LContryVO();
-				vo.setPlace(arr[0][i]);
-				vo.setCnt(Integer.parseInt(arr[1][i]));
-				vo.setLat(Double.parseDouble(arr[2][i]));
-				vo.setLon(Double.parseDouble(arr[3][i]));
+				vo.setLc_con(arr[0][i]);
+				vo.setLc_cnt(Integer.parseInt(arr[1][i]));
+				vo.setLc_lat(Double.parseDouble(arr[2][i]));
+				vo.setLc_lon(Double.parseDouble(arr[3][i]));
 				sql.insert("latlon.insertLcontry",vo);	
 			}
 			System.out.println(">>LcontryTable에 정보저장완료");	
@@ -240,9 +242,9 @@ public class RjavaBean {
 			}
 			
 			for(i=0; i<list.at(0).length();i++) {
-				ContryVO vo = new ContryVO();
-				vo.setC_con(arr[0][i]);
-				vo.setCnt(Integer.parseInt(arr[1][i]));
+				RegionVO vo = new RegionVO();
+				vo.setR_reg(arr[0][i]);
+				vo.setR_cnt(Integer.parseInt(arr[1][i]));
 				sql.insert("airport.insertRegion",vo);	
 			}
 			System.out.println(">>RegionTable에 정보저장완료");
@@ -266,11 +268,11 @@ public class RjavaBean {
 			}
 			
 			for(i=0; i<list.at(0).length();i++) {
-				LContryVO vo = new LContryVO();
-				vo.setPlace(arr[0][i]);
-				vo.setCnt(Integer.parseInt(arr[1][i]));
-				vo.setLat(Double.parseDouble(arr[2][i]));
-				vo.setLon(Double.parseDouble(arr[3][i]));
+				LRegionVO vo = new LRegionVO();
+				vo.setLr_reg(arr[0][i]);
+				vo.setLr_cnt(Integer.parseInt(arr[1][i]));
+				vo.setLr_lat(Double.parseDouble(arr[2][i]));
+				vo.setLr_lon(Double.parseDouble(arr[3][i]));
 				sql.insert("latlon.insertLregion",vo);	
 			}
 			System.out.println(">>LRegionTable에 정보저장완료");
@@ -287,21 +289,19 @@ public class RjavaBean {
 		switch(num) {
 		case 1:
 			sql.delete("airport.deleContry");
-			System.out.println(">>Contry Table 포멧");
 			break;
 		case 2:
 			sql.delete("latlon.deleLcontry");
-			System.out.println(">>Lcontry Table 포멧");
 			break;
 		case 3:
 			sql.delete("airport.deleRegion");
-			System.out.println(">>Region Table 포멧");
 			break;
 		case 4:
 			sql.delete("latlon.deleLregion");
-			System.out.println(">>Lregion Table 포멧");
 			break;
 		}
+		System.out.println(">>해당 테이블 FORMAT 완료");
+		
 		request.setAttribute("num", num);
 		return "/Main/dbDelete";
 	}
@@ -311,35 +311,7 @@ public class RjavaBean {
 	public String dbInfoCheck(HttpServletRequest request, int num) throws Exception{
 		System.out.println("DB내용 확인 페이지"+"num="+num);
 		
-		//List<LatlonVO> lList = new ArrayList<LatlonVO>();
-		List<ContryVO> airList = new ArrayList<ContryVO>();
-		airList = sql.selectList("airport.getContry");
-		int listSize = airList.size();
-		System.out.println("리스트 사이즈="+listSize); //테스트확이용
 		
-		String [][] conList = new String[listSize][2];
-		for(int i=0;i<listSize;i++) {
-			conList[i][0] = airList.get(i).getC_con();
-			conList[i][1] = Integer.toString(airList.get(i).getCnt());
-		}
-		
-		//출력확인해보기
-		for(int j=0;j<listSize;j++) {
-			for(int a=0;a<2;a++) {
-				System.out.print(conList[j][a]+" ");
-			}
-			System.out.println();
-		}
-		
-		
-		
-			
-		
-		
-		
-		//request.setAttribute("dataList", airList);
-		//request.setAttribute("listSize", listSize);
-		//
 		return "/Main/dbInfoCheck";
 	}
 

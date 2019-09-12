@@ -34,10 +34,10 @@
 	
 	<!-- DB에 정보 삽입 -->
 	<insert id="insertLcontry">
-		insert into lcontry values(#{place}, #{cnt}, #{lat}, #{lon})
+		insert into lcontry values(#{lc_con}, #{lc_cnt}, #{lc_lat}, #{lc_lon})
 	</insert>
 	<insert id="insertLregion">
-		insert into lregion values(#{place}, #{cnt}, #{lat}, #{lon})
+		insert into lregion values(#{lr_reg}, #{lr_cnt}, #{lr_lat}, #{lr_lon})
 	</insert>
 	
 </mapper>
