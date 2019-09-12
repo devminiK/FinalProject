@@ -17,26 +17,26 @@
 	
 	
 	<!-- DB 정보 확인 -->
-	<select id="getLcontry" resultType="lv"> 
+	<select id="getLContry" resultType="lcv"> 
 			select *from lcontry
 	</select>
-	<select id="getLregion" resultType="lv"> 
+	<select id="getLRegion" resultType="lrv"> 
 			select *from lregion
 	</select>
 	
 	<!-- DB정보 삭제 -->
-	<delete id="deleLcontry">
+	<delete id="deleLContry">
 		delete from lcontry
 	</delete>
-	<delete id="deleLregion">
+	<delete id="deleLRegion">
 		delete from lregion
 	</delete>
 	
 	<!-- DB에 정보 삽입 -->
-	<insert id="insertLcontry">
+	<insert id="insertLContry">
 		insert into lcontry values(#{lc_con}, #{lc_cnt}, #{lc_lat}, #{lc_lon})
 	</insert>
-	<insert id="insertLregion">
+	<insert id="insertLRegion">
 		insert into lregion values(#{lr_reg}, #{lr_cnt}, #{lr_lat}, #{lr_lon})
 	</insert>
 	

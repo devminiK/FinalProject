@@ -6,8 +6,8 @@
 <configuration>
 	<typeAliases>
 		<typeAlias alias="cv" type="MeetWhen.spring.vo.ContryVO"/>
-		<typeAlias alias="lcv" type="MeetWhen.spring.vo.LContryVO"/>
 		<typeAlias alias="rv" type="MeetWhen.spring.vo.RegionVO"/>
+		<typeAlias alias="lcv" type="MeetWhen.spring.vo.LContryVO"/>
 		<typeAlias alias="lrv" type="MeetWhen.spring.vo.LRegionVO"/>
 	</typeAliases>
 

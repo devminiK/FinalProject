@@ -9,10 +9,10 @@
 	</select>
 	
 	<!-- DB정보 확인 -->
-	<select id="getContry" resultType="av"> 
+	<select id="getContry" resultType="cv"> 
 			select *from contry
 	</select>
-	<select id="getRegion" resultType="av"> 
+	<select id="getRegion" resultType="rv"> 
 			select *from region
 	</select>
 	

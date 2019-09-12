@@ -1,11 +1,13 @@
 package MeetWhen.spring.bean;
 
 /*
- * DB1~DB4 작성 하는 기능 
- * DB 포멧하는 기능
+ * DB1~DB4 정보저장, 포멧, 정보 보여주기 기능 
+ * PLUS)
  * 작성, 포멧할때 기존 내용 존재 유무알려주기.
  * db2,db4은 소요시간이 거릴수있음을 script로 알려주기.
+ * 	파일 경로 >>> 학원은 D:  집은 C:
  * */
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,9 +42,9 @@ public class RjavaBean {
 	}
 	
 	@RequestMapping("dbCreate.mw")//엑셀 파일로 DB생성-------------------------------------------
-	public String dbCreate(HttpServletRequest request, int num) throws Exception{   
+	public String dbCreate(HttpServletRequest request, int num) throws Exception{  
+		System.out.print("[dbCreate PAGE]");
 		RConnection conn = new RConnection();
-		//학원은 D:, 집은 C:
 		//경로 재 설정 및 라이브러리 설치,추가
 		conn.eval("setwd('C:/R-workspace')");
 		conn.eval("install.packages(\"xlsx\")");
@@ -226,7 +228,7 @@ public class RjavaBean {
 				vo.setLc_cnt(Integer.parseInt(arr[1][i]));
 				vo.setLc_lat(Double.parseDouble(arr[2][i]));
 				vo.setLc_lon(Double.parseDouble(arr[3][i]));
-				sql.insert("latlon.insertLcontry",vo);	
+				sql.insert("latlon.insertLContry",vo);	
 			}
 			System.out.println(">>LcontryTable에 정보저장완료");	
 				
@@ -273,7 +275,7 @@ public class RjavaBean {
 				vo.setLr_cnt(Integer.parseInt(arr[1][i]));
 				vo.setLr_lat(Double.parseDouble(arr[2][i]));
 				vo.setLr_lon(Double.parseDouble(arr[3][i]));
-				sql.insert("latlon.insertLregion",vo);	
+				sql.insert("latlon.insertLRegion",vo);	
 			}
 			System.out.println(">>LRegionTable에 정보저장완료");
 
@@ -286,18 +288,19 @@ public class RjavaBean {
 	
 	@RequestMapping("dbDelete.mw")//-------------------------------------------
 	public String dbDelete(HttpServletRequest request, int num) {
+		System.out.print("[DB Delete PAGE]");
 		switch(num) {
 		case 1:
 			sql.delete("airport.deleContry");
 			break;
 		case 2:
-			sql.delete("latlon.deleLcontry");
+			sql.delete("latlon.deleLContry");
 			break;
 		case 3:
 			sql.delete("airport.deleRegion");
 			break;
 		case 4:
-			sql.delete("latlon.deleLregion");
+			sql.delete("latlon.deleLRegion");
 			break;
 		}
 		System.out.println(">>해당 테이블 FORMAT 완료");
@@ -307,11 +310,33 @@ public class RjavaBean {
 	}
 
 
-	@RequestMapping("dbInfoCheck.mw")//-------------------------------------------ing
+	@RequestMapping("dbInfoCheck.mw")//-------------------------------------------
 	public String dbInfoCheck(HttpServletRequest request, int num) throws Exception{
-		System.out.println("DB내용 확인 페이지"+"num="+num);
+		System.out.print("[DB InfoCheck PAGE]");
 		
+		List rsList = new ArrayList(); //모든 vo를 담기위해 제네릭사용x
+		int siz=0;
 		
+		switch(num) {
+		case 1:
+			rsList = sql.selectList("airport.getContry");
+			break;			
+		case 2:
+			rsList = sql.selectList("latlon.getLContry");
+			break;
+		case 3:
+			rsList = sql.selectList("airport.getRegion");
+			break;
+		case 4:
+			rsList = sql.selectList("latlon.getLRegion");
+			break;
+			
+		}
+		siz = rsList.size();
+		
+		request.setAttribute("num", num);
+		request.setAttribute("listSize", siz);
+		request.setAttribute("dataList", rsList);
 		return "/Main/dbInfoCheck";
 	}
 
