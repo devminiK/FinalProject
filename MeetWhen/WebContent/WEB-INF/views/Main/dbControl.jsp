@@ -1,10 +1,10 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"%>
-<%-- DB³»¿ë ÀÌ¿ëÇØ¼­ Á¤º¸ º¸¿©ÁÖ±â.--%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"%>
+<%-- DBë‚´ìš© ì´ìš©í•´ì„œ ì •ë³´ ë³´ì—¬ì£¼ê¸°.--%>
 <%--
-1. ¿¢¼¿ Á¤±ÔÈ­ Á¤º¸ ÀúÀåDB
-2. ggmapÀÌ¿ëÇØ À§µµ°æµµ Ãß°¡ÇÑ DB ÀúÀå
-¿Ï¼º.
+1. ì—‘ì…€ ì •ê·œí™” ì •ë³´ ì €ì¥DB
+2. ggmapì´ìš©í•´ ìœ„ë„ê²½ë„ ì¶”ê°€í•œ DB ì €ì¥
  --%>
+ 
 <!DOCTYPE html>
 <html>
 <head>
@@ -36,28 +36,31 @@
 	/*
 	$(document).ready(function(){
 		$('button').click(function(){
-			alert("Å¬¸¯ÇÔ"+$(this).val());
+			alert("í´ë¦­í•¨"+$(this).val());
 			});
 	});
 	*/
+	
+	// ì‚­ì œ ì „ ë‹¤ì‹œ ì§ˆë¬¸ í•˜ê¸°
 	function deleteInfo(num){
-		var msg = confirm("ÇØ´ç DBÀÇ ³»¿ëÀ» »èÁ¦ÇÏ½Ã°Ú½À´Ï±î?");
+		var msg = confirm("í•´ë‹¹ DBì˜ ë‚´ìš©ì„ ì‚­ì œí•˜ì‹œê² ìŠµë‹ˆê¹Œ?");
 		if(msg){
-			alert("»èÁ¦¸¦ ÁøÇàÇÕ´Ï´Ù.");
+			alert("ì‚­ì œë¥¼ ì§„í–‰í•©ë‹ˆë‹¤.");
 			location.href="/MeetWhen/rjava/dbDelete.mw?num="+num;
 		}
-		//else´Â ¾Æ¹«µ¿ÀÛ x
+		//elseëŠ” ì•„ë¬´ë™ì‘ x
 	}
 </script>
 </head>
 <body>
-
-<h1>DB-Control PAGE</h1>
-<h1>°ü¸®ÀÚ°¡ DB»ı¼º ¹× »èÁ¦ ÇÒ¼ö ÀÖ´Â ÆäÀÌÁö</h1>
-<form id="createfrm" action="dbCreate.mw">
+	<h1>DB-Control PAGE</h1>
+	â€» DB ì •ë³´ ìƒì„±ì€ 1ë¶€í„° 4ê¹Œì§€ ìˆœì°¨ì ìœ¼ë¡œ ì§„í–‰í•˜ì…”ì•¼í•©ë‹ˆë‹¤.<br>
+	â€» DB2,4ëŠ” ê²½ë„ìœ„ë„ ì •ë³´ë¥¼ geocodeë¡œ ì¶”ì¶œí•´ë‚´ê¸°ë•Œë¬¸ì—, ì‹œê°„ì´ ê±¸ë¦´ ìˆ˜ ìˆìŠµë‹ˆë‹¤.<br><br>
+	
+	<form id="createfrm" action="dbCreate.mw">
 		<table>
 			<tr>
-				<th>DBÁ¤º¸ »ı¼º</th>
+				<th>DBì •ë³´ ìƒì„±</th>
 				<td><button name="num" value="1" id=crtDb class="btn success">DB1</button></td>
 				<td><button name="num" value="2" id=crtDb class="btn success">DB2</button></td>
 				<td><button name="num" value="3" id=crtDb class="btn success">DB3</button></td>
@@ -65,75 +68,49 @@
 			</tr>
 		</table>
 	</form>
-	
-		<table>
-			<tr>
-				<th>DB³»¿ë »èÁ¦</th>
-				<td><button name="num" value="1" id=deleDb class="btn danger" onclick="deleteInfo(1)">DB1</button></td>
-				<td><button name="num" value="2" id=deleDb class="btn danger" onclick="deleteInfo(2)">DB2</button></td>
-				<td><button name="num" value="3" id=deleDb class="btn danger" onclick="deleteInfo(3)">DB3</button></td>
-				<td><button name="num" value="4" id=deleDb class="btn danger" onclick="deleteInfo(4)">DB4</button></td>
-			</tr>
-		</table>
 
-		<table>
-			<tr>
-				<th>DB³»¿ë È®ÀÎ</th>
-				<td><button name="num" value="1" id=checkDb class="btn info" onclick="fetchPage('dbInfoCheck.mw?num=1')">DB1</button></td>
-				<td><button name="num" value="2" id=checkDb class="btn info" onclick="fetchPage('dbInfoCheck.mw?num=2')">DB2</button></td>
-				<td><button name="num" value="3" id=checkDb class="btn info" onclick="fetchPage('dbInfoCheck.mw?num=3')">DB3</button></td>
-				<td><button name="num" value="4" id=checkDb class="btn info" onclick="fetchPage('dbInfoCheck.mw?num=4')">DB4</button></td>
-			</tr>
-		</table>
-	<%-- <li><a href="#!html.html" onclick="fetchPage('html.html')">HTML</a></li>--%>
+	<table>
+		<tr>
+			<th>DBë‚´ìš© ì‚­ì œ</th>
+			<td><button name="num" value="1" id=deleDb class="btn danger"
+					onclick="deleteInfo(1)">DB1</button></td>
+			<td><button name="num" value="2" id=deleDb class="btn danger"
+					onclick="deleteInfo(2)">DB2</button></td>
+			<td><button name="num" value="3" id=deleDb class="btn danger"
+					onclick="deleteInfo(3)">DB3</button></td>
+			<td><button name="num" value="4" id=deleDb class="btn danger"
+					onclick="deleteInfo(4)">DB4</button></td>
+		</tr>
+	</table>
+
+	<table>
+		<tr>
+			<th>DBë‚´ìš© í™•ì¸</th>
+			<td><button name="num" value="1" id=checkDb class="btn info"
+					onclick="fetchPage('dbInfoCheck.mw?num=1')">DB1</button></td>
+			<td><button name="num" value="2" id=checkDb class="btn info"
+					onclick="fetchPage('dbInfoCheck.mw?num=2')">DB2</button></td>
+			<td><button name="num" value="3" id=checkDb class="btn info"
+					onclick="fetchPage('dbInfoCheck.mw?num=3')">DB3</button></td>
+			<td><button name="num" value="4" id=checkDb class="btn info"
+					onclick="fetchPage('dbInfoCheck.mw?num=4')">DB4</button></td>
+		</tr>
+	</table>
+
 	<article></article>
-	
 	<script>
-    /*Ex01) onclick¿¡ »ğÀÔµÇ´Â Áßº¹ÄÚµå¸¦ °£°áÇÏ°Ô ÇÏ±âÀ§ÇÑ, ÇÔ¼ö Á¤ÀÇ */
-  	function fetchPage(name){//º¯ÇÒ¼ö ÀÖ´Â ºÎºĞÀº ÀÎÀÚ·Î ³Ñ°ÜÁØ´Ù.
-  		fetch(name).then(function(response){     // ¼­¹ö¿¡°Ô ÀÎÀÚ ÆÄÀÏÀ» ¿äÃ»
-		    response.text().then(function(text){ // ¼­¹ö°¡ ÀÀ´äÇØ ÁØ µ¥ÀÌÅÍ°¡ text¿¡ ÀúÀåµÈ´Ù.
+    //onclickì— ì‚½ì…ë˜ëŠ” ì¤‘ë³µì½”ë“œë¥¼ ê°„ê²°í•˜ê²Œ í•˜ê¸°ìœ„í•œ, í•¨ìˆ˜ ì •ì˜ 
+  	function fetchPage(name){
+  		fetch(name).then(function(response){   
+		    response.text().then(function(text){ 
 		       document.querySelector('article').innerHTML = text;
+		        
+		       var cut =name.indexOf('?');
+		       console.log(name.substr(cut));
+		       console.log('RealPath=http://localhost:8080/MeetWhen/rjava/dbInfoCheck.mw'+name.substr(cut));
 		    })
 		});
-  	}
-  	
- 	/*Ex02)  ºÏ¸¶Å© ±â´ÉÀÌ Á¸ÀçÇÒ ¶§ / ¾Æ´Ò ¶§ 
-  	if(location.hash){	
-  		fetchPage(location.hash.substr(2));
-  	}else{
-  		fetchPage('welcome.html');
-  	}*/
-  	
- 	/*Ex03) list.htmlÀÇ ³»¿ëÀ» id nav¿¡ »Ñ·ÁÁÖ´Â ±â´É Ãß°¡
-  	fetch('list.html').then(function(response){    
-	    response.text().then(function(text){
-			
-	        
-	        var items= text.split(',');
-	        var i=0;
-	        var tags='';
-	        while(i<items.length){
-	        	//<li><a href="#!html.html" onclick="fetchPage('html.html')">HTML</a></li>
-	        	var item=items[i];
-	        	console.log('item['+i+']='+items[i]);
-	        	item = item.trim();
-	        	var tag='<li><a herf="#!'+item+'.html'+'" onclick="fetchPage(\''+item+'.html\')">'+item+'</a></li>';
-	        	tags=tags+tag;
-	        	i=i+1;
-	        }
-	        document.querySelector('#nav').innerHTML = tags;
-	        console.log(text);
-	        console.log(items);
-	    })
-	});*/
-  	
+  	} 	
   </script>
-<%--
-<button class="btn success">Success</button>
-<button class="btn info">Info</button>
-<button class="btn warning">Warning</button>
-<button class="btn danger">Danger</button>
---%>
 </body>
 </html>

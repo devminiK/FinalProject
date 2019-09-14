@@ -4,16 +4,22 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="airport">
+
+	<!-- DB정보 생성유무를 위한 갯수 확인 -->
 	<select id="cntContry" resultType="int">
 		select count(*) from contry 
 	</select>
+	<select id="cntRegion" resultType="int">
+		select count(*) from region 
+	</select>
+	
 	
 	<!-- DB정보 확인 -->
 	<select id="getContry" resultType="cv"> 
-			select *from contry
+			select *from contry order by c_con
 	</select>
 	<select id="getRegion" resultType="rv"> 
-			select *from region
+			select *from region order by r_reg
 	</select>
 	
 	

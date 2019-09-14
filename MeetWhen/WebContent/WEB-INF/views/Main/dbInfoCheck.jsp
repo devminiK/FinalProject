@@ -1,7 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<h1>DB내용 확인 PAGE</h1>
+<c:if test="${listSize==0}">
+	<h1>현재 DB${num}의 내용이 존재하지 않습니다.</h1>
+</c:if>
+<c:if test="${listSize!=0}">
+	<h1>DB${num}의 정보</h1>
+</c:if>
 
 <c:forEach items="${dataList}" var="ent" begin="0" step="1" end="${listSize}">
 	<c:if test="${num==1}">

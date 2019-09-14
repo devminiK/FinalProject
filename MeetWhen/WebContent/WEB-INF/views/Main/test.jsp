@@ -5,6 +5,9 @@
 <head>
 <meta charset="EUC-KR">
 <title>Insert title here</title>
+<script>
+	alert('hi');
+</script>
 </head>
 <body>
 	<h1>TEST PAGE</h1>

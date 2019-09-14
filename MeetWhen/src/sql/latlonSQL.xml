@@ -10,18 +10,21 @@
 		select lonlatinfo_seq.nextval from dual
 	</select>
 -->
-	<select id="getCnt" resultType="int">
-		select count(*) from lcontry
+	<!-- DB정보 생성유무를 위한 갯수 확인 -->
+	<select id="cntLContry" resultType="int">
+		select count(*) from lcontry 
 	</select>
-	
-	
+	<select id="cntLRegion" resultType="int">
+		select count(*) from lregion 
+	</select>
+
 	
 	<!-- DB 정보 확인 -->
 	<select id="getLContry" resultType="lcv"> 
-			select *from lcontry
+			select *from lcontry order by lc_con
 	</select>
 	<select id="getLRegion" resultType="lrv"> 
-			select *from lregion
+			select * from lregion order by lr_reg
 	</select>
 	
 	<!-- DB정보 삭제 -->
