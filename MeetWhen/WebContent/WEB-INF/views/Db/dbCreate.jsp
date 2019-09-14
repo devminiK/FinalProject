@@ -3,5 +3,5 @@
 <%--DB내용 작성 PAGE --%>
 <script>
 	alert('${msg}');
-	location.href="/MeetWhen/rjava/dbControl.mw";
+	location.href="/MeetWhen/Db/dbControl.mw";
 </script>

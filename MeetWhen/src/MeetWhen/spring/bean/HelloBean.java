@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import MeetWhen.spring.vo.LContryVO;
+import MeetWhen.spring.vo.LRegionVO;
 
 @Controller
 @RequestMapping("/Main/")
@@ -51,19 +52,18 @@ public class HelloBean {
 	
 	//모든 Map 페이지
 	@RequestMapping("cate1_All.mw")
-	public String cate1_All(HttpServletRequest request) {			//세계지도
+	public String cate1_All(HttpServletRequest request) {			
 		List<LContryVO> dataList = new ArrayList<LContryVO>();
-		dataList = sql.selectList("lonlat.getAll"); //모든 정보 가져오기
-		int listSize = dataList.size();//infoList의 길이
+		dataList = sql.selectList("latlon.getLContry"); 
+		int listSize = dataList.size();
+		
 		String [][] total = new String[listSize][4];
-		/*
 		for(int i=0;i<listSize;i++) {
-				total[i][0] = dataList.get(i).getL_conreg();
-				total[i][1] = Double.toString(dataList.get(i).getL_lon());
-				total[i][2] = Double.toString(dataList.get(i).getL_lat());
-				total[i][3] = Integer.toString(dataList.get(i).getL_cnt());
+				total[i][0] = dataList.get(i).getLc_con();
+				total[i][1] = Double.toString(dataList.get(i).getLc_lon());
+				total[i][2] = Double.toString(dataList.get(i).getLc_lat());
+				total[i][3] = Integer.toString(dataList.get(i).getLc_cnt());
 		}
-		*/
 		
 		request.setAttribute("total", total);	
 		request.setAttribute("listSize", listSize);
@@ -71,46 +71,130 @@ public class HelloBean {
 	}
 	
 	@RequestMapping("cate2.mw")
-	public String cate2(HttpServletRequest request) {			//세계지도
-		List<LContryVO> dataList = new ArrayList<LContryVO>();
-		dataList = sql.selectList("lonlat.getAll"); //모든 정보 가져오기
+	public String cate2(HttpServletRequest request) {			
+		List<LRegionVO> dataList = new ArrayList<LRegionVO>();
+		dataList = sql.selectList("latlon.getLRegion"); //모든 정보 가져오기
 		int listSize = dataList.size();//infoList의 길이
-		String [][] total = new String[listSize][4];
-		/*	
+		
+		String [][] total = new String[listSize][4];	
 		for(int i=0;i<listSize;i++) {
-				total[i][0] = dataList.get(i).getL_conreg();
-				total[i][1] = Double.toString(dataList.get(i).getL_lon());
-				total[i][2] = Double.toString(dataList.get(i).getL_lat());
-				total[i][3] = Integer.toString(dataList.get(i).getL_cnt());
+				total[i][0] = dataList.get(i).getLr_reg();
+				total[i][1] = Double.toString(dataList.get(i).getLr_lon());
+				total[i][2] = Double.toString(dataList.get(i).getLr_lat());
+				total[i][3] = Integer.toString(dataList.get(i).getLr_cnt());
 		}
-		*/
+
 		request.setAttribute("total", total);	
 		request.setAttribute("listSize", listSize);
 		return "/Main/cate2";
 	}
 	
 	@RequestMapping("cate3.mw")
-	public String cate3() {
+	public String cate3(HttpServletRequest request) {			
+		List<LRegionVO> dataList = new ArrayList<LRegionVO>();
+		dataList = sql.selectList("latlon.getLRegion"); //모든 정보 가져오기
+		int listSize = dataList.size();//infoList의 길이
+		
+		String [][] total = new String[listSize][4];	
+		for(int i=0;i<listSize;i++) {
+				total[i][0] = dataList.get(i).getLr_reg();
+				total[i][1] = Double.toString(dataList.get(i).getLr_lon());
+				total[i][2] = Double.toString(dataList.get(i).getLr_lat());
+				total[i][3] = Integer.toString(dataList.get(i).getLr_cnt());
+		}
+
+		request.setAttribute("total", total);	
+		request.setAttribute("listSize", listSize);
 		return "/Main/cate3";
 	}
 	@RequestMapping("cate4.mw")
-	public String cate4() {
+	public String cate4(HttpServletRequest request) {			
+		List<LRegionVO> dataList = new ArrayList<LRegionVO>();
+		dataList = sql.selectList("latlon.getLRegion"); //모든 정보 가져오기
+		int listSize = dataList.size();//infoList의 길이
+		
+		String [][] total = new String[listSize][4];	
+		for(int i=0;i<listSize;i++) {
+				total[i][0] = dataList.get(i).getLr_reg();
+				total[i][1] = Double.toString(dataList.get(i).getLr_lon());
+				total[i][2] = Double.toString(dataList.get(i).getLr_lat());
+				total[i][3] = Integer.toString(dataList.get(i).getLr_cnt());
+		}
+
+		request.setAttribute("total", total);	
+		request.setAttribute("listSize", listSize);
 		return "/Main/cate4";
 	}
 	@RequestMapping("cate5.mw")
-	public String cate5() {
+	public String cate5(HttpServletRequest request) {			
+		List<LRegionVO> dataList = new ArrayList<LRegionVO>();
+		dataList = sql.selectList("latlon.getLRegion"); //모든 정보 가져오기
+		int listSize = dataList.size();//infoList의 길이
+		
+		String [][] total = new String[listSize][4];	
+		for(int i=0;i<listSize;i++) {
+				total[i][0] = dataList.get(i).getLr_reg();
+				total[i][1] = Double.toString(dataList.get(i).getLr_lon());
+				total[i][2] = Double.toString(dataList.get(i).getLr_lat());
+				total[i][3] = Integer.toString(dataList.get(i).getLr_cnt());
+		}
+
+		request.setAttribute("total", total);	
+		request.setAttribute("listSize", listSize);
 		return "/Main/cate5";
 	}
 	@RequestMapping("cate6.mw")
-	public String cate6() {
+	public String cate6(HttpServletRequest request) {			
+		List<LRegionVO> dataList = new ArrayList<LRegionVO>();
+		dataList = sql.selectList("latlon.getLRegion"); //모든 정보 가져오기
+		int listSize = dataList.size();//infoList의 길이
+		
+		String [][] total = new String[listSize][4];	
+		for(int i=0;i<listSize;i++) {
+				total[i][0] = dataList.get(i).getLr_reg();
+				total[i][1] = Double.toString(dataList.get(i).getLr_lon());
+				total[i][2] = Double.toString(dataList.get(i).getLr_lat());
+				total[i][3] = Integer.toString(dataList.get(i).getLr_cnt());
+		}
+
+		request.setAttribute("total", total);	
+		request.setAttribute("listSize", listSize);
 		return "/Main/cate6";
 	}
 	@RequestMapping("cate7.mw")
-	public String cate7() {
+	public String cate7(HttpServletRequest request) {			
+		List<LRegionVO> dataList = new ArrayList<LRegionVO>();
+		dataList = sql.selectList("latlon.getLRegion"); //모든 정보 가져오기
+		int listSize = dataList.size();//infoList의 길이
+		
+		String [][] total = new String[listSize][4];	
+		for(int i=0;i<listSize;i++) {
+				total[i][0] = dataList.get(i).getLr_reg();
+				total[i][1] = Double.toString(dataList.get(i).getLr_lon());
+				total[i][2] = Double.toString(dataList.get(i).getLr_lat());
+				total[i][3] = Integer.toString(dataList.get(i).getLr_cnt());
+		}
+
+		request.setAttribute("total", total);	
+		request.setAttribute("listSize", listSize);
 		return "/Main/cate7";
 	}
 	@RequestMapping("cate8.mw")
-	public String cate8() {
+	public String cate8(HttpServletRequest request) {			
+		List<LRegionVO> dataList = new ArrayList<LRegionVO>();
+		dataList = sql.selectList("latlon.getLRegion"); //모든 정보 가져오기
+		int listSize = dataList.size();//infoList의 길이
+		
+		String [][] total = new String[listSize][4];	
+		for(int i=0;i<listSize;i++) {
+				total[i][0] = dataList.get(i).getLr_reg();
+				total[i][1] = Double.toString(dataList.get(i).getLr_lon());
+				total[i][2] = Double.toString(dataList.get(i).getLr_lat());
+				total[i][3] = Integer.toString(dataList.get(i).getLr_cnt());
+		}
+
+		request.setAttribute("total", total);	
+		request.setAttribute("listSize", listSize);
 		return "/Main/cate8";
 	}
 	

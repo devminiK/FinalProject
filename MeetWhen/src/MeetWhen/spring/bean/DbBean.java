@@ -26,8 +26,8 @@ import MeetWhen.spring.vo.LRegionVO;
 import MeetWhen.spring.vo.RegionVO;
 
 @Controller
-@RequestMapping("/rjava/")
-public class RjavaBean {
+@RequestMapping("/Db/")
+public class DbBean {
 	@Autowired
 	private SqlSessionTemplate sql = null;
 
@@ -35,7 +35,7 @@ public class RjavaBean {
 	public String dbControl(){
 		System.out.println("[관리자 접근 가능 PAGE]");
 		//관리자일경우만 확인할 수 있는 page로 설정하기
-		return "/Main/dbControl";
+		return "/Db/dbControl";
 	}
 
 	@RequestMapping("dbCreate.mw")//엑셀 파일로 DB생성-------------------------------------------
@@ -316,7 +316,7 @@ public class RjavaBean {
 		}
 		
 		request.setAttribute("msg", msg);
-		return "/Main/dbCreate";
+		return "/Db/dbCreate";
 	}
 
 
@@ -340,7 +340,7 @@ public class RjavaBean {
 		System.out.println("->DB"+num+"FORMAT 완료");
 
 		request.setAttribute("num", num);
-		return "/Main/dbDelete";
+		return "/Db/dbDelete";
 	}
 
 	@RequestMapping("dbInfoCheck.mw")//-------------------------------------------
@@ -370,7 +370,7 @@ public class RjavaBean {
 		request.setAttribute("num", num);
 		request.setAttribute("listSize", siz);
 		request.setAttribute("dataList", rsList);
-		return "/Main/dbInfoCheck";
+		return "/Db/dbInfoCheck";
 	}
 
 
