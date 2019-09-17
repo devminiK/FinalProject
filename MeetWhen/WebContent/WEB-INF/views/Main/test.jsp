@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="EUC-KR">
-<title>Insert title here</title>
+<title>recommended place</title>
 </head>
 <%--가져올html소스에 적용할 style작성 --%>
 <style>
@@ -25,7 +25,7 @@
 </style>
 
 <body>
-	<h1>TEST PAGE</h1>
+	<h1>추천 명소</h1>
 	<%--가져온 html소스 class.article에 삽입하기 
 		1. href와 src에 따로 String경로 덧붙여야함.
 		2. 기사 내용은 화면 왼쪽 하단에 위치시킬것--%>

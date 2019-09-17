@@ -1,3 +1,4 @@
+<%--템플릿 필요한 부분만 뺀거임 --%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -190,14 +191,11 @@
   <!-- Bootstrap core JavaScript -->
   <script src="/MeetWhen/vendor/jquery/jquery.min.js"></script>
   <script src="/MeetWhen/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
   <!-- Plugin JavaScript -->
   <script src="/MeetWhen/vendor/jquery-easing/jquery.easing.min.js"></script>
-
   <!-- Contact form JavaScript -->
   <script src="/MeetWhen/js/jqBootstrapValidation.js"></script>
   <script src="/MeetWhen/js/contact_me.js"></script>
-
   <!-- Custom scripts for this template -->
   <script src="/MeetWhen/js/agency.min.js"></script>
 

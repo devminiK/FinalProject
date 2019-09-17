@@ -29,16 +29,6 @@ public class HelloBean {
 		System.out.println("Welcome Runing..!");
 		return "/Main/welcome";
 	}
-	
-	@RequestMapping("header.mw") //헤더
-	public String header() {
-		return "/Main/header";
-	}
-	
-	@RequestMapping("footer.mw") //푸터
-	public String footer() {
-		return "/Main/footer";
-	}
 	/*--------------------------------테스트 용------*/
 	
 	//lonlatinfo DB정보 출력

@@ -7,8 +7,9 @@
 <title>mini's</title>
 </head>
 <body>
+<%-- 
 	<jsp:include page="header.jsp"/>
-	
+--%>	
 	<%!
 		String greeting = "이곳에 맵 넣을 것";
 		String tagline = "Welcome to Web Market!";
@@ -43,7 +44,9 @@
 			<%=	"현재 접속 시각: "+hour+":"+min+":"+sec+" "+ap %>
 		</div>
 		<hr>
-	</div>	
+	</div>
+	<%-- 
 	<jsp:include page="footer.jsp"/>
+	--%>	
 </body>
 </html>
