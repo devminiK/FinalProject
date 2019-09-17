@@ -203,6 +203,16 @@ public class HelloBean {
 		return "/Main/test";
 	}
 	
+	@RequestMapping("test2.mw")
+	public String test2() {
+		return "/Main/test2";
+	}
+	
+	@RequestMapping("index.mw")
+	public String index() {
+		return "/Main/index";
+	}
+	
 
 
 }
