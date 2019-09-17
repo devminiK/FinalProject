@@ -38,7 +38,7 @@ public class DbBean {
 		return "/Db/dbControl";
 	}
 
-	@RequestMapping("dbCreate.mw")//엑셀 파일로 DB생성-------------------------------------------
+	@RequestMapping("dbCreate.mw")//--------------------------------------------------DB정보 생성
 	public String dbCreate(HttpServletRequest request, int num) throws Exception{  
 		System.out.println("[dbCreate PAGE]");
 
@@ -47,7 +47,6 @@ public class DbBean {
 		String msg="";
 
 		while(rs) {
-
 			switch(num) {
 			case 1:
 				cnt=sql.selectOne("airport.cntContry");
@@ -66,9 +65,7 @@ public class DbBean {
 			if(cnt!=0) { //정보 이미 존재, 생성필요x
 				msg="DB에 이미 정보가 존재합니다. 재 생성하지 않겠습니다.";
 				rs=false;
-
 			}else{		//정보 생성해야함
-
 				RConnection conn = new RConnection();
 				//경로 재 설정 및 라이브러리 설치,추가
 				conn.eval("setwd('C:/R-workspace')");
@@ -82,7 +79,7 @@ public class DbBean {
 				RList list=null;
 				String [][] arr =null;
 				int i=0;
-
+				
 				switch(num) {
 				//국제공항-7월 정보
 				case 1: System.out.print("CASE 1 & 2"); //전체통계 엑셀 정보 가져오기-> 데이터프레임 작성
@@ -211,11 +208,8 @@ public class DbBean {
 							"}"); //reg2작성
 					break;
 				}
-
-
 				//구체적 DB작성하는 곳
 				if(num==1) {//DB1작성[Contry]		
-
 					DB = conn.eval("DB1");
 					list = DB.asList();
 					arr = new String[list.size()][];//가변배열로 작성
@@ -311,16 +305,14 @@ public class DbBean {
 					msg="DB4에 공항통계 정보가 생성 완료되었습니다.";
 				}
 				System.out.println("->DB"+num+"내용 생성 ");
-			}
-			
-		}
-		
+			}	
+		}		
 		request.setAttribute("msg", msg);
 		return "/Db/dbCreate";
 	}
 
 
-	@RequestMapping("dbDelete.mw")//-------------------------------------------
+	@RequestMapping("dbDelete.mw")//-------------------------------------------DB정보 삭제
 	public String dbDelete(HttpServletRequest request, int num) {
 		System.out.print("[DB Delete PAGE]");
 		switch(num) {
@@ -343,7 +335,7 @@ public class DbBean {
 		return "/Db/dbDelete";
 	}
 
-	@RequestMapping("dbInfoCheck.mw")//-------------------------------------------
+	@RequestMapping("dbInfoCheck.mw")//-------------------------------------------DB정보 확인
 	public String dbInfoCheck(HttpServletRequest request, int num) throws Exception{
 		System.out.print("[DB InfoCheck PAGE]");
 

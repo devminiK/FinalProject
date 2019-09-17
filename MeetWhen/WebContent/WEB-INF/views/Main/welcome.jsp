@@ -31,7 +31,7 @@
 	<div class="jumbotron">
 		<div class="container">
 			<h1 class="display-3">
-				<jsp:include page="cate1_All.jsp"/>
+				<jsp:include page="/MeetWhen/Map/map1_all.mw"/>
 			</h1>
 		</div>
 	</div>	

@@ -6,6 +6,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.mybatis.spring.SqlSessionTemplate;
+import org.rosuda.REngine.Rserve.RConnection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -47,13 +48,29 @@ public class HelloBean {
 	
 	
 	
-	@RequestMapping("test.mw")
+	@RequestMapping("test.mw") //크롤링> 명소 추천 내용
 	public String test() {
 		return "/Main/test";
 	}
 	
-	@RequestMapping("test2.mw")
-	public String test2() {
+	@RequestMapping("test2.mw")  //크롤링 > 세계 뉴스정보
+	public String test2() throws Exception{
+		RConnection conn = new RConnection();
+		
+		conn.eval("setwd('C:/R-workspace')");
+		conn.eval("library(rvest)");
+		conn.eval("library(httr)");
+		conn.eval("install.packages(\"RSelenium\")");
+		conn.eval("library(RSelenium)");
+		
+		conn.eval("remDr <- remoteDriver(remoteServerAdd=\"localhost\", port=4445, browserName=\"chrome\")");
+		conn.eval("remDr$open()");
+		conn.eval("remDr$navigate('https://www.naver.com/')");
+		conn.eval("WebEle <- remDr$findElement(using='css',\"[id='query']\")");
+		conn.eval("WebEle$sendKeysToElement(list('미국',key=\"enter\"))"); //미국 value를 for문으로 .
+		
+		
+		
 		return "/Main/test2";
 	}
 	
