@@ -19,6 +19,11 @@ public class HelloBean {
 	@Autowired
 	private SqlSessionTemplate sql = null;
 	
+	@RequestMapping("main.mw")  //공동 메인화면
+	public String main() {
+		return "/Main/main";
+	}
+	
 	@RequestMapping("welcome.mw")  //첫 메인 화면
 	public String welcome() {
 		System.out.println("Welcome Runing..!");
@@ -208,10 +213,7 @@ public class HelloBean {
 		return "/Main/test2";
 	}
 	
-	@RequestMapping("index.mw")
-	public String index() {
-		return "/Main/index";
-	}
+	
 	
 
 

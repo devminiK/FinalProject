@@ -39,9 +39,4 @@ body {
 	border: 1px solid #ccc;
 	border-top: none;
 }
-/*for map*/
-#map {
-	height: 400px;
-	width: 100%;
-}
 </style>
