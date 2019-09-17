@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR" pageEncoding="EUC-KR"%>
-<%--크롤링 내용  --%>
+<%--크롤링) 명소 추천  --%>
 <!DOCTYPE html>
 <html>
 <head>

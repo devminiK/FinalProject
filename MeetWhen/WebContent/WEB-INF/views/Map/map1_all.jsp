@@ -17,9 +17,6 @@
 	height: 500px;
 	width: 1000px;
 }
-body{
-	background-color: black;
-}
 </style>
 <!-- Abt category -->
 <script type="text/javascript">
@@ -192,7 +189,7 @@ body{
 				</div>
             </li>
             <li class="timeline-inverted">
-              <jsp:include page="test.jsp"/>
+              <jsp:include page="/Main/test.mw"/>
             </li>
             <li>
               <div class="timeline-image">
