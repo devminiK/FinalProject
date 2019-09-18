@@ -23,9 +23,9 @@ public class HelloBean {
 	@Autowired
 	private SqlSessionTemplate sql = null;
 	
-	@RequestMapping("main.mw")  //공동 메인화면
-	public String main() {
-		return "/Main/main";
+	@RequestMapping("boots_original.mw")  //BootStrap 원본
+	public String boots_original() {
+		return "/Main/boots_original";
 	}
 	@RequestMapping("boots_form.mw")  //공동 form
 	public String boots_form() {
@@ -41,7 +41,7 @@ public class HelloBean {
 	public String boots_footer() {
 		return "/Main/boots_footer";
 	}
-	
+	//------------------------------------------------------------------
 	@RequestMapping("welcome.mw")  //첫 메인 화면
 	public String welcome() {
 		System.out.println("Welcome Runing..!");
