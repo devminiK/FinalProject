@@ -1,15 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR" pageEncoding="EUC-KR"%>
 <%--크롤링) 명소 추천  --%>
-<!DOCTYPE html>
+<!doctype html>
 <html>
 <head>
-<meta charset="EUC-KR">
-<title>world article</title>
+    <meta charset="UTF-8">
+    <title>Untitled Document</title>
 </head>
-
-
 <body>
-	<h1>세계 뉴스 </h1>
-	
+    <h2>result 페이지</h2>
+ 
+<script>
+  parent.ifun("성공");  
+</script>
 </body>
 </html>

@@ -18,34 +18,10 @@ import MeetWhen.spring.vo.LRegionVO;
 public class MapBean {
 	@Autowired
 	private SqlSessionTemplate sql = null;
-	
-	//DB내용으로 마크 여러개 찍기_하는중
-		@RequestMapping("map_total.mw")
-		public String map_total(HttpServletRequest request) {
-			List<LContryVO> dataList = new ArrayList<LContryVO>();
-
-			int count = sql.selectOne("lonlat.getCnt"); //DB레코드 갯수
-
-			dataList = sql.selectList("lonlat.getAll"); //모든 정보 가져오기
-			int listSize = dataList.size();//infoList의 길이
-			String [][] total = new String[listSize][4];
-			/*
-			for(int i=0;i<listSize;i++) {
-					total[i][0] = dataList.get(i).getL_conreg();
-					total[i][1] = Double.toString(dataList.get(i).getL_lon());
-					total[i][2] = Double.toString(dataList.get(i).getL_lat());
-					total[i][3] = Integer.toString(dataList.get(i).getL_cnt());
-			}
-			*/
-			request.setAttribute("total", total);	
-			request.setAttribute("listSize", listSize);	
-
-			return "/Map/map_total";
-		}
-		
-		//모든 Map 페이지
-		@RequestMapping("map1_all.mw")
-		public String map1_all(HttpServletRequest request) {			
+			
+		//--------------------------------------------------------모든 Map 페이지
+		@RequestMapping("map1.mw")
+		public String map1(HttpServletRequest request) {			
 			List<LContryVO> dataList = new ArrayList<LContryVO>();
 			dataList = sql.selectList("latlon.getLContry"); 
 			int listSize = dataList.size();
@@ -60,11 +36,11 @@ public class MapBean {
 			
 			request.setAttribute("total", total);	
 			request.setAttribute("listSize", listSize);
-			return "/Map/map1_all";
+			return "/Map/map1";
 		}
 		
-		@RequestMapping("map2_eur.mw")
-		public String map2_eur(HttpServletRequest request) {			
+		@RequestMapping("map2.mw")
+		public String map2(HttpServletRequest request) {			
 			List<LRegionVO> dataList = new ArrayList<LRegionVO>();
 			dataList = sql.selectList("latlon.getLRegion"); //모든 정보 가져오기
 			int listSize = dataList.size();//infoList의 길이
@@ -79,11 +55,11 @@ public class MapBean {
 
 			request.setAttribute("total", total);	
 			request.setAttribute("listSize", listSize);
-			return "/Map/map2_eur";
+			return "/Map/map2";
 		}
 		
-		@RequestMapping("map3_af.mw")
-		public String map3_af(HttpServletRequest request) {			
+		@RequestMapping("map3.mw")
+		public String map3(HttpServletRequest request) {			
 			List<LRegionVO> dataList = new ArrayList<LRegionVO>();
 			dataList = sql.selectList("latlon.getLRegion"); //모든 정보 가져오기
 			int listSize = dataList.size();//infoList의 길이
@@ -97,10 +73,10 @@ public class MapBean {
 			}
 			request.setAttribute("total", total);	
 			request.setAttribute("listSize", listSize);
-			return "/Map/map3_af";
+			return "/Map/map3";
 		}
-		@RequestMapping("map4_mid.mw")
-		public String map4_mid(HttpServletRequest request) {			
+		@RequestMapping("map4.mw")
+		public String map4(HttpServletRequest request) {			
 			List<LRegionVO> dataList = new ArrayList<LRegionVO>();
 			dataList = sql.selectList("latlon.getLRegion"); //모든 정보 가져오기
 			int listSize = dataList.size();//infoList의 길이
@@ -115,10 +91,10 @@ public class MapBean {
 
 			request.setAttribute("total", total);	
 			request.setAttribute("listSize", listSize);
-			return "/Map/map4_mid";
+			return "/Map/map4";
 		}
-		@RequestMapping("map5_asia.mw")
-		public String map5_asia(HttpServletRequest request) {			
+		@RequestMapping("map5.mw")
+		public String map5(HttpServletRequest request) {			
 			List<LRegionVO> dataList = new ArrayList<LRegionVO>();
 			dataList = sql.selectList("latlon.getLRegion"); //모든 정보 가져오기
 			int listSize = dataList.size();//infoList의 길이
@@ -133,10 +109,10 @@ public class MapBean {
 
 			request.setAttribute("total", total);	
 			request.setAttribute("listSize", listSize);
-			return "/Map/map5_asia";
+			return "/Map/map5";
 		}
-		@RequestMapping("map6_oce.mw")
-		public String map6_oce(HttpServletRequest request) {			
+		@RequestMapping("map6.mw")
+		public String map6(HttpServletRequest request) {			
 			List<LRegionVO> dataList = new ArrayList<LRegionVO>();
 			dataList = sql.selectList("latlon.getLRegion"); //모든 정보 가져오기
 			int listSize = dataList.size();//infoList의 길이
@@ -151,10 +127,10 @@ public class MapBean {
 
 			request.setAttribute("total", total);	
 			request.setAttribute("listSize", listSize);
-			return "/Map/map6_oce";
+			return "/Map/map6";
 		}
-		@RequestMapping("map7_na.mw")
-		public String map7_na(HttpServletRequest request) {			
+		@RequestMapping("map7.mw")
+		public String map7(HttpServletRequest request) {			
 			List<LRegionVO> dataList = new ArrayList<LRegionVO>();
 			dataList = sql.selectList("latlon.getLRegion"); //모든 정보 가져오기
 			int listSize = dataList.size();//infoList의 길이
@@ -169,10 +145,10 @@ public class MapBean {
 
 			request.setAttribute("total", total);	
 			request.setAttribute("listSize", listSize);
-			return "/Map/map7_na";
+			return "/Map/map7";
 		}
-		@RequestMapping("map8_sa.mw")
-		public String map8_sa(HttpServletRequest request) {			
+		@RequestMapping("map8.mw")
+		public String map8(HttpServletRequest request) {			
 			List<LRegionVO> dataList = new ArrayList<LRegionVO>();
 			dataList = sql.selectList("latlon.getLRegion"); //모든 정보 가져오기
 			int listSize = dataList.size();//infoList의 길이
@@ -187,7 +163,7 @@ public class MapBean {
 
 			request.setAttribute("total", total);	
 			request.setAttribute("listSize", listSize);
-			return "/Map/map8_sa";
+			return "/Map/map8";
 		}
 	
 

@@ -17,7 +17,15 @@
 	height: 500px;
 	width: 1000px;
 }
+/* iframe을 숨기기 위한 css
+#if {
+	width: 0px;
+	height: 0px;
+	border: 0px;
+}*/
 </style>
+<!-- Load the google API -->
+<script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyCexlJx5Gqv4JLwdSxZIeYwAE2IIRN_iGw"></script>
 <!-- Abt category -->
 <script type="text/javascript">
 	function openCity(evt, cityName) {
@@ -33,7 +41,6 @@
 		}
 		document.getElementById(cityName).style.display = "block";
 		evt.currentTarget.className += " active";
-
 	}
 
 	function start() {
@@ -43,12 +50,9 @@
 		alert('hi');
 	}
 </script>
-<!-- Load the google API -->
-<script
-	src="http://maps.googleapis.com/maps/api/js?key=AIzaSyCexlJx5Gqv4JLwdSxZIeYwAE2IIRN_iGw"></script>
+<!-- Abt Map -->
 <script type="text/javascript">
-	
-<%-- 배열 생성--%>
+	<%-- 배열 생성--%>
 	var total = new Array;
 	<c:forEach var="ent" items="${total}" begin="0" step="1" end="${listSize}">
 		var eachRow = new Array;
@@ -58,10 +62,10 @@
 		total.push(eachRow);
 	</c:forEach>
 <%--맵을 초기화 하기 위한 함수--%>
-	function initialize() {
+	function initialize() {//28.650966, 152.910042
 		var mapOp = {
-			center : new google.maps.LatLng(25.086105, 179.581105), //whole map
-			zoom : 1.4,
+			center : new google.maps.LatLng(28.650966, 152.910042), //whole map
+			zoom : 2,
 			mapTypeId : google.maps.MapTypeId.ROADMAP,
 			disableDefaultUI : true,
 			panControl : false,
@@ -71,8 +75,8 @@
 		};
 <%-- 맵 생성 객체 --%>
 	var map = new google.maps.Map(document.getElementById("goMap"), mapOp);
-		var infowindow = new google.maps.InfoWindow();
-<%-- 모든 마크 찍기ㄴ--%>
+	var infowindow = new google.maps.InfoWindow();
+<%-- 모든 마크 찍기--%>
 	var marker, i;
 		for (i = 0; i < total.length; i++) {
 			var lat = total[i][2];
@@ -87,26 +91,36 @@
 					(function(marker, i) {
 						return function() {
 							infowindow.setContent('<h2>' + total[i][0]
-									+ '</h2>' + '<p>방문객 수:' + total[i][3]
-									+ '</p>');
-							infowindow.open(map, marker);
+									+ '</h2>' + '<p>방문객 수:'+total[i][3]+'</p>');
+							infowindow.open(map, marker);	
+
+							//클릭한 나라값으로 검색해보기.-ing
+							document.getElementById('contryName').innerHTML=total[i][0];//나라확인
+
+							//var URL = "/MeetWhen/Main/test2.mw"+total[i][0];
+							//window.location.href=URL;
 						}
 					})(marker, i));
-
 			if (marker) {
-				marker.addListener('click', function() {
+				marker.addListener('click', function(i) {
 					map.setZoom(5);
 					map.setCenter(this.getPosition());
 				});
 			}
-
-		}
+		};
+		
+		google.maps.event.addListener(map, 'click', function(event) {
+			infowindow.close();
+			map.setCenter(new google.maps.LatLng(28.650966, 152.910042));//whole map
+			map.setZoom(2);
+		});
 	}
-<%-- 페이지가 로드될 때 initialize()함수 실행--%>
+
+	
+	<%-- 페이지가 로드될 때 initialize()함수 실행--%>
 	google.maps.event.addDomListener(window, 'load', initialize);
 </script>
-<%--BootStrap --%>
- <!-- Bootstrap core CSS -->
+  <!-- Bootstrap core CSS -->
   <link href="/MeetWhen/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
   <!-- Custom fonts for this template -->
@@ -175,18 +189,34 @@
             <li>
               <div class="tab">
 					<button class="tablinks" onclick="openCity(event, 'contry')" id="defaultOpen">All</button>
-					<button class="tablinks" onclick="location.href='cate2.mw'">Europe</button>
-					<button class="tablinks" onclick="location.href='cate3.mw'">Africa</button>
-					<button class="tablinks" onclick="location.href='cate4.mw'">Middle-East</button>
-					<button class="tablinks" onclick="location.href='cate5.mw'">Asia</button>
-					<button class="tablinks" onclick="location.href='cate6.mw'">Oceania</button>
-					<button class="tablinks" onclick="location.href='cate7.mw'">N-America</button>
-					<button class="tablinks" onclick="location.href='cate8.mw'">S-America</button>
+					<button class="tablinks" onclick="location.href='map2.mw'">Europe</button>
+					<button class="tablinks" onclick="location.href='map3.mw'">Africa</button>
+					<button class="tablinks" onclick="location.href='map4.mw'">Middle-East</button>
+					<button class="tablinks" onclick="location.href='map5.mw'">Asia</button>
+					<button class="tablinks" onclick="location.href='map6.mw'">Oceania</button>
+					<button class="tablinks" onclick="location.href='map7.mw'">N-America</button>
+					<button class="tablinks" onclick="location.href='map8.mw'">S-America</button>
 				</div>
 
 				<div id="contry" class="tabcontent">
 					<div id="goMap"></div>
 				</div>
+				
+				<div id="contryName"></div>
+				
+				<form action="/MeetWhen/Main/test2.mw" method="get" target="param">
+					<input type="text" value="${total[i][0]}"/>
+        			<input type="submit" value="제출"/>
+    			</form>
+    
+    <!-- iframe 설정 -->
+    <iframe id="if" name="param"></iframe>
+	<script>
+    	function ifun(msg){
+      	  alert(msg);
+    	}	
+	</script>
+	
             </li>
             <li class="timeline-inverted">
               <jsp:include page="/Main/test.mw"/>
