@@ -33,6 +33,8 @@
 	<%--가져온 html소스 class.article에 삽입하기 
 		1. href와 src에 따로 String경로 덧붙여야함.
 		2. 기사 내용은 화면 왼쪽 하단에 위치시킬것--%>
+		
+		<%--
 	<div class="article">
 	<div class="ggmJKc GBwJj gws-trips-modules__top-sight-card">
 		<a data-feature-id="0x96af46527fef1c47:0x34dbbb7aa8223dc"
@@ -324,7 +326,7 @@
 				</div>
 			</div></a>
 	</div>
-	
+	--%>
 	</div>
 </body>
 </html>
