@@ -21,7 +21,6 @@
 </style>
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.0.min.js"></script>
 
-
 <!-- Load the google API -->
 <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyCexlJx5Gqv4JLwdSxZIeYwAE2IIRN_iGw"></script>
 
@@ -90,11 +89,16 @@
 									+ '</h2>' + '<p>방문객 수:'+total[i][3]+'</p>');
 							infowindow.open(map, marker);	
 
-							//클릭한 나라값으로 검색해보기.-ing
-							document.getElementById('contryName').innerHTML=total[i][0];//나라확인
-							getName(total[i][0]);
-							//var URL = "/MeetWhen/Main/test2.mw"+total[i][0];
-							//window.location.href=URL;
+							document.getElementById('contryName').innerHTML=total[i][0]; //title 나라출력
+							//ajax도전
+							$.ajax({
+								type:"post",
+								url: "/MeetWhen/Main/test2.mw",
+								data:{cont : total[i][0] },
+								success : showResult,
+								error : reqError
+							});
+								
 						}
 					})(marker, i));
 			if (marker) {
@@ -110,11 +114,15 @@
 			map.setCenter(new google.maps.LatLng(28.650966, 152.910042));//whole map
 			map.setZoom(2);
 		});
-		var name="";
-		function getName(name){
-			var name=name;
-			console.log(name);
-			}
+	}
+	
+	function showResult(data){
+		$("#result").html(data);
+	}
+	
+	function reqError(){
+		$("#result").html("<h1>실행 오류!!</h1>");
+	
 	}
 
 	<%-- 페이지가 로드될 때 initialize()함수 실행--%>
@@ -129,7 +137,7 @@
     <div class="container">
       <div class="row">
         <div class="col-lg-12 text-center">
-          <h2 class="section-heading text-uppercase">World Map</h2>
+          <h2 class="section-heading text-uppercase">World Map: <b id="contryName"></b></h2>
           <h3 class="section-subheading text-muted">관심있는 지역을 클릭하여 방문자수를 파악해보세요</h3>
         </div>
       </div>
@@ -147,30 +155,22 @@
 					<button class="tablinks" onclick="location.href='map7.mw'">N-America</button>
 					<button class="tablinks" onclick="location.href='map8.mw'">S-America</button>
 				</div>
-
 				<div id="contry" class="tabcontent">
 					<div id="goMap"></div>
 				</div>
+
+				<hr>
+				<h3>[크롤링정보1) 네이버 검색결과_국기,나라명,수도,환율]</h3>
+				<div id="result"></div>
 				
-				<div id="contryName"></div>
+				<hr><br>
 				
-				<form action="/MeetWhen/Main/test2.mw" method="get" target="param">
-					<input type="text" name="cont" value="${name}">
-        			<input type="submit" value="제출"/>
-    			</form>
-    
-    <!-- iframe 설정 -->
-    <iframe id="if" name="param"></iframe>
-	<script>
-    	function ifun(msg){
-      	  alert(msg);
-    	}	
-	</script>
-	
-	<br>
-	<h1>-------------</h1>
-	<jsp:include page="/Main/test2.mw"/>
-	<h1>-------------</h1>
+				<h3>[크롤링정보2) 구글 트래블_추천 명소]</h3>
+				
+				<hr><br>
+				
+				<h3>[크롤링정보3) 세계 뉴스]</h3>
+				
             </li>
             <li class="timeline-inverted">
               <%-- <jsp:include page="/Main/test.mw"/>--%>

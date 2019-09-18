@@ -5,7 +5,8 @@
 		$(document).ready(function(){		window.setInterval('time()', 1000);  });
 		function time(){
 			$.ajax({
-				type : "post" ,  url : "time.jsp",
+				type : "post" ,  
+				url : "time.jsp",
 				success : function(data){
 					$("#time").html(data);
 				}
