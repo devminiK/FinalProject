@@ -71,76 +71,76 @@ public class HelloBean {
 	}
 	
 	@RequestMapping("test2.mw")  // 나라별 크롤링 > 세계 뉴스정보
-	public String test2(HttpServletRequest request, String cont) throws Exception{
-		
-		/*
-		RConnection conn = new RConnection();
-		
-		conn.eval("setwd('D:/R-workspace')");
-		conn.eval("library(rvest)");
-		conn.eval("library(httr)");
-		conn.eval("install.packages(\"RSelenium\")");
-		conn.eval("library(RSelenium)");
-		
-		conn.eval("remDr <- remoteDriver(remoteServerAdd=\"localhost\", port=4445, browserName=\"chrome\")");
-		conn.eval("remDr$open()");
-		
-		List<ContryVO> dataList = new ArrayList<ContryVO>();
-		dataList = sql.selectList("airport.getContry");
-		int size = dataList.size();
-		
-		String[] cons = new String[size];
-		String[][] info = new String [size][5];
-		for(int i=0;i<size;i++) {
-			cons[i]=dataList.get(i).getC_con();
-			System.out.print(cons[i]+" 정보 추출");
-			
-			if(cons[i].equals("괌")||cons[i].equals("사이판")||cons[i].equals("사이판")||cons[i].equals("마카오")) {
-				System.out.print("x");
-				continue;
-			}
-			System.out.println();
-			conn.eval("remDr$navigate('https://www.naver.com/')");
-			conn.eval("WebEle <- remDr$findElement(using='css',\"[id='query']\")");
-			conn.eval("WebEle$sendKeysToElement(list('"+cons[i]+"',key=\"enter\"))"); //반복문 value.
-			info[i][0] = cons[i];
-			info[i][1] = String.valueOf(i);
-			//conn.eval("");
-			//국기 img저장
-			conn.eval("html<-remDr$getPageSource()[[1]]");
-			conn.eval("html<-read_html(html)");
-			conn.eval("flag<-html_node(html,\"[alt='flag']\")");
-			conn.eval("flag<-html_attr(flag,\"src\")");
-			conn.eval("imgRes<-GET(flag)");
-			conn.eval("writeBin(content(imgRes,'raw'),sprintf(paste0('d:/save/%03d.png'),"+i+"))");
-			
-			conn.eval("contry<-remDr$findElements(using='css',\"#main_pack > div.content_search.section > div > div.contents03_sub > div > div.nacon_area._info_area > div.naflag_box > dl > dt\")");
-			conn.eval("contry<-sapply(contry,function(x){x$getElementText()})");
-			REXP con = conn.eval("contry");
-			info[i][2]=con.toString();
-			
-			conn.eval("capital<-remDr$findElements(using='css',\"#main_pack > div.content_search.section > div > div.contents03_sub > div > div.nacon_area._info_area > div.naflag_box > dl > dd:nth-child(2) > a\")");
-			conn.eval("capital<-sapply(capital,function(x){x$getElementText()})");
-			REXP cap = conn.eval("capital");
-			info[i][3]=cap.toString();
-			
-			conn.eval("rate<-remDr$findElements(using='css',\"#dss_nation_tab_summary_content > dl.lst_overv > dd:not(frst)\")");
-			conn.eval("rate<-sapply(rate,function(x){x$getElementText()})");
-			REXP rate = conn.eval("rate[3]");
-			info[i][4]=rate.toString();
-		
-		}
-		for(int a=0;a<size;a++) {
-			for(int b=0;b<5;b++) {
-				System.out.print(info[a][b]+" ");
-			}
-			System.out.println();
-		}
-		*/
-		request.setAttribute("cont", cont);
+	public String test2(HttpServletRequest request,String name) throws Exception{
+		String cont = request.getParameter("name");
+		System.out.println("확인용="+name);
+		request.setAttribute("cont", name);
 		return "/Main/test2";
 	}
+	/*
+	RConnection conn = new RConnection();
 	
+	conn.eval("setwd('D:/R-workspace')");
+	conn.eval("library(rvest)");
+	conn.eval("library(httr)");
+	conn.eval("install.packages(\"RSelenium\")");
+	conn.eval("library(RSelenium)");
+	
+	conn.eval("remDr <- remoteDriver(remoteServerAdd=\"localhost\", port=4445, browserName=\"chrome\")");
+	conn.eval("remDr$open()");
+	
+	List<ContryVO> dataList = new ArrayList<ContryVO>();
+	dataList = sql.selectList("airport.getContry");
+	int size = dataList.size();
+	
+	String[] cons = new String[size];
+	String[][] info = new String [size][5];
+	for(int i=0;i<size;i++) {
+		cons[i]=dataList.get(i).getC_con();
+		System.out.print(cons[i]+" 정보 추출");
+		
+		if(cons[i].equals("괌")||cons[i].equals("사이판")||cons[i].equals("사이판")||cons[i].equals("마카오")) {
+			System.out.print("x");
+			continue;
+		}
+		System.out.println();
+		conn.eval("remDr$navigate('https://www.naver.com/')");
+		conn.eval("WebEle <- remDr$findElement(using='css',\"[id='query']\")");
+		conn.eval("WebEle$sendKeysToElement(list('"+cons[i]+"',key=\"enter\"))"); //반복문 value.
+		info[i][0] = cons[i];
+		info[i][1] = String.valueOf(i);
+		//conn.eval("");
+		//국기 img저장
+		conn.eval("html<-remDr$getPageSource()[[1]]");
+		conn.eval("html<-read_html(html)");
+		conn.eval("flag<-html_node(html,\"[alt='flag']\")");
+		conn.eval("flag<-html_attr(flag,\"src\")");
+		conn.eval("imgRes<-GET(flag)");
+		conn.eval("writeBin(content(imgRes,'raw'),sprintf(paste0('d:/save/%03d.png'),"+i+"))");
+		
+		conn.eval("contry<-remDr$findElements(using='css',\"#main_pack > div.content_search.section > div > div.contents03_sub > div > div.nacon_area._info_area > div.naflag_box > dl > dt\")");
+		conn.eval("contry<-sapply(contry,function(x){x$getElementText()})");
+		REXP con = conn.eval("contry");
+		info[i][2]=con.toString();
+		
+		conn.eval("capital<-remDr$findElements(using='css',\"#main_pack > div.content_search.section > div > div.contents03_sub > div > div.nacon_area._info_area > div.naflag_box > dl > dd:nth-child(2) > a\")");
+		conn.eval("capital<-sapply(capital,function(x){x$getElementText()})");
+		REXP cap = conn.eval("capital");
+		info[i][3]=cap.toString();
+		
+		conn.eval("rate<-remDr$findElements(using='css',\"#dss_nation_tab_summary_content > dl.lst_overv > dd:not(frst)\")");
+		conn.eval("rate<-sapply(rate,function(x){x$getElementText()})");
+		REXP rate = conn.eval("rate[3]");
+		info[i][4]=rate.toString();
+	
+	}
+	for(int a=0;a<size;a++) {
+		for(int b=0;b<5;b++) {
+			System.out.print(info[a][b]+" ");
+		}
+		System.out.println();
+	}
+	*/
 	
 	
 

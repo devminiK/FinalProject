@@ -14,11 +14,14 @@
 }
 /* iframe을 숨기기 위한 css
 #if {
-	width: 0px;
+	width: 100%;
 	height: 0px;
 	border: 0px;
 }*/
 </style>
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.4.0.min.js"></script>
+
+
 <!-- Load the google API -->
 <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyCexlJx5Gqv4JLwdSxZIeYwAE2IIRN_iGw"></script>
 
@@ -67,10 +70,10 @@
 			streetViewControl : false,
 			zoomControl : false
 		};
-<%-- 맵 생성 객체 --%>
+	<%-- 맵 생성 객체 --%>
 	var map = new google.maps.Map(document.getElementById("goMap"), mapOp);
 	var infowindow = new google.maps.InfoWindow();
-<%-- 모든 마크 찍기--%>
+	<%-- 모든 마크 찍기--%>
 	var marker, i;
 		for (i = 0; i < total.length; i++) {
 			var lat = total[i][2];
@@ -81,8 +84,7 @@
 				map : map
 			});
 
-			google.maps.event.addListener(marker, 'click',
-					(function(marker, i) {
+			google.maps.event.addListener(marker, 'click',(function(marker, i) {
 						return function() {
 							infowindow.setContent('<h2>' + total[i][0]
 									+ '</h2>' + '<p>방문객 수:'+total[i][3]+'</p>');
@@ -90,7 +92,7 @@
 
 							//클릭한 나라값으로 검색해보기.-ing
 							document.getElementById('contryName').innerHTML=total[i][0];//나라확인
-
+							getName(total[i][0]);
 							//var URL = "/MeetWhen/Main/test2.mw"+total[i][0];
 							//window.location.href=URL;
 						}
@@ -108,6 +110,11 @@
 			map.setCenter(new google.maps.LatLng(28.650966, 152.910042));//whole map
 			map.setZoom(2);
 		});
+		var name="";
+		function getName(name){
+			var name=name;
+			console.log(name);
+			}
 	}
 
 	<%-- 페이지가 로드될 때 initialize()함수 실행--%>
@@ -148,7 +155,7 @@
 				<div id="contryName"></div>
 				
 				<form action="/MeetWhen/Main/test2.mw" method="get" target="param">
-					<input type="text" value="${total[i][0]}"/>
+					<input type="text" name="cont" value="${name}">
         			<input type="submit" value="제출"/>
     			</form>
     
@@ -160,10 +167,15 @@
     	}	
 	</script>
 	
+	<br>
+	<h1>-------------</h1>
+	<jsp:include page="/Main/test2.mw"/>
+	<h1>-------------</h1>
             </li>
             <li class="timeline-inverted">
-              <jsp:include page="/Main/test.mw"/>
+              <%-- <jsp:include page="/Main/test.mw"/>--%>
             </li>
+            <%-- 
             <li>
               <div class="timeline-image">
                 <img class="rounded-circle img-fluid" src="/MeetWhen/img/about/3.jpg" alt="">
@@ -199,6 +211,7 @@
                   <br>Story!</h4>
               </div>
             </li>
+            --%>
           </ul>
         </div>
       </div>

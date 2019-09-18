@@ -27,9 +27,7 @@
 <body>
 
 	<h1>추천 명소& RESULT</h1>
-	<script>
- 	 parent.ifun("성공");  
-</script>
+	
 	<%--가져온 html소스 class.article에 삽입하기 
 		1. href와 src에 따로 String경로 덧붙여야함.
 		2. 기사 내용은 화면 왼쪽 하단에 위치시킬것--%>
