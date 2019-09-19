@@ -187,6 +187,7 @@ public class HelloBean {
 	@RequestMapping("test3.mw")  //°øµ¿ footer
 	public String test3() {
 		return "/Main/test3";
+		
 	}
 	
 	
