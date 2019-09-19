@@ -28,7 +28,7 @@ td {
 		</tr>
 		<tr>
 			<td>국기</td>
-			<td>Flag-img</td>
+			<td><img src="${imgSrc}"/></td>
 		</tr>
 		<tr>
 			<td>수도</td>
@@ -36,9 +36,15 @@ td {
 		</tr>
 		<tr>
 			<td>환율</td>
-			<td>${rate}</td>
+			<td>
+				${rate}
+				<%-- <c:if test="${rate==''}"> 환율정보가 존재하지않습니다.</c:if>--%>
+			</td>
 		</tr>
 	</table>
-
+	
+	<%--
+	<img src="/MeetWhen/img/flag/017.png" height=20px/>
+	 --%>
 </body>
 </html>

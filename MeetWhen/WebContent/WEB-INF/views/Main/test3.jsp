@@ -7,6 +7,6 @@
 </head>
 
 <body>
-	
+	<img src="/MeetWhen/img/flag/017.png" height=20px/>
 </body>
 </html>
