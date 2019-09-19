@@ -4,7 +4,25 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="airport">
+	<!-- CREATE -->
+	<!-- 생성 시, 시퀀스 증가값 가져오기 -->
+	<select id="getContrySeqNum" resultType="int"> 
+		select contry_seq.nextval from dual
+	</select>
+	<select id="getRegionSeqNum" resultType="int"> 
+		select region_seq.nextval from dual
+	</select>
+	
+	<!-- DB에 정보 삽입 -->
+	<insert id="insertContry">
+		insert into contry values(#{c_num}, #{c_con}, #{c_cnt})
+	</insert>
+	<insert id="insertRegion">
+		insert into region values(#{r_num}, #{r_reg}, #{r_cnt})
+	</insert>
 
+
+	<!-- FIND -->
 	<!-- DB정보 생성유무를 위한 갯수 확인 -->
 	<select id="cntContry" resultType="int">
 		select count(*) from contry 
@@ -13,30 +31,24 @@
 		select count(*) from region 
 	</select>
 	
+	<!-- 나라이름으로 번호 찾기 -->
+	<select id="getContryNum" resultType="int" parameterType="String">
+		select c_num from contry where where c_con=#{c_con} 
+	</select>
 	
 	<!-- DB정보 확인 -->
 	<select id="getContry" resultType="cv"> 
-			select *from contry order by c_con
+			select *from contry order by c_num
 	</select>
 	<select id="getRegion" resultType="rv"> 
-			select *from region order by r_reg
+			select *from region order by r_num
 	</select>
 	
-	
-	<!-- DB정보 리셋 -->
+	<!-- DELETE: DB정보 리셋-->
 	<delete id="deleContry">
 		delete contry
 	</delete>
 	<delete id="deleRegion">
 		delete region
 	</delete>	
-	
-	<!-- DB에 정보 삽입 -->
-	<insert id="insertContry">
-		insert into contry values(#{c_con}, #{c_cnt})
-	</insert>
-	<insert id="insertRegion">
-		insert into region values(#{r_reg}, #{r_cnt})
-	</insert>	
-	
 </mapper>

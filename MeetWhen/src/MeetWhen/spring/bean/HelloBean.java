@@ -72,12 +72,12 @@ public class HelloBean {
 	
 	@RequestMapping("test2.mw")  // 나라별 크롤링 > 세계 뉴스정보
 	public String test2(HttpServletRequest request) throws Exception{
-		String cont = request.getParameter("cont");
-		System.out.println("[helloBean]확인용="+cont);
+		String clickCont = request.getParameter("cont");
+		System.out.println("[helloBean]확인용="+clickCont);
 		
 		
 		RConnection conn = new RConnection();
-		conn.eval("setwd('C:/R-workspace')");
+		conn.eval("setwd('D:/R-workspace')");
 		conn.eval("library(rvest)");
 		conn.eval("library(httr)");
 		conn.eval("install.packages(\"RSelenium\")");
@@ -86,43 +86,49 @@ public class HelloBean {
 		conn.eval("remDr <- remoteDriver(remoteServerAdd=\"localhost\", port=4445, browserName=\"chrome\")");
 		conn.eval("remDr$open()");
 
-		//cons[i].equals("괌")||cons[i].equals("사이판")||cons[i].equals("사이판")||cons[i].equals("마카오"))
-
+		//cons[i].equals("괌")||cons[i].equals("사이판")||cons[i].equals("마카오"))
+		//괌, 사이판, 마카오 예외
+		
 		conn.eval("remDr$navigate('https://www.naver.com/')");
 		conn.eval("WebEle <- remDr$findElement(using='css',\"[id='query']\")");
-		conn.eval("WebEle$sendKeysToElement(list('"+cont+"',key=\"enter\"))"); //value값 바뀜
-
+		conn.eval("WebEle$sendKeysToElement(list('"+clickCont+"',key=\"enter\"))"); //value값 바뀜
+		
+		//정식 국가명
+		conn.eval("contry<-remDr$findElements(using='css',\"#main_pack > div.content_search.section > div > div.contents03_sub > div > div.nacon_area._info_area > div.naflag_box > dl > dt\")");
+		conn.eval("contry<-sapply(contry,function(x){x$getElementText()})");
+		conn.eval("contry<-gsub('\\n',' _ ',contry[[1]])");
+		REXP contry = conn.eval("contry");
+		String con = contry.asString();
+		System.out.println(con);
+		
+		String c_con = con.substring(0,con.indexOf("_"));
+		c_con = c_con.trim(); //공백을 제거한다.
+		//int ContNum = sql.selectOne("airport.getContryNum",c_con);
+		//System.out.println(ContNum);
+		
+		//국가 수도
+		conn.eval("capital<-remDr$findElements(using='css',\"#main_pack > div.content_search.section > div > div.contents03_sub > div > div.nacon_area._info_area > div.naflag_box > dl > dd:nth-child(2) > a\")");
+		conn.eval("capital<-sapply(capital,function(x){x$getElementText()})");
+		REXP capital = conn.eval("capital[[1]]");
+		System.out.println(capital.asString());
+		String cap = capital.asString();
+		
+		
 		//국기 img저장
 		conn.eval("html<-remDr$getPageSource()[[1]]");
 		conn.eval("html<-read_html(html)");
 		conn.eval("flag<-html_node(html,\"[alt='flag']\")");
 		conn.eval("flag<-html_attr(flag,\"src\")");
 		conn.eval("imgRes<-GET(flag)");
-		conn.eval("writeBin(content(imgRes,'raw'),sprintf(paste0('c:/save/%03d.png'),"+1+"))");
-
-		//국가명 
-		conn.eval("contry<-remDr$findElements(using='css',\"#main_pack > div.content_search.section > div > div.contents03_sub > div > div.nacon_area._info_area > div.naflag_box > dl > dt\")");
-		conn.eval("contry<-sapply(contry,function(x){x$getElementText()})");
-		conn.eval("contry<-gsub('\\n',' _ ',contry[[1]])");
-		REXP contry = conn.eval("contry");
+		//conn.eval("writeBin(content(imgRes,'raw'),sprintf(paste0('D:/save/%03d.png'),"+ContNum+"))");
 		
-		String con = contry.asString();
-		System.out.println(contry.asString());
-		
-		//국가 수도
-		conn.eval("capital<-remDr$findElements(using='css',\"#main_pack > div.content_search.section > div > div.contents03_sub > div > div.nacon_area._info_area > div.naflag_box > dl > dd:nth-child(2) > a\")");
-		conn.eval("capital<-sapply(capital,function(x){x$getElementText()})");
-		REXP capital = conn.eval("capital[[1]]");
-		
-		System.out.println(capital.asString());
-		String cap = capital.asString();
-		//국가 환율
+		//국가 환율-존재하지않을 수 있음.
 		conn.eval("rate<-remDr$findElements(using='css',\"#dss_nation_tab_summary_content > dl.lst_overv > dd\")");
 		conn.eval("rate<-sapply(rate,function(x){x$getElementText()})");
 		conn.eval("rate<-gsub('\\n','',rate[[2]])");
 		REXP rate = conn.eval("rate");
 		System.out.println(rate.asString());
-		
+
 		conn.eval("remDr$close()");
 		
 		if(rate!=null) {
@@ -138,7 +144,7 @@ public class HelloBean {
 		
 		
 		
-		request.setAttribute("contryName", cont);
+		request.setAttribute("contryName", clickCont);
 		request.setAttribute("contry", con);
 		request.setAttribute("capital", cap);
 		

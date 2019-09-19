@@ -2,12 +2,19 @@ package MeetWhen.spring.vo;
 
 /*공항통계 + 위도,경도 정보 저장 변수*/
 public class LRegionVO {
-
+	private int lr_num ;		//시퀀스 증가값
 	private String lr_reg;		//나라or지역
 	private int lr_cnt;			//방문자수
 	private double lr_lat; 		//위도
 	private double lr_lon; 		//경도
 	
+	
+	public int getLr_num() {
+		return lr_num;
+	}
+	public void setLr_num(int lr_num) {
+		this.lr_num = lr_num;
+	}
 	public String getLr_reg() {
 		return lr_reg;
 	}
