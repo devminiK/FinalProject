@@ -89,6 +89,7 @@ public class HelloBean {
 		//cons[i].equals("괌")||cons[i].equals("사이판")||cons[i].equals("마카오"))
 		//괌, 사이판, 마카오 예외
 		
+		//검색 셋팅
 		conn.eval("remDr$navigate('https://www.naver.com/')");
 		conn.eval("WebEle <- remDr$findElement(using='css',\"[id='query']\")");
 		conn.eval("WebEle$sendKeysToElement(list('"+clickCont+"',key=\"enter\"))"); //value값 바뀜
@@ -99,12 +100,10 @@ public class HelloBean {
 		conn.eval("contry<-gsub('\\n',' _ ',contry[[1]])");
 		REXP contry = conn.eval("contry");
 		String con = contry.asString();
-		System.out.println(con);
-		
-		String c_con = con.substring(0,con.indexOf("_"));
-		c_con = c_con.trim(); //공백을 제거한다.
-		//int ContNum = sql.selectOne("airport.getContryNum",c_con);
-		//System.out.println(ContNum);
+		System.out.println("검색결과="+con+"/클릭결과="+clickCont);
+
+		int ContNum = sql.selectOne("airport.getContryNum",clickCont);
+		System.out.println(ContNum);
 		
 		//국가 수도
 		conn.eval("capital<-remDr$findElements(using='css',\"#main_pack > div.content_search.section > div > div.contents03_sub > div > div.nacon_area._info_area > div.naflag_box > dl > dd:nth-child(2) > a\")");
@@ -113,14 +112,14 @@ public class HelloBean {
 		System.out.println(capital.asString());
 		String cap = capital.asString();
 		
-		
+
 		//국기 img저장
 		conn.eval("html<-remDr$getPageSource()[[1]]");
 		conn.eval("html<-read_html(html)");
 		conn.eval("flag<-html_node(html,\"[alt='flag']\")");
 		conn.eval("flag<-html_attr(flag,\"src\")");
 		conn.eval("imgRes<-GET(flag)");
-		//conn.eval("writeBin(content(imgRes,'raw'),sprintf(paste0('D:/save/%03d.png'),"+ContNum+"))");
+		conn.eval("writeBin(content(imgRes,'raw'),sprintf(paste0('D:/save/%03d.png'),"+ContNum+"))");
 		
 		//국가 환율-존재하지않을 수 있음.
 		conn.eval("rate<-remDr$findElements(using='css',\"#dss_nation_tab_summary_content > dl.lst_overv > dd\")");
@@ -129,20 +128,16 @@ public class HelloBean {
 		REXP rate = conn.eval("rate");
 		System.out.println(rate.asString());
 
-		conn.eval("remDr$close()");
+		//conn.eval("remDr$close()");
 		
-		if(rate!=null) {
+		//if(rate!=null) {
 			System.out.println(rate.asString());
 			String rat = rate.asString();
-			//request.setAttribute("rate", rat);
-		}//else {
+			request.setAttribute("rate", rat);
+		//}//else {
 			
 			//System.out.println("rate가 null");
 		//}
-		
-
-		
-		
 		
 		request.setAttribute("contryName", clickCont);
 		request.setAttribute("contry", con);
@@ -151,6 +146,10 @@ public class HelloBean {
 		return "/Main/test2";
 	}
 	
+	@RequestMapping("test3.mw")  //공동 footer
+	public String test3() {
+		return "/Main/test3";
+	}
 	
 	
 

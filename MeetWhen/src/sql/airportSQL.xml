@@ -33,7 +33,7 @@
 	
 	<!-- 나라이름으로 번호 찾기 -->
 	<select id="getContryNum" resultType="int" parameterType="String">
-		select c_num from contry where where c_con=#{c_con} 
+		select c_num from contry where c_con=#{c_con} 
 	</select>
 	
 	<!-- DB정보 확인 -->
