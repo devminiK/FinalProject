@@ -1,5 +1,6 @@
 package MeetWhen.spring.bean;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -208,6 +209,7 @@ public class HelloBean {
 		System.out.println("[hB:crawl3]확인용="+clickCont);
 		//map1~8까지 별로 사용해야하는 url이 다름.
 		
+		//이미지 네이밍 관련
 		int ContNum = sql.selectOne("airport.getContryNum",clickCont); //이미지 이름 (번호)부여
 		String cNum=Integer.toString(ContNum);//이미지 이름, 단위000 맞춰주기 위함.
 		if(ContNum/100 == 0) {	
@@ -217,7 +219,6 @@ public class HelloBean {
 				cNum="0"+cNum;
 			}
 		}
-		
 		
 		//기본 셋팅
 		RConnection conn = new RConnection();
@@ -230,7 +231,8 @@ public class HelloBean {
 		conn.eval("remDr$open()");
 		
 		//우선 map1용.
-		conn.eval("remDr$navigate('https://www.yna.co.kr/international/all')");
+		String totalURL="https://www.yna.co.kr/international/all";
+		conn.eval("remDr$navigate('"+totalURL+"')");
 		conn.eval("html<-remDr$getPageSource()[[1]]");
 		conn.eval("html<-read_html(html)"); //동적->정적 리로드
 		
@@ -242,15 +244,30 @@ public class HelloBean {
 		conn.eval("titles");
 		conn.eval("articleDf<-titles");
 		
+		
+		
 		//기사 링크(이미지를 위함)
 		//project 폴더 내 저장
 		String orgPath = request.getRealPath("img"); //article폴더 경로 못찾기때문에 img를 찾아 덧붙임
 		String newPath = orgPath.replace("\\","/")+"/article";
 		
+		//이미지 저장전 기존에 존재하는 이미지를 삭제
+		for(int i=1;i<=15;i++) {
+			File f = new File(orgPath+"\\article\\"+i+".png");
+			System.out.print("[파일경로]"+i+".png");
+			if(f.exists()) {
+				f.delete();
+				System.out.println("-삭제");
+			}else {
+				System.out.println("-존재x");
+			}
+		}
+
 		conn.eval("links<-html_nodes(html,'#content > div.contents > div.contents01 > div > div.headlines.headline-list > ul > li > div > strong > a')");
 		conn.eval("links<-html_attr(links,\"href\")");
 		conn.eval("links<-head(links,15)");
 		conn.eval("links");
+		
 		
 		conn.eval("inUrls<-NULL");
 		conn.eval("for(i in 1:length(links)){" + 
@@ -289,9 +306,9 @@ public class HelloBean {
 			art.put("src", imgSrc);
 			allList.add(art);
 		}
-
 		request.setAttribute("clickCont", clickCont);//국가이름
 		request.setAttribute("allList",allList); //리스트
+		request.setAttribute("totalURL", totalURL);
 		return "/Main/crawl3";		
 	}
 	
