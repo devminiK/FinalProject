@@ -1,12 +1,15 @@
 package MeetWhen.spring.bean;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.rosuda.REngine.REXP;
+import org.rosuda.REngine.RList;
 import org.rosuda.REngine.Rserve.RConnection;
 import org.rosuda.REngine.Rserve.RserveException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -200,13 +203,95 @@ public class HelloBean {
 	}
 	
 	@RequestMapping("crawl3.mw")  //크롤링3
-	public String crawl3(HttpServletRequest request) {
+	public String crawl3(HttpServletRequest request) throws Exception{
 		String clickCont = request.getParameter("cont");
 		System.out.println("[hB:crawl3]확인용="+clickCont);
+		//map1~8까지 별로 사용해야하는 url이 다름.
+		
+		int ContNum = sql.selectOne("airport.getContryNum",clickCont); //이미지 이름 (번호)부여
+		String cNum=Integer.toString(ContNum);//이미지 이름, 단위000 맞춰주기 위함.
+		if(ContNum/100 == 0) {	
+			if(ContNum%100 < 10) {	//ContNum이 1-9 경우
+				cNum="00"+cNum;
+			}else {					//ContNum이 10-99경우
+				cNum="0"+cNum;
+			}
+		}
 		
 		
+		//기본 셋팅
+		RConnection conn = new RConnection();
+		conn.eval("setwd('D:/R-workspace')");
+		conn.eval("library(rvest)");
+		conn.eval("library(httr)");
+		conn.eval("install.packages(\"RSelenium\")");
+		conn.eval("library(RSelenium)");
+		conn.eval("remDr <- remoteDriver(remoteServerAdd=\"localhost\", port=4445, browserName=\"chrome\")");
+		conn.eval("remDr$open()");
 		
-		request.setAttribute("clickCont", clickCont);
+		//우선 map1용.
+		conn.eval("remDr$navigate('https://www.yna.co.kr/international/all')");
+		conn.eval("html<-remDr$getPageSource()[[1]]");
+		conn.eval("html<-read_html(html)"); //동적->정적 리로드
+		
+		//기사 제목
+		conn.eval("titles<-html_nodes(html,'#content > div.contents > div.contents01 > div > div.headlines.headline-list > ul > li > div > strong > a')");
+		conn.eval("titles<-html_text(titles)");
+		conn.eval("titles<-gsub('\\\"',\"\",titles)");
+		conn.eval("titles<-head(titles,15)");
+		conn.eval("titles");
+		conn.eval("articleDf<-titles");
+		
+		//기사 링크(이미지를 위함)
+		//project 폴더 내 저장
+		String orgPath = request.getRealPath("img"); //article폴더 경로 못찾기때문에 img를 찾아 덧붙임
+		String newPath = orgPath.replace("\\","/")+"/article";
+		
+		conn.eval("links<-html_nodes(html,'#content > div.contents > div.contents01 > div > div.headlines.headline-list > ul > li > div > strong > a')");
+		conn.eval("links<-html_attr(links,\"href\")");
+		conn.eval("links<-head(links,15)");
+		conn.eval("links");
+		
+		conn.eval("inUrls<-NULL");
+		conn.eval("for(i in 1:length(links)){" + 
+				"  inUrl<-paste0('https:',links[i]);" + 
+				"  inUrls<-c(inUrls,inUrl);" + 
+				"  inHtml<-read_html(inUrl);" + 
+				"  inner_nodes<-html_nodes(inHtml,\"#articleWrap > div.article > div > img\");" + 
+				"  if(length(inner_nodes)>0){" + 
+				"    href<-html_attr(inner_nodes[1],\"src\");" + 
+				"    url<-paste0('http:',href);" + 
+				"    res<-GET(url);" + 
+				"    writeBin(content(res,'raw'),sprintf('d:/save/%d.png',i));" + //확인용
+				"    writeBin(content(res,'raw'),sprintf('"+newPath+"/%d.png',i));" + //경로 변경할 자리 
+				"  }" + 
+				"} ");
+		
+		//데이터프레임 작성
+		conn.eval("articleDf<-rbind(articleDf,inUrls)");
+		conn.eval("articleDf<-as.data.frame(articleDf)"); 
+		REXP artDf = conn.eval("articleDf");
+		RList list = artDf.asList(); //리스트로 출력하려면 dataframe형식이여야함.
+		//배열에 정보 삽입
+		String [][] arr = new String[list.size()][];
+		for(int i=0;i<list.size();i++) {
+			arr[i]=list.at(i).asStrings();
+		}
+		//해쉬맵 이용- jsp에서 출력하기 위함(vo가 존재하지않기때문에 변수이름 지정하기위해선map을 사용해야함)
+		List<Map> allList = new ArrayList<Map>();
+		allList.clear();
+		HashMap<String,String> art =null;
+		for(int i=0;i<list.size();i++) {
+			art = new HashMap<String,String>();
+			art.put("title", arr[i][0]);
+			art.put("url", arr[i][1]);
+			String imgSrc="/MeetWhen/img/article/"+(i+1)+".png";
+			art.put("src", imgSrc);
+			allList.add(art);
+		}
+
+		request.setAttribute("clickCont", clickCont);//국가이름
+		request.setAttribute("allList",allList); //리스트
 		return "/Main/crawl3";		
 	}
 	
