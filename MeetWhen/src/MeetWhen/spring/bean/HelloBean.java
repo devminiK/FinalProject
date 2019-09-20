@@ -63,15 +63,28 @@ public class HelloBean {
 	
 	
 	
-	@RequestMapping("test.mw") //크롤링> 명소 추천 내용
+	@RequestMapping("test.mw") //크롤링2> 명소 추천 내용
 	public String test() {
 		return "/Main/test";
 	}
 	
-	@RequestMapping("test2.mw")  // 나라별 크롤링 > 세계 뉴스정보
-	public String test2(HttpServletRequest request) throws Exception{
+	@RequestMapping("crawl1.mw")  //크롤링1 > 네이버 검색결과
+	public String crawl1(HttpServletRequest request) throws Exception{
 		String clickCont = request.getParameter("cont");
-		System.out.println("[helloBean]확인용="+clickCont);
+		System.out.println("[hB:crawl1]확인용="+clickCont);
+		
+		REXP contry=null, capital=null, rate=null;
+		String con="", cap="", rat="",imgSrc="";
+		int caseNum=0; //어떤경우의 수인지 변수	
+		int ContNum = sql.selectOne("airport.getContryNum",clickCont); //이미지 이름 (번호)부여
+		String cNum=Integer.toString(ContNum);//이미지 이름, 단위000 맞춰주기 위함.
+		if(ContNum/100 == 0) {	
+			if(ContNum%100 < 10) {	//ContNum이 1-9 경우
+				cNum="00"+cNum;
+			}else {					//ContNum이 10-99경우
+				cNum="0"+cNum;
+			}
+		}
 		
 		RConnection conn = new RConnection();
 		conn.eval("setwd('D:/R-workspace')");
@@ -87,107 +100,114 @@ public class HelloBean {
 		conn.eval("WebEle <- remDr$findElement(using='css',\"[id='query']\")");
 		conn.eval("WebEle$sendKeysToElement(list('"+clickCont+"',key=\"enter\"))"); //value값 바뀜
 
-		//하는 중임...
-		//다른 검색결과  > 괌/홍콩/ 마카오
-		//사이판
-		if(clickCont.equals("괌") |clickCont.equals("홍콩") |clickCont.equals("마카오")) { //예외
+		//경우1) 다른 검색결과1 :괌,하와이,홍콩,마카오
+		//경우2) 다른 검색결과2 : 사이판 
+		//경우3) 일반결과 : 그외 모두
+		//경우3-2) 일반결과, 환율정보X : 피지,몰디브,에티오피아
+		if(clickCont.equals("괌") |clickCont.equals("하와이")|clickCont.equals("홍콩") |clickCont.equals("마카오")) { 
+			caseNum=1;
 			//정식 국가명
 			conn.eval("contry<-remDr$findElements(using='css',\"div.overseas_thumb > div > div > strong.title_text\")");
 			conn.eval("contry<-sapply(contry,function(x){x$getElementText()})");
 			conn.eval("contry<-contry[[1]]");
-			conn.eval("contry");
-			
+			contry = conn.eval("contry");
+			con=contry.asString();
 			//수도대신, 위치
 			conn.eval("spot<-remDr$findElements(using='css',\"div.city_info > dl > dd:nth-child(2)\")");
 			conn.eval("spot<-sapply(spot,function(x){x$getElementText()})");
 			conn.eval("spot<- gsub(' 위치보기','',spot[[1]])");
-			conn.eval("spot");
-			
+			capital = conn.eval("spot");
+			cap=capital.asString();
 			//환율 
+			conn.eval("trvBtn <- remDr$findElements(using='css', 'li._second_tab > a')");
+			conn.eval("sapply(trvBtn, function(x){x$clickElement()})");
 			conn.eval("rate<-remDr$findElements(using='css',\"div.rate_area > ul > li:nth-child(1) > span.info_text\")");
 			conn.eval("rate<-sapply(rate,function(x){x$getElementText()})");
-			conn.eval("rate<- gsub(' 환율정보','',rate[[2]])");
-			conn.eval("rate");
-			
-			
-			
-			
-			
-			
+			conn.eval("rate<- gsub(' 환율정보','',rate[[1]])");
+			rate = conn.eval("rate");
+			rat=rate.asString();
+			//국기는 파일에있는것으로 지정.
+			imgSrc="/MeetWhen/img/flag/"+cNum+".png";
 		}else if(clickCont.equals("사이판")) {//예외중 예외
-			
-		}else {	//예외가 아닐 경우 모두.
+			caseNum=2;
+			//국가명
+			con=clickCont;
+			//위치
+			conn.eval("remDr$navigate('https://terms.naver.com/entry.nhn?docId=1107822&cid=40942&categoryId=33295')");
+			conn.eval("spot<-remDr$findElements(using='css',\"div.wr_tmp_profile > div > table > tbody > tr:nth-child(1) > td\")");
+			conn.eval("spot<-sapply(spot,function(x){x$getElementText()})");
+			capital = conn.eval("spot[[1]]");
+			cap = capital.asString();
+			//환율대신 통화
+			conn.eval("cash<-remDr$findElements(using='css',\"div.wr_tmp_profile > div > table > tbody > tr:nth-child(10) > td\")");
+			conn.eval("cash<-sapply(cash,function(x){x$getElementText()})");
+			rate = conn.eval("cash[[1]]");
+			rat=rate.asString();
+			//국기는 파일에있는것으로 지정.
+			imgSrc="/MeetWhen/img/flag/"+cNum+".png";
+		}else {	
+			caseNum=3;
 			//정식 국가명
 			conn.eval("contry<-remDr$findElements(using='css',\"#main_pack > div.content_search.section > div > div.contents03_sub > div > div.nacon_area._info_area > div.naflag_box > dl > dt\")");
 			conn.eval("contry<-sapply(contry,function(x){x$getElementText()})");
 			conn.eval("contry<-gsub('\\n',' _ ',contry[[1]])");
-			REXP contry = conn.eval("contry");
-			String con = contry.asString();
-			System.out.println("검색결과="+con+"/클릭결과="+clickCont);	
-			
+			contry = conn.eval("contry");
+			con = contry.asString();			
 			//국가 수도
 			conn.eval("capital<-remDr$findElements(using='css',\"#main_pack > div.content_search.section > div > div.contents03_sub > div > div.nacon_area._info_area > div.naflag_box > dl > dd:nth-child(2) > a\")");
 			conn.eval("capital<-sapply(capital,function(x){x$getElementText()})");
-			REXP capital = conn.eval("capital[[1]]");
-			//System.out.println(capital.asString());
-			String cap = capital.asString();
-			
-			//국기 저장
+			capital = conn.eval("capital[[1]]");
+			cap = capital.asString();
+			//국기 
 			conn.eval("html<-remDr$getPageSource()[[1]]");
 			conn.eval("html<-read_html(html)");
 			conn.eval("flag<-html_node(html,\"[alt='flag']\")");
 			conn.eval("flag<-html_attr(flag,\"src\")");
 			conn.eval("imgRes<-GET(flag)");
 			
-			//로컬 폴더에 저장(확인용)
-			int ContNum = sql.selectOne("airport.getContryNum",clickCont); //이미지 이름 (번호)부여
+			//로컬 폴더에(확인용)저장
 			conn.eval("writeBin(content(imgRes,'raw'),sprintf(paste0('D:/save/%03d.png'),"+ContNum+"))");
-			
 			//project 폴더 내 저장
-			String orgPath = request.getRealPath("img"); //flag폴더 경로 못찾음
+			String orgPath = request.getRealPath("img"); //flag폴더 경로 못찾기때문에 img를 찾아 덧붙임
 			String newPath = orgPath.replace("\\","/")+"/flag";
-			//System.out.println("저장경로 확인="+newPath);
 			
-			String cNum=Integer.toString(ContNum);
-			if(ContNum/100 == 0) {	//1-9, 10-99경우
-				if(ContNum%100 < 10) {
-					cNum="00"+cNum;
-				}else {
-					cNum="0"+cNum;
-				}
-			}
 			conn.eval("writeBin(content(imgRes,'raw'),sprintf(paste0('"+newPath+"/%03d.png'),"+ContNum+"))");
-			String imgSrc="/MeetWhen/img/flag/"+cNum+".png";
+			imgSrc="/MeetWhen/img/flag/"+cNum+".png";
 				
-			//국가 환율-존재하지않을 수 있음.
+			//국가 환율, 존재하지않을경우 예외처리
 			conn.eval("rate<-remDr$findElements(using='css',\"#dss_nation_tab_summary_content > dl.lst_overv > dd:not(.frst):not(._world_clock) \")");
 			conn.eval("rate<-sapply(rate,function(x){x$getElementText()})");
-			String rat="";
 			try {
-				conn.eval("rate<-gsub('\\n','',rate[[1]])");
-				REXP rate = conn.eval("rate");
-				System.out.println(rate.asString());
-				rat = rate.asString();
-				
+				conn.eval("rate<-gsub('\\n','',rate[[1]])"); //에러발생
+				rate = conn.eval("rate");
+				rat = rate.asString();		
 			}catch(RserveException ex) {
 				ex.printStackTrace();
+				System.out.println("환율 정보 x");
+				rat="정보가 없습니다";
 			}
 		}
-		
-		
+		conn.eval("remDr$close()");
+		conn.close();
 		
 		request.setAttribute("contryName", clickCont);
-		//request.setAttribute("contry", con);
-		//request.setAttribute("capital", cap);
-		//request.setAttribute("imgSrc", imgSrc);
-		//request.setAttribute("rate", rat);
-		return "/Main/test2";
+		request.setAttribute("contry", con);
+		request.setAttribute("capital", cap);
+		request.setAttribute("imgSrc", imgSrc);
+		request.setAttribute("rate", rat);
+		request.setAttribute("caseNum", caseNum);
+		return "/Main/crawl1";
 	}
 	
-	@RequestMapping("test3.mw")  //공동 footer
-	public String test3() {
-		return "/Main/test3";
+	@RequestMapping("crawl3.mw")  //크롤링3
+	public String crawl3(HttpServletRequest request) {
+		String clickCont = request.getParameter("cont");
+		System.out.println("[hB:crawl3]확인용="+clickCont);
 		
+		
+		
+		request.setAttribute("clickCont", clickCont);
+		return "/Main/crawl3";		
 	}
 	
 	

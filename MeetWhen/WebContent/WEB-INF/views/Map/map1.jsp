@@ -12,18 +12,10 @@
 	height: 500px;
 	width: 1000px;
 }
-/* iframe을 숨기기 위한 css
-#if {
-	width: 100%;
-	height: 0px;
-	border: 0px;
-}*/
 </style>
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.0.min.js"></script>
-
 <!-- Load the google API -->
 <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyCexlJx5Gqv4JLwdSxZIeYwAE2IIRN_iGw"></script>
-
 <!-- Abt category -->
 <script type="text/javascript">
 	function openCity(evt, cityName) {
@@ -90,10 +82,10 @@
 							infowindow.open(map, marker);	
 
 							document.getElementById('contryName').innerHTML=total[i][0]; //title 나라출력
-							//ajax도전
+							//ajax 구현- crawl1,(o) 2(x),3(ing)
 							$.ajax({
 								type:"post",
-								url: "/MeetWhen/Main/test2.mw",
+								url: "/MeetWhen/Main/crawl3.mw",
 								data:{cont : total[i][0] },
 								success : showResult,
 								error : reqError
@@ -160,16 +152,18 @@
 				</div>
 
 				<hr>
+				<%-- 
 				<h3>[크롤링정보1) 네이버 검색결과_국기,나라명,수도,환율]</h3>
 				<div id="result"></div>
 				
 				<hr><br>
-				
-				<h3>[크롤링정보2) 구글 트래블_추천 명소]</h3>
+				--%>
+				<h4>[크롤링정보2) 구글 트래블_추천 명소]</h4>
+				<div id="result"></div>
 				
 				<hr><br>
 				
-				<h3>[크롤링정보3) 세계 뉴스]</h3>
+				<h4>[크롤링정보3) 세계 뉴스]</h4>
 				
             </li>
             <li class="timeline-inverted">
