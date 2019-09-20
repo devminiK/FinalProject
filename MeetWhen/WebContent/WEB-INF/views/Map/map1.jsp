@@ -83,13 +83,15 @@
 
 							document.getElementById('contryName').innerHTML=total[i][0]; //title 나라출력
 							//ajax 구현- crawl1,(o) 2(x),3(ing)
+							/*
 							$.ajax({
 								type:"post",
-								url: "/MeetWhen/Main/crawl3.mw",
+								url: "/MeetWhen/Main/crawl1.mw",
 								data:{cont : total[i][0] },
 								success : showResult,
 								error : reqError
 							});
+							*/
 								
 						}
 					})(marker, i));
@@ -116,12 +118,21 @@
 		$("#result").html("<h1>실행 오류!!</h1>");
 	
 	}
+	function getArticle(){
+		$.ajax({
+			type:"post",
+			url: "/MeetWhen/Main/crawl3.mw",
+			data:{cont : "전체" },
+			success : showResult,
+			error : reqError
+		});
+	}
 
 	<%-- 페이지가 로드될 때 initialize()함수 실행--%>
 	google.maps.event.addDomListener(window, 'load', initialize);
 </script>
 </head>
-<body id="page-top" onload="clickBtn()">
+<body id="page-top" onload="clickBtn(); getArticle();">
 	<jsp:include page="/Main/boots_menubar.mw"/>
 
   <!-- Map -->
@@ -158,13 +169,14 @@
 				
 				<hr><br>
 				--%>
-				<h4>[크롤링정보2) 구글 트래블_추천 명소]</h4>
-				<div id="result"></div>
-				
-				<hr><br>
-				
-				<h4>[크롤링정보3) 세계 뉴스]</h4>
-				
+            </li>
+            <li>
+            	<h4>[크롤링정보2) 구글 트래블_추천 명소]</h4>
+            </li>
+            <li>
+            	<hr><br>
+            	<h4>[크롤링정보3) 세계 뉴스]</h4>
+            	<div id="result"></div>
             </li>
             <li class="timeline-inverted">
               <%-- <jsp:include page="/Main/test.mw"/>--%>

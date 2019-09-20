@@ -20,31 +20,35 @@ td {
 }
 #artBox{
 	float:left;
-	border:2px solid black;
-	width:250px;
+	border:1px solid gray;
+	width:25%;
 	height:200px;
 	text-align:center;
 	line-height:100px;
 	font-weight:bold;
 }
+#title{
+	display:inline-block;
+	width: 250px;
+	white-space:nowrap;
+	overflow:hidden;
+	text-overflow:ellipsis;
+	font-weight:bold;
+	font-size:18px;
+	
+}
 </style>
 
 <body>
-	<h1>크롤링3_${clickCont}</h1>
-	<h4>기사 이미지, 제목 15개 출력.</h4>
-	<hr>
-	
 	<div id="artBox" onclick="location.href='${totalURL}'">
-		<a href="#">
-			<b>해당 본문URL</b>
-		</a>
+			<b>모든 기사 한눈에 보기</b>
 	</div>
 	<c:forEach items="${allList}" var="ent" begin="0" step="1" end="15">
 	<div id="artBox">
 		<a href="${ent.url}">
-			<img src="${ent.src}" height=100px/><br>
-			<b>${ent.title}</b>
+			<img src="${ent.src}" width=250px height=140px/><br>
+			<b id="title">${ent.title}</b>
 		</a>
 	</div>
-	</c:forEach>
+	</c:forEach><br>
 </body>
