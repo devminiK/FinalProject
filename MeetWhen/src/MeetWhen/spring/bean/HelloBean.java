@@ -91,7 +91,7 @@ public class HelloBean {
 		}
 		
 		RConnection conn = new RConnection();
-		conn.eval("setwd('D:/R-workspace')");
+		conn.eval("setwd('C:/R-workspace')");
 		conn.eval("library(rvest)");
 		conn.eval("library(httr)");
 		conn.eval("install.packages(\"RSelenium\")");
@@ -170,7 +170,7 @@ public class HelloBean {
 			conn.eval("imgRes<-GET(flag)");
 			
 			//로컬 폴더에(확인용)저장
-			conn.eval("writeBin(content(imgRes,'raw'),sprintf(paste0('D:/save/%03d.png'),"+ContNum+"))");
+			conn.eval("writeBin(content(imgRes,'raw'),sprintf(paste0('C:/save/%03d.png'),"+ContNum+"))");
 			//project 폴더 내 저장
 			String orgPath = request.getRealPath("img"); //flag폴더 경로 못찾기때문에 img를 찾아 덧붙임
 			String newPath = orgPath.replace("\\","/")+"/flag";
@@ -222,7 +222,7 @@ public class HelloBean {
 		
 		//기본 셋팅
 		RConnection conn = new RConnection();
-		conn.eval("setwd('D:/R-workspace')");
+		conn.eval("setwd('C:/R-workspace')");
 		conn.eval("library(rvest)");
 		conn.eval("library(httr)");
 		conn.eval("install.packages(\"RSelenium\")");
@@ -250,16 +250,17 @@ public class HelloBean {
 		//project 폴더 내 저장
 		String orgPath = request.getRealPath("img"); //article폴더 경로 못찾기때문에 img를 찾아 덧붙임
 		String newPath = orgPath.replace("\\","/")+"/article";
-		
+		System.out.println(orgPath);
+		System.out.println(newPath);
 		//이미지 저장전 기존에 존재하는 이미지를 삭제
 		for(int i=1;i<=15;i++) {
 			File f = new File(orgPath+"\\article\\"+i+".png");
 			System.out.print("[파일경로]"+i+".png");
 			if(f.exists()) {
 				f.delete();
-				System.out.println("-삭제");
+				System.out.println(" - 삭제");
 			}else {
-				System.out.println("-존재x");
+				System.out.println(" - 존재x");
 			}
 		}
 
@@ -278,11 +279,10 @@ public class HelloBean {
 				"    href<-html_attr(inner_nodes[1],\"src\");" + 
 				"    url<-paste0('http:',href);" + 
 				"    res<-GET(url);" + 
-				"    writeBin(content(res,'raw'),sprintf('d:/save/%d.png',i));" + //확인용
+				"    writeBin(content(res,'raw'),sprintf('C:/save/%d.png',i));" + //확인용
 				"    writeBin(content(res,'raw'),sprintf('"+newPath+"/%d.png',i));" + //경로 변경할 자리 
 				"  }" + 
-				"} ");
-		
+				"}");
 		//데이터프레임 작성
 		conn.eval("articleDf<-rbind(articleDf,inUrls)");
 		conn.eval("articleDf<-as.data.frame(articleDf)"); 
@@ -301,8 +301,17 @@ public class HelloBean {
 			art = new HashMap<String,String>();
 			art.put("title", arr[i][0]);
 			art.put("url", arr[i][1]);
-			String imgSrc="/MeetWhen/img/article/"+(i+1)+".png";
-			art.put("src", imgSrc);
+			
+			//폴더에 이미지가 존재하는가에따라 imgSrc 저장 유무 
+			File fm = new File(orgPath+"\\article\\"+(i+1)+".png");
+			if(fm.exists()) {
+				String imgSrc="/MeetWhen/img/article/"+(i+1)+".png"; //존재하지않더라도 주소값 부여하고있음.(문제o)
+				art.put("src", imgSrc);
+				System.out.println((i+1)+".png - 저장o");
+			}else {
+				//art.put("src", imgSrc);
+				System.out.println((i+1)+".png - 존재x");
+			}
 			allList.add(art);
 		}
 		
@@ -314,6 +323,11 @@ public class HelloBean {
 		return "/Main/crawl3";		
 	}
 	
+	@RequestMapping("ajaxTest.mw")//테스트page
+	public String ajaxTest() {
+		return "/Main/ajaxTest";
+	}
+
 	
 
 
