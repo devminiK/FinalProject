@@ -7,15 +7,19 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.rosuda.REngine.REXP;
+import org.rosuda.REngine.REXPGenericVector;
 import org.rosuda.REngine.RList;
 import org.rosuda.REngine.Rserve.RConnection;
 import org.rosuda.REngine.Rserve.RserveException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.w3c.dom.Document;
 
 import MeetWhen.spring.vo.LContryVO;
 
@@ -66,12 +70,65 @@ public class HelloBean {
 	}
 	
 	
-	
-	@RequestMapping("test.mw") //크롤링2> 명소 추천 내용
-	public String test() {
-		return "/Main/test";
+	@RequestMapping("crawl2.mw") //크롤링2> 명소 추천 내용
+	public String crawl2(HttpServletRequest request) throws Exception{
+		String clickCont = request.getParameter("cont");
+		System.out.println(clickCont);
+		
+		RConnection conn = new RConnection();
+		conn.eval("setwd('C:/R-workspace')");
+		conn.eval("library(rvest)");
+		conn.eval("library(httr)");
+		conn.eval("install.packages(\"RSelenium\")");
+		conn.eval("library(RSelenium)");
+		conn.eval("remDr <- remoteDriver(remoteServerAdd=\"localhost\", port=4445, browserName=\"chrome\")");
+		conn.eval("remDr$open()");
+		
+		conn.eval("remDr$navigate('https://www.google.com/travel/guide')");
+		conn.eval("WebEle <- remDr$findElement(using='css','input.gb_kf')");
+		conn.eval("WebEle$sendKeysToElement(list('"+clickCont+"',key='enter'))");
+		
+//		conn.eval("url<-remDr$getCurrentUrl()");
+//		REXP URL = conn.eval("url[[1]]");
+//		String url = URL.asString();
+//		System.out.println(url);
+
+//		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+//		DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+//		Document doc = dBuilder.parse(url);
+//		doc.getDocumentElement().normalize();
+//		System.out.println("Root Element:"+doc.getDocumentElement().getNodeName());	
+		
+		conn.eval("Sys.sleep(1)");
+		conn.eval("source<-remDr$getPageSource()[[1]]");
+		conn.eval("html<-read_html(source)");
+		conn.eval("recom<-html_nodes(html,'div.gws-trips-modules__top-sight-card')");
+		
+		REXP test = conn.eval("recom");
+		RList list = test.asList();
+		//REXPGenericVector t = tes
+		String [][] arr = new String[list.size()][];
+		for(int i=0;i<list.size();i++) {
+			arr[i]=list.at(i).asStrings();
+		}
+
+		System.out.println("START");
+		//출력test
+		for(int i=0;i<list.size();i++) {
+			for(int j=0;j<arr[i].length;j++) {
+				System.out.print(arr[i][j]+"/");
+			}
+			System.out.println();
+		}
+		System.out.println("END");
+
+		
+		conn.close();
+		request.setAttribute("cont", clickCont);
+		return "/Main/crawl2";
 	}
-	
+
+
 	@RequestMapping("crawl1.mw")  //크롤링1 > 네이버 검색결과
 	public String crawl1(HttpServletRequest request) throws Exception{
 		String clickCont = request.getParameter("cont");
@@ -231,9 +288,7 @@ public class HelloBean {
 		conn.eval("articleDf<-titles");
 		
 		
-		
-		//기사 링크(이미지를 위함)
-		//project 폴더 내 저장
+		//기사 링크(이미지를 저장을 위함-project 폴더 내 저장)
 		String orgPath = request.getRealPath("img"); //article폴더 경로 못찾기때문에 img를 찾아 덧붙임
 		String newPath = orgPath.replace("\\","/")+"/article";
 		System.out.println(orgPath);
@@ -245,9 +300,8 @@ public class HelloBean {
 			if(f.exists()) {
 				f.delete();
 				System.out.println(" - 삭제");
-			}else {
-				System.out.println(" - 존재x");
-			}
+			}else 
+				System.out.println(" - 존재x");			
 		}
 
 		conn.eval("links<-html_nodes(html,'#content > div.contents > div.contents01 > div > div.headlines.headline-list > ul > li > div > strong > a')");
@@ -304,6 +358,7 @@ public class HelloBean {
 		conn.eval("remDr$close()");
 		conn.close();
 		*/
+		//우선 크롤링말고 이미지 따로 지정해서 테스트함.
 		int allList[] = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15};
 		
 		request.setAttribute("allList",allList); //리스트
@@ -319,7 +374,32 @@ public class HelloBean {
 		return "/Main/ajaxTest";
 	}
 
-	
 
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 }

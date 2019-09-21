@@ -8,5 +8,7 @@
 <title>Insert title here</title>
 </head>
 <body>
+	<H2>크롤링3</H2>
+	클릭한 나라 : ${cont}
 </body>
 </html>
