@@ -12,6 +12,10 @@
 	height: 500px;
 	width: 1000px;
 }
+/*배경색 그레이*/
+.bdColor{
+	background-color:#ddd;
+}
 </style>
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.0.min.js"></script>
 <!-- Load the google API -->
@@ -82,16 +86,15 @@
 							infowindow.open(map, marker);	
 
 							document.getElementById('contryName').innerHTML=total[i][0]; //title 나라출력
-							//ajax 구현- crawl1,(o) 2(x),3(ing)
-							/*
+							//ajax 구현- crawl1,(o) 2(ing)
 							$.ajax({
 								type:"post",
-								url: "/MeetWhen/Main/crawl1.mw",
+								url: "/MeetWhen/Main/crawl2.mw",
 								data:{cont : total[i][0] },
 								success : showResult,
 								error : reqError
 							});
-							*/
+							
 								
 						}
 					})(marker, i));
@@ -109,7 +112,6 @@
 			map.setZoom(2);
 		});
 	}
-	
 	function showResult(data){
 		$("#result").html(data);
 	}
@@ -118,21 +120,31 @@
 		$("#result").html("<h1>실행 오류!!</h1>");
 	
 	}
+	/*크롤링3에 대한 코드 */
+	/*
 	function getArticle(){
 		$.ajax({
 			type:"post",
 			url: "/MeetWhen/Main/crawl3.mw",
 			data:{cont : "전체" },
-			success : showResult,
+			success : showResult3,
 			error : reqError
 		});
 	}
-
+	function showResult3(data){
+		$("#result3").html(data);
+	}
+	
+	function reqError(){
+		$("#result3").html("<h1>실행 오류!!</h1>");
+	
+	}
+	*/
 	<%-- 페이지가 로드될 때 initialize()함수 실행--%>
 	google.maps.event.addDomListener(window, 'load', initialize);
 </script>
 </head>
-<body id="page-top" onload="clickBtn(); getArticle();">
+<body class="bdColor" id="page-top" onload="clickBtn(); getArticle();">
 	<jsp:include page="/Main/boots_menubar.mw"/>
 
   <!-- Map -->
@@ -162,22 +174,25 @@
 					<div id="goMap"></div>
 				</div>
 
-				<hr>
+				<%-- 크롤링정보1) 네이버 검색결과_국기,나라명,수도,환율:클릭할때--%>
 				<%-- 
-				<h3>[크롤링정보1) 네이버 검색결과_국기,나라명,수도,환율]</h3>
-				<div id="result"></div>
-				
+				<div id="result1"></div>
 				<hr><br>
 				--%>
             </li>
             <li>
-            	<h4>[크롤링정보2) 구글 트래블_추천 명소]</h4>
-            </li>
-            <li>
-            	<hr><br>
-            	<h4>[크롤링정보3) 세계 뉴스]</h4>
+            	<h4>[크롤링정보2) 구글 트래블_추천 명소]: 클릭할때</h4>
             	<div id="result"></div>
+            	<hr><br>
             </li>
+            
+            <%-- 크롤링3) 세계 뉴스: map1페이지가 실행될때. --%>
+            <%-- 
+            <li>
+            	<div id="result3"></div>
+            </li>
+            --%>
+            
             <li class="timeline-inverted">
               <%-- <jsp:include page="/Main/test.mw"/>--%>
             </li>

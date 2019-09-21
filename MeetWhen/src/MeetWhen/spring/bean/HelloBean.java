@@ -205,21 +205,7 @@ public class HelloBean {
 	
 	@RequestMapping("crawl3.mw")  //크롤링3
 	public String crawl3(HttpServletRequest request) throws Exception{
-//		String clickCont = request.getParameter("cont");
-//		System.out.println("[hB:crawl3]확인용="+clickCont);
-//		//map1~8까지 별로 사용해야하는 url이 다름.
-//		
-//		//이미지 네이밍 관련
-//		int ContNum = sql.selectOne("airport.getContryNum",clickCont); //이미지 이름 (번호)부여
-//		String cNum=Integer.toString(ContNum);//이미지 이름, 단위000 맞춰주기 위함.
-//		if(ContNum/100 == 0) {	
-//			if(ContNum%100 < 10) {	//ContNum이 1-9 경우
-//				cNum="00"+cNum;
-//			}else {					//ContNum이 10-99경우
-//				cNum="0"+cNum;
-//			}
-//		}
-		
+		/*
 		//기본 셋팅
 		RConnection conn = new RConnection();
 		conn.eval("setwd('C:/R-workspace')");
@@ -317,9 +303,14 @@ public class HelloBean {
 		
 		conn.eval("remDr$close()");
 		conn.close();
+		*/
+		int allList[] = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15};
 		
 		request.setAttribute("allList",allList); //리스트
-		request.setAttribute("totalURL", totalURL);
+		//request.setAttribute("totalURL", totalURL);
+		
+		
+		
 		return "/Main/crawl3";		
 	}
 	
