@@ -111,7 +111,7 @@
 							//ajax 구현- crawl 1(o)
 							$.ajax({
 								type:"post",
-								url: "/MeetWhen/Main/showCrawl1.mw",
+								url: "/MeetWhen/Crawl/showCrawla1.mw",
 								data:{cont : total[i][0] },
 								success : showResult1,
 								error : reqError(1)
@@ -217,12 +217,11 @@
 				<section class="page-section">
 					<div class="container">
 						<div class="row">
-							<div class="column1" style="background-color: #aaa;">
+							<div class="column1" style="background-color: yellow;">
 								<h4>[크롤링정보2)</h4>
             					<div id="result2"></div>
 							</div>
-							<div class="column2" style="background-color: #bbb;">
-								<h4>[크롤링정보1)</h4>
+							<div class="column2" style="background-color: #ddd;">
 								<div id="result1"></div>
 							</div>
 						</div>

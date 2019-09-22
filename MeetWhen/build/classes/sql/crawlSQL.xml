@@ -5,19 +5,35 @@
 
 <mapper namespace="crawl">
 	<!-- DB에 정보 리셋 및 삽입 -->
-	<delete id="deleCrawl1">
-		delete crawl1
+	<delete id="deleCrawlA1">
+		delete crawla1
 	</delete>
-	<insert id="insertCrawl1">
-		insert into crawl1 values(#{cw1_num}, #{cw1_cont},#{cw1_con},#{cw1_cap},#{cw1_rat},#{cw1_img},#{cw1_type})
+	<insert id="insertCrawlA1">
+		insert into crawla1 values(#{cwa1_num}, #{cwa1_cont},#{cwa1_con},#{cwa1_cap},#{cwa1_rat},#{cwa1_img},#{cwa1_type})
 	</insert>
 	
+	<delete id="deleCrawlA2">
+		delete crawla2
+	</delete>
+	<insert id="insertCrawlA2">
+		insert into crawla2 values(#{cwa2_num}, #{cwa2_cont}, #{cwa2_ex1}, #{cwa2_ex2})
+	</insert>
+	
+	
+	
 	<!-- DB정보 확인 -->
-	<select id="getCrawl1" resultType="cw1"> 
-			select *from crawl1 order by cw1_num
+	<select id="getCrawlA1" resultType="cwa1"> 
+			select *from crawla1 order by cwa1_num
 	</select>
-	<select id="getCrawl1Click" parameterType="String" resultType="cw1">
-		select * from crawl1 where cw1_cont=#{cw1_cont}
+	<select id="getCrawlA1Click" parameterType="String" resultType="cwa1">
+		select * from crawla1 where cwa1_cont=#{cwa1_cont}
+	</select>
+	
+	<select id="getCrawlA2" resultType="cwa2"> 
+			select *from crawla2 order by cwa2_num
+	</select>
+	<select id="getCrawlA2Click" parameterType="String" resultType="cwa2">
+		select * from crawla2 where cwa1_cont=#{cwa2_cont}
 	</select>
 	
 	

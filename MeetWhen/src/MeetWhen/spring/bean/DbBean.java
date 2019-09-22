@@ -68,7 +68,7 @@ public class DbBean {
 			}else{		//정보 생성해야함
 				RConnection conn = new RConnection();
 				//경로 재 설정 및 라이브러리 설치,추가
-				conn.eval("setwd('D:/R-workspace')");
+				conn.eval("setwd('C:/R-workspace')");
 				conn.eval("install.packages(\"xlsx\")");
 				conn.eval("library(xlsx)");
 				conn.eval("install.packages(\"ggmap\")");
@@ -84,7 +84,7 @@ public class DbBean {
 				//국제공항-7월 정보
 				case 1: System.out.print("CASE 1 & 2"); //전체통계 엑셀 정보 가져오기-> 데이터프레임 작성
 				case 2:
-					conn.eval("allAir <- read.xlsx2('D:/R-workspace/Airport/7월_전체지역별통계.xlsx',1, stringsAsFactors=F)");
+					conn.eval("allAir <- read.xlsx2('C:/R-workspace/Airport/7월_전체지역별통계.xlsx',1, stringsAsFactors=F)");
 					conn.eval("allAir<- allAir[,-4:-7]");
 					conn.eval("allAir <- allAir[,-5:-9]");
 					conn.eval("colnames(allAir)<- c('국가명','도시명','','여객')");
@@ -146,7 +146,7 @@ public class DbBean {
 					conn.eval("names(con1)<-c('국가명','여객')"); //con1 작성 완료.
 
 					//인천통계 엑셀 정보 가져오기
-					conn.eval("InchAir <- read.xlsx2('D:/R-workspace/Airport/7월_인천지역별통계.xlsx',1, stringsAsFactors=F)");
+					conn.eval("InchAir <- read.xlsx2('C:/R-workspace/Airport/7월_인천지역별통계.xlsx',1, stringsAsFactors=F)");
 					conn.eval("con2<- InchAir[,-7:-11]");
 					conn.eval("con2<-con2[-1,-3:-5]");
 					conn.eval("con2<-con2[-nrow(con2),-1]");
@@ -216,7 +216,7 @@ public class DbBean {
 					for(i=0;i<list.size();i++) {
 						arr[i]=list.at(i).asStrings();
 					}		
-
+					//시퀀스 새로생성.
 					for(i=0; i<list.at(0).length();i++) {
 						ContryVO vo = new ContryVO();
 						int seqNum =sql.selectOne("airport.getContrySeqNum"); 

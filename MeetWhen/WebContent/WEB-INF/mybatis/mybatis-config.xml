@@ -9,7 +9,8 @@
 		<typeAlias alias="rv" type="MeetWhen.spring.vo.RegionVO"/>
 		<typeAlias alias="lcv" type="MeetWhen.spring.vo.LContryVO"/>
 		<typeAlias alias="lrv" type="MeetWhen.spring.vo.LRegionVO"/>
-		<typeAlias alias="cw1" type="MeetWhen.spring.vo.Crawl1VO"/>
+		<typeAlias alias="cwa1" type="MeetWhen.spring.vo.CrawlA1VO"/>
+		<typeAlias alias="cwa2" type="MeetWhen.spring.vo.CrawlA2VO"/>
 	</typeAliases>
 
 	<mappers>
