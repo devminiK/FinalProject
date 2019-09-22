@@ -16,6 +16,28 @@
 .bdColor{
 	background-color:#ddd;
 }
+/* COLUM에 필요*/
+/* Create four equal columns that floats next to each other */
+.column1 {
+  float: left;
+  width: 70%;
+  padding: 10px;
+  height: 350px; /* Should be removed. Only for demonstration */
+}
+/* Create four equal columns that floats next to each other */
+.column2 {
+  float: left;
+  width: 30%;
+  padding: 10px;
+  height: 350px; /* Should be removed. Only for demonstration */
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
 </style>
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.0.min.js"></script>
 <!-- Load the google API -->
@@ -86,14 +108,23 @@
 							infowindow.open(map, marker);	
 
 							document.getElementById('contryName').innerHTML=total[i][0]; //title 나라출력
-							//ajax 구현- crawl1,(o) 2(ing)
+							//ajax 구현- crawl 1(o)
+							$.ajax({
+								type:"post",
+								url: "/MeetWhen/Main/showCrawl1.mw",
+								data:{cont : total[i][0] },
+								success : showResult1,
+								error : reqError(1)
+							});
+							/*
+							//ajax 구현- crawl1 2(ing)
 							$.ajax({
 								type:"post",
 								url: "/MeetWhen/Main/crawl2.mw",
 								data:{cont : total[i][0] },
-								success : showResult,
-								error : reqError
-							});
+								success : showResult2,
+								error : reqError(2)
+							});*/
 							
 								
 						}
@@ -112,34 +143,40 @@
 			map.setZoom(2);
 		});
 	}
-	function showResult(data){
-		$("#result").html(data);
+	function showResult1(data){
+		$("#result1").html(data);
+	}
+	function showResult2(data){
+		$("#result2").html(data);
 	}
 	
-	function reqError(){
-		$("#result").html("<h1>실행 오류!!</h1>");
-	
+	function reqError(num){
+		var msg = "<h1>실행 오류!!</h1>";
+		if(num==1){
+			$("#result1").html(msg);
+		}
+		else if(num==2){
+			$("#result2").html(msg);
+		}
+		else{
+			$("#result3").html(msg);
+		}
+		
 	}
 	/*크롤링3에 대한 코드 */
-	/*
 	function getArticle(){
 		$.ajax({
 			type:"post",
 			url: "/MeetWhen/Main/crawl3.mw",
 			data:{cont : "전체" },
 			success : showResult3,
-			error : reqError
+			error : reqError(3)
 		});
 	}
 	function showResult3(data){
 		$("#result3").html(data);
 	}
 	
-	function reqError(){
-		$("#result3").html("<h1>실행 오류!!</h1>");
-	
-	}
-	*/
 	<%-- 페이지가 로드될 때 initialize()함수 실행--%>
 	google.maps.event.addDomListener(window, 'load', initialize);
 </script>
@@ -173,29 +210,47 @@
 				<div id="contry" class="tabcontent">
 					<div id="goMap"></div>
 				</div>
-
-				<%-- 크롤링정보1) 네이버 검색결과_국기,나라명,수도,환율:클릭할때--%>
-				<%-- 
-				<div id="result1"></div>
-				<hr><br>
-				--%>
             </li>
+            <%--클롤링결과 1, 2 합치기 도전 --%>
             <li>
-            	<h4>[크롤링정보2) 구글 트래블_추천 명소]: 클릭할때</h4>
-            	<div id="result"></div>
-            	<hr><br>
+				<!-- click evnet 결과: 크롤링1,2 -->
+				<section class="page-section">
+					<div class="container">
+						<div class="row">
+							<div class="column1" style="background-color: #aaa;">
+								<h4>[크롤링정보2)</h4>
+            					<div id="result2"></div>
+							</div>
+							<div class="column2" style="background-color: #bbb;">
+								<h4>[크롤링정보1)</h4>
+								<div id="result1"></div>
+							</div>
+						</div>
+					</div>
+				</section>            	
             </li>
             
-            <%-- 크롤링3) 세계 뉴스: map1페이지가 실행될때. --%>
             <%-- 
+            <li> 
+				<div id="result1"></div>
+				<hr><br>
+            </li>
+            <li>
+            	<div id="result2"></div>
+            	<hr><br>
+            </li>
+            --%>
+            <%-- 크롤링3) 세계 뉴스: map1페이지가 실행될때. --%>
             <li>
             	<div id="result3"></div>
             </li>
-            --%>
+            
             
             <li class="timeline-inverted">
               <%-- <jsp:include page="/Main/test.mw"/>--%>
             </li>
+            
+            
             <%-- 
             <li>
               <div class="timeline-image">

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="crawl">
+	<!-- DB에 정보 리셋 및 삽입 -->
+	<delete id="deleCrawl1">
+		delete crawl1
+	</delete>
+	<insert id="insertCrawl1">
+		insert into crawl1 values(#{cw1_num}, #{cw1_cont},#{cw1_con},#{cw1_cap},#{cw1_rat},#{cw1_img},#{cw1_type})
+	</insert>
+	
+	<!-- DB정보 확인 -->
+	<select id="getCrawl1" resultType="cw1"> 
+			select *from crawl1 order by cw1_num
+	</select>
+	<select id="getCrawl1Click" parameterType="String" resultType="cw1">
+		select * from crawl1 where cw1_cont=#{cw1_cont}
+	</select>
+	
+	
+</mapper>

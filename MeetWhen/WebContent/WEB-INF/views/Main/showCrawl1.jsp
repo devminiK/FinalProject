@@ -24,30 +24,30 @@ td {
 	<table>
 		<tr>
 			<td>국가명</td>
-			<td>${contry}</td>
+			<td>${vo.cw1_cont}</td>
 		</tr>
 		<tr>
 			<td>국기</td>
-			<td><img src="${imgSrc}" height=150px/></td>
+			<td><img src="${vo.cw1_img}" width=200px; height=150px/></td>
 		</tr>
 		<tr>
-			<c:if test="${caseNum!='3'}">
+			<c:if test="${vo.cw1_type!='3'}">
 				<td>위치</td>
 			</c:if>
-			<c:if test="${caseNum=='3'}">
+			<c:if test="${vo.cw1_type=='3'}">
 				<td>수도</td>
 			</c:if>
-			<td>${capital}</td>
+			<td>${vo.cw1_cap}</td>
 		</tr>
 		<tr>
-			<c:if test="${caseNum=='2'}">
+			<c:if test="${vo.cw1_type=='2'}">
 				<td>통화</td>
 			</c:if>
-			<c:if test="${caseNum!='2'}">
+			<c:if test="${vo.cw1_type!='2'}">
 				<td>환율</td>
 			</c:if>
 			<td>
-				${rate}
+				${vo.cw1_rat}
 			</td>
 		</tr>
 	</table>

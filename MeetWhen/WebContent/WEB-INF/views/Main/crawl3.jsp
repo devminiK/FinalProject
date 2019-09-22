@@ -67,7 +67,7 @@
   		<%-- 
 		<c:forEach items="${allList}" var="ent" begin="0" step="1" end="15">--%>
   			<div class="column"  onclick="location.href='${ent.url}'">
-    			<img class="newsImg" src="/MeetWhen/img/article/test1.png" />
+    			<img class="newsImg" src="/MeetWhen/img/article/test1.jpg" />
     			<div class="overlay" >
     				<p class=" newTitle">${ent.title}
     				대한민국만세대한만세대한만세대한만세대한세대한세대한세대한민국만세

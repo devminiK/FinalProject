@@ -13,6 +13,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.rosuda.REngine.REXP;
 import org.rosuda.REngine.REXPGenericVector;
+import org.rosuda.REngine.RFactor;
 import org.rosuda.REngine.RList;
 import org.rosuda.REngine.Rserve.RConnection;
 import org.rosuda.REngine.Rserve.RserveException;
@@ -21,6 +22,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.w3c.dom.Document;
 
+import MeetWhen.spring.vo.ContryVO;
+import MeetWhen.spring.vo.Crawl1VO;
 import MeetWhen.spring.vo.LContryVO;
 
 @Controller
@@ -74,7 +77,7 @@ public class HelloBean {
 	public String crawl2(HttpServletRequest request) throws Exception{
 		String clickCont = request.getParameter("cont");
 		System.out.println(clickCont);
-		
+		/*
 		RConnection conn = new RConnection();
 		conn.eval("setwd('C:/R-workspace')");
 		conn.eval("library(rvest)");
@@ -104,30 +107,203 @@ public class HelloBean {
 		conn.eval("html<-read_html(source)");
 		conn.eval("recom<-html_nodes(html,'div.gws-trips-modules__top-sight-card')");
 		
-		REXP test = conn.eval("recom");
-		RList list = test.asList();
-		//REXPGenericVector t = tes
-		String [][] arr = new String[list.size()][];
-		for(int i=0;i<list.size();i++) {
-			arr[i]=list.at(i).asStrings();
-		}
-
-		System.out.println("START");
-		//출력test
-		for(int i=0;i<list.size();i++) {
-			for(int j=0;j<arr[i].length;j++) {
-				System.out.print(arr[i][j]+"/");
-			}
-			System.out.println();
-		}
-		System.out.println("END");
-
+		//하는 중
+		REXP recom = conn.eval("recom");
+		RList recomHTML = recom.asList();
 		
-		conn.close();
+		String[][] arr = new String[recomHTML.size()][];
+		System.out.println("R리스트 사이즈="+recomHTML.size());
+		
+		for(int i=0;i<recomHTML.size();i++) {
+			arr[i]=recomHTML.at(i).asStrings();
+			System.out.println(recomHTML.at(i));
+		}
+		*/
+//		System.out.println("START");
+//		//출력test
+//		for(int i=0;i<list.size();i++) {
+//			for(int j=0;j<arr[i].length;j++) {
+//				System.out.print(arr[i][j]+"/");
+//			}
+//			System.out.println();
+//		}
+//		System.out.println("END");
+		
+		//conn.close();
 		request.setAttribute("cont", clickCont);
 		return "/Main/crawl2";
 	}
+	
+	//크롤링, 보여주기 를 분할 하기 위함- 진행 중
+	@RequestMapping("doCrawl1.mw")  
+	public String doCrawl1(HttpServletRequest request) throws Exception{
+		//Map1 페이지 실행되면 특정 시간 마다 재실행됨.
+		//Map2-8페이지 용도 만들어야함.> Region내용 사용
+		
+		//리셋하고, 새로운 내용 받아오기.
+		sql.delete("crawl.deleCrawl1");  //리셋
+		System.out.println("[doCrawl_CRAWL1 TABLE 리셋]");
+		
+		List<ContryVO> conList = new ArrayList<ContryVO>();
+		ContryVO vo = new ContryVO();
+		Crawl1VO cw1Vo = null;
+		conList = sql.selectList("airport.getContry");
+		
+		RConnection conn = new RConnection();
+		REXP contry=null, capital=null, rate=null;
+		String con="", cap="", rat="",imgSrc="";
+		
+		conn.eval("setwd('C:/R-workspace')");
+		conn.eval("library(rvest)");
+		conn.eval("library(httr)");
+		conn.eval("install.packages(\"RSelenium\")");
+		conn.eval("library(RSelenium)");
+		conn.eval("remDr <- remoteDriver(remoteServerAdd=\"localhost\", port=4445, browserName=\"chrome\")");
+		conn.eval("remDr$open()");
+		
+		for(int i=0;i<conList.size();i++) { //conList.size()
+			vo=conList.get(i);
+			
+			int currentNum=vo.getC_num();
+			String currentCont = vo.getC_con();
+			int caseType=0;
+			//이름에 맞는 지역 정보 크롤링.vo.getC_con()
+			int ContNum = sql.selectOne("airport.getContryNum",currentCont); //이미지 이름 (번호)부여
+			String cNum=Integer.toString(ContNum);//이미지 이름, 단위000 맞춰주기 위함.
+			if(ContNum/100 == 0) {	
+				if(ContNum%100 < 10) {	//ContNum이 1-9 경우
+					cNum="00"+cNum;
+				}else {					//ContNum이 10-99경우
+					cNum="0"+cNum;
+				}
+			}
 
+			//검색 셋팅
+			conn.eval("remDr$navigate('https://www.naver.com/')");
+			conn.eval("WebEle <- remDr$findElement(using='css',\"[id='query']\")");
+			conn.eval("WebEle$sendKeysToElement(list('"+currentCont+"',key=\"enter\"))");
+
+			//경우1) 다른 검색결과1 :괌,하와이,홍콩,마카오
+			//경우2) 다른 검색결과2 : 사이판 
+			//경우3) 일반결과 : 그외 모두
+			//경우3-2) 일반결과, 환율정보X : 피지,몰디브,에티오피아
+			
+			if(currentCont.equals("괌") |currentCont.equals("하와이")|currentCont.equals("홍콩") |currentCont.equals("마카오")|currentCont.equals("싱가포르")) { 
+				//정식 국가명
+				caseType=1;
+				conn.eval("contry<-remDr$findElements(using='css',\"div.overseas_thumb > div > div > strong.title_text\")");
+				conn.eval("contry<-sapply(contry,function(x){x$getElementText()})");
+				conn.eval("contry<-contry[[1]]");
+				contry = conn.eval("contry");
+				con=contry.asString();
+				//수도대신, 위치
+				conn.eval("spot<-remDr$findElements(using='css',\"div.city_info > dl > dd:nth-child(2)\")");
+				conn.eval("spot<-sapply(spot,function(x){x$getElementText()})");
+				conn.eval("spot<- gsub(' 위치보기','',spot[[1]])");
+				capital = conn.eval("spot");
+				cap=capital.asString();
+				//환율 
+				conn.eval("trvBtn <- remDr$findElements(using='css', 'li._second_tab > a')");
+				conn.eval("sapply(trvBtn, function(x){x$clickElement()})");
+				conn.eval("rate<-remDr$findElements(using='css',\"div.rate_area > ul > li:nth-child(1) > span.info_text\")");
+				conn.eval("rate<-sapply(rate,function(x){x$getElementText()})");
+				conn.eval("rate<- gsub(' 환율정보','',rate[[1]])");
+				rate = conn.eval("rate");
+				rat=rate.asString();
+				//국기는 파일에있는것으로 지정.
+				imgSrc="/MeetWhen/img/flag/"+cNum+".png";
+			}else if(currentCont.equals("사이판")) {//예외중 예외
+				caseType=2;
+				//국가명
+				con=currentCont;
+				//위치
+				conn.eval("remDr$navigate('https://terms.naver.com/entry.nhn?docId=1107822&cid=40942&categoryId=33295')");
+				conn.eval("spot<-remDr$findElements(using='css',\"div.wr_tmp_profile > div > table > tbody > tr:nth-child(1) > td\")");
+				conn.eval("spot<-sapply(spot,function(x){x$getElementText()})");
+				capital = conn.eval("spot[[1]]");
+				cap = capital.asString();
+				//환율대신 통화
+				conn.eval("cash<-remDr$findElements(using='css',\"div.wr_tmp_profile > div > table > tbody > tr:nth-child(10) > td\")");
+				conn.eval("cash<-sapply(cash,function(x){x$getElementText()})");
+				rate = conn.eval("cash[[1]]");
+				rat=rate.asString();
+				//국기는 파일에있는것으로 지정.
+				imgSrc="/MeetWhen/img/flag/"+cNum+".png";
+			}else {	
+				caseType=3;
+				//정식 국가명
+				conn.eval("contry<-remDr$findElements(using='css',\"#main_pack > div.content_search.section > div > div.contents03_sub > div > div.nacon_area._info_area > div.naflag_box > dl > dt\")");
+				conn.eval("contry<-sapply(contry,function(x){x$getElementText()})");
+				conn.eval("contry<-gsub('\\n',' _ ',contry[[1]])");
+				contry = conn.eval("contry");
+				con = contry.asString();			
+				//국가 수도
+				conn.eval("capital<-remDr$findElements(using='css',\"#main_pack > div.content_search.section > div > div.contents03_sub > div > div.nacon_area._info_area > div.naflag_box > dl > dd:nth-child(2) > a\")");
+				conn.eval("capital<-sapply(capital,function(x){x$getElementText()})");
+				capital = conn.eval("capital[[1]]");
+				cap = capital.asString();
+				//국기 
+				conn.eval("html<-remDr$getPageSource()[[1]]");
+				conn.eval("html<-read_html(html)");
+				conn.eval("flag<-html_node(html,\"[alt='flag']\")");
+				conn.eval("flag<-html_attr(flag,\"src\")");
+				conn.eval("imgRes<-GET(flag)");
+				
+				//로컬 폴더에(확인용)저장
+				conn.eval("writeBin(content(imgRes,'raw'),sprintf(paste0('C:/save/%03d.png'),"+ContNum+"))");
+				//project 폴더 내 저장
+				String orgPath = request.getRealPath("img"); //flag폴더 경로 못찾기때문에 img를 찾아 덧붙임
+				String newPath = orgPath.replace("\\","/")+"/flag";
+				
+				conn.eval("writeBin(content(imgRes,'raw'),sprintf(paste0('"+newPath+"/%03d.png'),"+ContNum+"))");
+				imgSrc="/MeetWhen/img/flag/"+cNum+".png";
+					
+				//국가 환율, 존재하지않을경우 예외처리
+				conn.eval("rate<-remDr$findElements(using='css',\"#dss_nation_tab_summary_content > dl.lst_overv > dd:not(.frst):not(._world_clock) \")");
+				conn.eval("rate<-sapply(rate,function(x){x$getElementText()})");
+				try {
+					conn.eval("rate<-gsub('\\n','',rate[[1]])"); //에러발생
+					rate = conn.eval("rate");
+					rat = rate.asString();		
+				}catch(RserveException ex) {
+					ex.printStackTrace();
+					System.out.println("환율 정보 x");
+					rat="정보가 없습니다";
+				}
+			}
+			
+			//디비에 삽입.
+			System.out.println(currentNum+" "+currentCont+" "+con+" "+cap+" "
+			+rat+" "+imgSrc+" "+caseType);
+			
+			cw1Vo = new Crawl1VO();
+			cw1Vo.setCw1_num(currentNum);
+			cw1Vo.setCw1_cont(currentCont);
+			cw1Vo.setCw1_con(con);
+			cw1Vo.setCw1_cap(cap);
+			cw1Vo.setCw1_rat(rat);
+			cw1Vo.setCw1_img(imgSrc);
+			cw1Vo.setCw1_type(caseType);
+			sql.insert("crawl.insertCrawl1",cw1Vo);
+		}
+		conn.eval("remDr$close()");
+		conn.close();
+		return "/Main/doCrawl1";
+	}
+	
+	@RequestMapping("showCrawl1.mw")  //크롤링1 > 네이버 검색결과
+	public String showCrawl1(HttpServletRequest request) throws Exception{
+		String clickCont = request.getParameter("cont");
+		System.out.println(clickCont);
+		
+		Crawl1VO vo = sql.selectOne("crawl.getCrawl1Click",clickCont);
+		System.out.println(vo);
+		System.out.println(vo.getCw1_cont()+vo.getCw1_con()+vo.getCw1_cap());
+		
+		request.setAttribute("vo", vo);
+		return "/Main/showCrawl1";
+	}
+	
 
 	@RequestMapping("crawl1.mw")  //크롤링1 > 네이버 검색결과
 	public String crawl1(HttpServletRequest request) throws Exception{
@@ -372,6 +548,11 @@ public class HelloBean {
 	@RequestMapping("ajaxTest.mw")//테스트page
 	public String ajaxTest() {
 		return "/Main/ajaxTest";
+	}
+	
+	@RequestMapping("test4.mw")//테스트page
+	public String test4() {
+		return "/Main/test4";
 	}
 
 

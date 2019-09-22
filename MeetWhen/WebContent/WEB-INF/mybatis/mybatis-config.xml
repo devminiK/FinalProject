@@ -9,11 +9,13 @@
 		<typeAlias alias="rv" type="MeetWhen.spring.vo.RegionVO"/>
 		<typeAlias alias="lcv" type="MeetWhen.spring.vo.LContryVO"/>
 		<typeAlias alias="lrv" type="MeetWhen.spring.vo.LRegionVO"/>
+		<typeAlias alias="cw1" type="MeetWhen.spring.vo.Crawl1VO"/>
 	</typeAliases>
 
 	<mappers>
 		<mapper resource="/sql/airportSQL.xml" />
 		<mapper resource="/sql/latlonSQL.xml" />
 		<mapper resource="/sql/memberSQL.xml" />
+		<mapper resource="/sql/crawlSQL.xml" />
 	</mappers>
 </configuration>
