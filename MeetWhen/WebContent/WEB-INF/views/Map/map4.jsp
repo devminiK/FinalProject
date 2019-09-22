@@ -107,7 +107,7 @@
 	}
 </script>
 </head>
-<body onload="clickBtn(); initialize()">
+<body class="bdColor" onload="clickBtn(); initialize(); getArticle();">
 	<jsp:include page="/Main/boots_menubar.mw"/>
 	<!-- Map -->
   	<section class="page-section" id="about">
