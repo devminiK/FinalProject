@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR" pageEncoding="EUC-KR"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%--크롤링1: 네이버 검색결과  --%>
+<%--크롤링1: 구글 검색결과  --%>
 <!doctype html>
 <html>
 <head>
@@ -23,32 +23,13 @@ td {
 <body>
 	<table>
 		<tr>
-			<td>국가명</td>
-			<td>${vo.cwa1_cont}</td>
+			<th>${cont}</th>
 		</tr>
 		<tr>
-			<td>국기</td>
-			<td><img src="${vo.cwa1_img}" width=200px; height=150px/></td>
+			<td>${vo.cwa2_ex1}</td>
 		</tr>
 		<tr>
-			<c:if test="${vo.cwa1_type!='3'}">
-				<td>위치</td>
-			</c:if>
-			<c:if test="${vo.cwa1_type=='3'}">
-				<td>수도</td>
-			</c:if>
-			<td>${vo.cwa1_cap}</td>
-		</tr>
-		<tr>
-			<c:if test="${vo.cwa1_type=='2'}">
-				<td>통화</td>
-			</c:if>
-			<c:if test="${vo.cwa1_type!='2'}">
-				<td>환율</td>
-			</c:if>
-			<td>
-				${vo.cwa1_rat}
-			</td>
+			<td>${vo.cwa2_ex1}</td>
 		</tr>
 	</table>
 </body>

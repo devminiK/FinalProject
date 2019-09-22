@@ -271,5 +271,17 @@ public class CrawlBean {
 		conn.close();		
 		return "/Crawl/doCrawla2";
 	}	
+	@RequestMapping("showCrawla2.mw")  //> 네이버 검색결과
+	public String showCrawla2(HttpServletRequest request) throws Exception{
+		String clickCont = request.getParameter("cont");
+		System.out.println(clickCont);
+
+		CrawlA2VO vo = sql.selectOne("crawl.getCrawlA2Click",clickCont);
+		System.out.println(vo.getCwa2_cont()+vo.getCwa2_ex1()+vo.getCwa2_ex2());
+
+		request.setAttribute("vo", vo);
+		request.setAttribute("cont", clickCont);
+		return "/Crawl/showCrawla2";
+	}
 
 }
