@@ -77,9 +77,9 @@ public class HelloBean {
 	public String crawl2(HttpServletRequest request) throws Exception{
 		String clickCont = request.getParameter("cont");
 		System.out.println(clickCont);
-		/*
+		
 		RConnection conn = new RConnection();
-		conn.eval("setwd('C:/R-workspace')");
+		conn.eval("setwd('D:/R-workspace')");
 		conn.eval("library(rvest)");
 		conn.eval("library(httr)");
 		conn.eval("install.packages(\"RSelenium\")");
@@ -114,11 +114,13 @@ public class HelloBean {
 		String[][] arr = new String[recomHTML.size()][];
 		System.out.println("R리스트 사이즈="+recomHTML.size());
 		
-		for(int i=0;i<recomHTML.size();i++) {
-			arr[i]=recomHTML.at(i).asStrings();
-			System.out.println(recomHTML.at(i));
-		}
-		*/
+		//System.out.println("=====>>"+recomHTML.at(0).);
+		
+		/*
+		 * for(int i=0;i<recomHTML.size();i++) { arr[i]=recomHTML.at(i).asStrings();
+		 * System.out.println(recomHTML.at(i)); }
+		 */
+	
 //		System.out.println("START");
 //		//출력test
 //		for(int i=0;i<list.size();i++) {

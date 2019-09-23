@@ -33,7 +33,7 @@
 			select *from crawla2 order by cwa2_num
 	</select>
 	<select id="getCrawlA2Click" parameterType="String" resultType="cwa2">
-		select * from crawla2 where cwa1_cont=#{cwa2_cont}
+		select * from crawla2 where cwa2_cont=#{cwa2_cont}
 	</select>
 	
 	

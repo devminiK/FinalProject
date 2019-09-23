@@ -9,15 +9,35 @@
 <style>
 /*for map*/
 #goMap {
-	height: 500px;
+	height: 700px;
 	width: 1000px;
 }
-/* iframe을 숨기기 위한 css
-#if {
-	width: 0px;
-	height: 0px;
-	border: 0px;
-}*/
+/*배경색 그레이*/
+.bdColor{
+	background-color:#ddd;
+}
+/* COLUM에 필요*/
+/* Create four equal columns that floats next to each other */
+.column1 {
+  float: left;
+  width: 70%;
+  padding: 10px;
+  height: 350px; /* Should be removed. Only for demonstration */
+}
+/* Create four equal columns that floats next to each other */
+.column2 {
+  float: left;
+  width: 30%;
+  padding: 10px;
+  height: 350px; /* Should be removed. Only for demonstration */
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
 </style>
 <!-- Load the google API -->
 <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyCexlJx5Gqv4JLwdSxZIeYwAE2IIRN_iGw"></script>
@@ -58,7 +78,7 @@
 	<%--맵을 초기화 하기 위한 함수--%>
 	function initialize() {
 		var mapOp = {
-			center : new google.maps.LatLng(32.714584, 124.181167), //아시아
+			center : new google.maps.LatLng(52.960182, 111.547389), //아시아
 			zoom : 3,
 			mapTypeId : google.maps.MapTypeId.ROADMAP,
 			disableDefaultUI : true,
@@ -88,6 +108,29 @@
 									+ '</h2>' + '<p>방문객 수:' + total[i][3]
 									+ '</p>');
 							infowindow.open(map, marker);
+
+							document.getElementById('contryName').innerHTML=total[i][0]; //title 나라출력
+
+							//ajax 구현- crawl 1(o)
+							$.ajax({
+								type:"post",
+								url: "/MeetWhen/Crawl/showCrawla2.mw",
+								data:{cont : total[i][0] },
+								success : showResult1,
+								error : reqError(1)
+							});
+							/*
+							//ajax 구현- crawlb(ing)
+							$.ajax({
+								type:"post",
+								url: "/MeetWhen/Main/crawl2.mw",
+								data:{cont : total[i][0] },
+								success : showResult2,
+								error : reqError(2)
+							});
+							
+							
+							*/
 						}
 					})(marker, i));
 
@@ -101,13 +144,46 @@
 		};
 		google.maps.event.addListener(map, 'click', function(event) {
 			infowindow.close();
-			map.setCenter(new google.maps.LatLng(32.714584, 124.181167));
+			map.setCenter(new google.maps.LatLng(52.960182, 111.547389));
 			map.setZoom(3);
 		});
 	}
+	function showResult1(data){
+		$("#result1").html(data);
+	}
+	function showResult2(data){
+		$("#result2").html(data);
+	}
+	
+	function reqError(num){
+		var msg = "<h1>실행 오류!!</h1>";
+		if(num==1){
+			$("#result1").html(msg);
+		}
+		else if(num==2){
+			$("#result2").html(msg);
+		}
+		else{
+			$("#result3").html(msg);
+		}
+		
+	}
+	/*크롤링3에 대한 코드 */
+	function getArticle(){
+		$.ajax({
+			type:"post",
+			url: "/MeetWhen/Main/crawl3.mw",
+			data:{cont : "전체" },
+			success : showResult3,
+			error : reqError(3)
+		});
+	}
+	function showResult3(data){
+		$("#result3").html(data);
+	}
 </script>
 </head>
-<body onload="clickBtn(); initialize()">
+<body class="bdColor" onload="clickBtn(); initialize(); getArticle()">
 	<jsp:include page="/Main/boots_menubar.mw"/>
 	<!-- Map -->
   	<section class="page-section" id="about">
@@ -137,6 +213,29 @@
 							</div>
 							<div id="contryName"></div>
 						</li>
+						
+						<!-- click evnet 결과: 크롤링1,2 -->
+						<li>
+							<section class="page-section">
+								<div class="container">
+									<div class="row">
+										<div class="column1" style="background-color: yellow;">
+											<h4>[크롤링정보2)</h4>
+											<div id="result2"></div>
+										</div>
+										<div class="column2" style="background-color: #ddd;">
+											<div id="result1"></div>
+										</div>
+									</div>
+								</div>
+							</section>
+						</li>
+
+						<%-- 크롤링3) 세계 뉴스: map1페이지가 실행될때. --%>
+						<li>
+							<div id="result3"></div>
+						</li>
+						
 					</ul>
 				</div>
 			</div>

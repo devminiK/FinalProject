@@ -6,20 +6,33 @@
 <meta charset="EUC-KR">
 <title>Insert title here</title>
  <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
-
 <script type="text/javascript">
-	function pageStart(){
-		//window.setTimeout("pagereload()",3000);//1000 = 1초
+	function callCrawl2(){
+		$(document).ready(function(){	
+				$.ajax({
+					type :"post",
+					url : "/MeetWhen/Crawl/doCrawla2.mw",
+					success : test , 
+					error : reqError
+				});
+			
+		});
 	}
-	function pagereload(){
-		location.reload();
+	function test(){	$("#result").text("실행 완료!")		}
+	function reqError(){	$("#result").text("실행 오류...!!");			}	
+	
+	function StartClock(){
+		callCrawl2();
+		setInterval(callCrawl2,60000);//1000=1초, 60000=1분 
 	}
 
 </script>
 </head>
 
-<body onload="pageStart()">
-	<h1>30초씩 리로딩</h1>
-	<jsp:include page="test4.mw"/>
+<body onload="callCrawl2()">
+	<h1>인터벌 test</h1>
+	<div id="result"></div>
+
+
 </body>
 </html>

@@ -116,16 +116,17 @@
 								success : showResult1,
 								error : reqError(1)
 							});
+							
+							//ajax 구현- crawlb(ing)
 							/*
-							//ajax 구현- crawl1 2(ing)
 							$.ajax({
 								type:"post",
 								url: "/MeetWhen/Main/crawl2.mw",
 								data:{cont : total[i][0] },
 								success : showResult2,
 								error : reqError(2)
-							});*/
-							
+							});
+							*/
 								
 						}
 					})(marker, i));

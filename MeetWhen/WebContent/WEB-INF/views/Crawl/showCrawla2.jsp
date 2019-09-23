@@ -29,7 +29,7 @@ td {
 			<td>${vo.cwa2_ex1}</td>
 		</tr>
 		<tr>
-			<td>${vo.cwa2_ex1}</td>
+			<td>${vo.cwa2_ex2}</td>
 		</tr>
 	</table>
 </body>
