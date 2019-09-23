@@ -6,6 +6,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<h3>Crawl-A2 : 기본정보 검색(구글)</h3>
+	<h3>Crawl-B : 대륙 별 기사 제목 & 이미지주소</h3>
 </body>
 </html>

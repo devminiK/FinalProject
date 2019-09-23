@@ -6,6 +6,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<h1>크롤링1(세계지도)정보 db 리셋후,삽입 페이지.</h1>
+	<h3>Crawl-A1 : 기본정보 검색(네이버)</h3>
 </body>
 </html>

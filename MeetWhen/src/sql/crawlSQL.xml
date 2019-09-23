@@ -19,6 +19,49 @@
 		insert into crawla2 values(#{cwa2_num}, #{cwa2_cont}, #{cwa2_ex1}, #{cwa2_ex2})
 	</insert>
 	
+	<delete id="deleCrawlB1">
+		delete crawlb1
+	</delete>
+	<insert id="insertCrawlB1">
+		insert into crawlb1 values(#{cwb_num},#{cwb_img},#{cwb_title},#{cwb_url})
+	</insert>
+	
+	<delete id="deleCrawlB2">
+		delete crawlb2
+	</delete>
+	<insert id="insertCrawlB2">
+		insert into crawlb2 values(#{cwb_num},#{cwb_img},#{cwb_title},#{cwb_url})
+	</insert>
+	
+	<delete id="deleCrawlB3">
+		delete crawlb3
+	</delete>
+	<insert id="insertCrawlB3">
+		insert into crawlb3 values(#{cwb_num},#{cwb_img},#{cwb_title},#{cwb_url})
+	</insert>
+	
+	<delete id="deleCrawlB4">
+		delete crawlb4
+	</delete>
+	<insert id="insertCrawlB4">
+		insert into crawlb4 values(#{cwb_num},#{cwb_img},#{cwb_title},#{cwb_url})
+	</insert>
+	
+	<delete id="deleCrawlB5">
+		delete crawlb5
+	</delete>
+	<insert id="insertCrawlB5">
+		insert into crawlb5 values(#{cwb_num},#{cwb_img},#{cwb_title},#{cwb_url})
+	</insert>
+	
+	<delete id="deleCrawlB6">
+		delete crawlb6
+	</delete>
+	<insert id="insertCrawlB6">
+		insert into crawlb6 values(#{cwb_num},#{cwb_img},#{cwb_title},#{cwb_url})
+	</insert>
+	
+	
 	
 	
 	<!-- DB정보 확인 -->
@@ -35,6 +78,27 @@
 	<select id="getCrawlA2Click" parameterType="String" resultType="cwa2">
 		select * from crawla2 where cwa2_cont=#{cwa2_cont}
 	</select>
+	
+	<select id="getCrawlB1" resultType="cwb"> 
+			select *from crawlb1 order by cwb_num
+	</select>
+	<select id="getCrawlB2" resultType="cwb"> 
+			select *from crawlb2 order by cwb_num
+	</select>
+	<select id="getCrawlB3" resultType="cwb"> 
+			select *from crawlb3 order by cwb_num
+	</select>
+	<select id="getCrawlB4" resultType="cwb"> 
+			select *from crawlb4 order by cwb_num
+	</select>
+	<select id="getCrawlB5" resultType="cwb"> 
+			select *from crawlb5 order by cwb_num
+	</select>
+	<select id="getCrawlB6" resultType="cwb"> 
+			select *from crawlb6 order by cwb_num
+	</select>
+	
+	
 	
 	
 </mapper>

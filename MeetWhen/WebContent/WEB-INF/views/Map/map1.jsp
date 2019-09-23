@@ -168,7 +168,7 @@
 	function getArticle(){
 		$.ajax({
 			type:"post",
-			url: "/MeetWhen/Main/crawl3.mw",
+			url: "/MeetWhen/Crawl/showCrawlb.mw",
 			data:{cont : "전체" },
 			success : showResult3,
 			error : reqError(3)

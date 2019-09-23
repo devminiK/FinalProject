@@ -18,12 +18,13 @@ td {
 	font-weight: bold;
 	border: 1px solid black;
 	padding: 10px;
+	font-size:18px;
 }
 </style>
 <body>
 	<table>
 		<tr>
-			<th>${cont}</th>
+			<td>${cont}</td>
 		</tr>
 		<tr>
 			<td>${vo.cwa2_ex1}</td>

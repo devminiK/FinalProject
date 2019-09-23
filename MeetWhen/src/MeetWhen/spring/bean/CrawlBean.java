@@ -1,12 +1,16 @@
 package MeetWhen.spring.bean;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.rosuda.REngine.REXP;
+import org.rosuda.REngine.RList;
 import org.rosuda.REngine.Rserve.RConnection;
 import org.rosuda.REngine.Rserve.RserveException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import MeetWhen.spring.vo.ContryVO;
 import MeetWhen.spring.vo.CrawlA1VO;
 import MeetWhen.spring.vo.CrawlA2VO;
+import MeetWhen.spring.vo.CrawlBVO;
 import MeetWhen.spring.vo.RegionVO;
 
 @Controller
@@ -24,11 +29,10 @@ public class CrawlBean {
 	@Autowired
 	private SqlSessionTemplate sql = null;
 
+	/*Crawl_A1 : 기본 정보 (네이버) -----------------------------------------------------------------------------------------------------------------*/
 	@RequestMapping("doCrawla1.mw")  
 	public String doCrawla1(HttpServletRequest request) throws Exception{
 		//Map1 페이지 실행되면 특정 시간 마다 재실행됨.
-		//Map2-8페이지 용도 만들어야함.> Region내용 사용
-
 		sql.delete("crawl.deleCrawlA1");  //리셋
 		System.out.println("[doCrawl_CrawlA1 TABLE 리셋]");
 
@@ -75,7 +79,6 @@ public class CrawlBean {
 			//경우2) 다른 검색결과2 : 사이판 
 			//경우3) 일반결과 : 그외 모두
 			//경우3-2) 일반결과, 환율정보X : 피지,몰디브,에티오피아
-
 			if(currentCont.equals("괌") |currentCont.equals("하와이")|currentCont.equals("홍콩") |currentCont.equals("마카오")|currentCont.equals("싱가포르")) { 
 				//정식 국가명
 				caseType=1;
@@ -178,24 +181,24 @@ public class CrawlBean {
 		conn.close();
 		return "/Crawl/doCrawla1";
 	}
-	@RequestMapping("showCrawla1.mw")  //> 네이버 검색결과
+	/*Crawl_A1 : 기본 정보 (네이버) > 출력*/
+	@RequestMapping("showCrawla1.mw")
 	public String showCrawla1(HttpServletRequest request) throws Exception{
 		String clickCont = request.getParameter("cont");
 		System.out.println(clickCont);
-
+		
 		CrawlA1VO vo = sql.selectOne("crawl.getCrawlA1Click",clickCont);
 		System.out.println(vo);
 		System.out.println(vo.getCwa1_cont()+vo.getCwa1_con()+vo.getCwa1_cap());
-
 		request.setAttribute("vo", vo);
 		return "/Crawl/showCrawla1";
 	}	
 	
-	@RequestMapping("doCrawla2.mw")  //> 구글 검색결과
+	
+	/*Crawl_A2 : 기본 정보 (구글) -----------------------------------------------------------------------------------------------------------------*/
+	@RequestMapping("doCrawla2.mw") 
 	public String doCrawla2(HttpServletRequest request) throws Exception{
-		//Map2-8페이지 실행되면 특정 시간 마다 재실행됨 > Region내용 사용
-		//리셋하고, 새로운 내용 받아오기.
-		sql.delete("crawl.deleCrawlA2");  //리셋
+		sql.delete("crawl.deleCrawlA2"); 
 		System.out.println("[doCrawl_CrawlA2 TABLE 리셋]");
 
 		List<RegionVO> conList = new ArrayList<RegionVO>();
@@ -215,9 +218,8 @@ public class CrawlBean {
 		conn.eval("remDr <- remoteDriver(remoteServerAdd=\"localhost\", port=4445, browserName=\"chrome\")");
 		conn.eval("remDr$open()");
 		
-		for(int i=0;i<conList.size();i++) { //conList.size()
+		for(int i=0;i<conList.size();i++) { 
 			vo=conList.get(i);
-
 			int currentNum=vo.getR_num();
 			String currentCont = vo.getR_reg();
 			System.out.println(currentNum+currentCont);
@@ -233,7 +235,6 @@ public class CrawlBean {
 			//검색 셋팅
 			if(currentCont.equals("씨엠립")|currentCont.equals("클락국제공항")) {//예외
 				System.out.println(currentCont+"->예외 정보");
-				
 				//이름
 				conn.eval("c<-remDr$findElements(using='css',\"div.kno-ecr-pt.kno-fb-ctx.PZPZlf.gsmt > span\")");
 				conn.eval("c<-sapply(c,function(x){x$getElementText()})");
@@ -251,7 +252,6 @@ public class CrawlBean {
 				conn.eval("a<-sapply(a,function(x){x$getElementText()})");
 				explain1 = conn.eval("a[[1]]");
 				ex1 = explain1.asString();
-				
 				//설명
 				conn.eval("b<-remDr$findElements(using='css',\"div.ifM9O > div:nth-child(2) > div.SALvLe.farUxc.mJ2Mod > div > div:nth-child(1) > div > div > div > div > span:nth-child(2)\")");
 				conn.eval("b<-sapply(b,function(x){x$getElementText()})");
@@ -259,7 +259,6 @@ public class CrawlBean {
 				explain2 = conn.eval("b");
 				ex2 = explain2.asString();
 			}
-			//System.out.println(ex1+"\n:"+ex2);
 			cwa2Vo = new CrawlA2VO();
 			cwa2Vo.setCwa2_num(currentNum);
 			cwa2Vo.setCwa2_cont(currentCont);
@@ -270,8 +269,9 @@ public class CrawlBean {
 		conn.eval("remDr$close()");
 		conn.close();		
 		return "/Crawl/doCrawla2";
-	}	
-	@RequestMapping("showCrawla2.mw")  //> 네이버 검색결과
+	}
+	/*Crawl_A2 : 기본 정보 (구글) > 출력 */
+	@RequestMapping("showCrawla2.mw") 
 	public String showCrawla2(HttpServletRequest request) throws Exception{
 		String clickCont = request.getParameter("cont");
 		System.out.println(clickCont);
@@ -282,6 +282,195 @@ public class CrawlBean {
 		request.setAttribute("vo", vo);
 		request.setAttribute("cont", clickCont);
 		return "/Crawl/showCrawla2";
+	}
+	
+	
+	/*Crawl_B : 대륙 별 기사 내용 -----------------------------------------------------------------------------------------------------------------*/
+	@RequestMapping("doCrawlb.mw")
+	public String doCrawlb(HttpServletRequest request,int dbNum) throws Exception{
+		String topURL="";
+
+		//기본 셋팅
+		RConnection conn = new RConnection();
+		conn.eval("setwd('D:/R-workspace')");
+		conn.eval("library(rvest)");
+		conn.eval("library(httr)");
+		conn.eval("install.packages(\"RSelenium\")");
+		conn.eval("library(RSelenium)");
+		conn.eval("remDr <- remoteDriver(remoteServerAdd=\"localhost\", port=4445, browserName=\"chrome\")");
+		conn.eval("remDr$open()");
+		
+		if(dbNum==1) {
+			System.out.println("[CrawlB1-세계]");
+			topURL="https://www.yna.co.kr/international/all";
+			sql.delete("crawl.deleCrawlB1");
+			System.out.println("[CrawlB"+dbNum+"]  리셋 완료");
+			
+			
+		}else if(dbNum==2) {
+			System.out.println("[CrawlB2-유럽]");
+			topURL="https://www.yna.co.kr/international/europe";
+			sql.delete("crawl.deleCrawlB2");
+			System.out.println("[CrawlB"+dbNum+"]  리셋 완료");
+			
+			
+		}else if(dbNum==3) {
+			System.out.println("[CrawlB3-아프리카&중동]");
+			topURL="https://www.yna.co.kr/international/middleeast-africa";
+			sql.delete("crawl.deleCrawlB3");
+			System.out.println("[CrawlB"+dbNum+"]  리셋 완료");
+			
+			
+		}else if(dbNum==4) {
+			System.out.println("[CrawlB4-오세아니아&아시아]");
+			topURL="https://www.yna.co.kr/international/asia-australia";
+			sql.delete("crawl.deleCrawlB4");
+			System.out.println("[CrawlB"+dbNum+"]  리셋 완료");
+			
+			
+		}else if(dbNum==5) {
+			System.out.println("[CrawlB5-북아메리카]");
+			topURL=" https://www.yna.co.kr/international/northamerica";
+			sql.delete("crawl.deleCrawlB5");
+			System.out.println("[CrawlB"+dbNum+"]  리셋 완료");
+			
+			
+			
+			
+		}else if(dbNum==6) {
+			System.out.println("[CrawlB6-남아메리카]");
+			topURL="https://www.yna.co.kr/international/centralsouth-america";
+			sql.delete("crawl.deleCrawlB6");
+			System.out.println("[CrawlB"+dbNum+"]  리셋 완료");
+			
+			
+		}
+
+		conn.eval("remDr$navigate('"+topURL+"')");
+		conn.eval("html<-remDr$getPageSource()[[1]]");
+		conn.eval("html<-read_html(html)"); //동적->정적 리로드
+		//기사 제목
+		conn.eval("titles<-html_nodes(html,'#content > div.contents > div.contents01 > div > div.headlines.headline-list > ul > li > div > strong > a')");
+		conn.eval("titles<-html_text(titles)");
+		conn.eval("titles<-gsub('\\\"',\"\",titles)");
+		conn.eval("titles<-head(titles,15)");
+		conn.eval("titles");
+		conn.eval("articleDf<-titles");
+		//기사 링크, 이미지
+		conn.eval("links<-html_nodes(html,'#content > div.contents > div.contents01 > div > div.headlines.headline-list > ul > li > div > strong > a')");
+		conn.eval("links<-html_attr(links,\"href\")");
+		conn.eval("links<-head(links,15)");
+		conn.eval("links");
+		conn.eval("inUrls<-NULL; imgUrls<-NULL");
+		conn.eval("for(i in 1:length(links)){" + 
+				"  inUrl<-paste0('https:',links[i]);" + 
+				"  inUrls<-c(inUrls,inUrl);" + 
+				"  inHtml<-read_html(inUrl);" + 
+				"  inner_nodes<-html_nodes(inHtml,\"#articleWrap > div.article > div > img\");" + 
+				"  if(length(inner_nodes)>0){" + 
+				"    href<-html_attr(inner_nodes[1],\"src\");" + 
+				"    imgUrl<-paste0('http:',href);" + 
+				"    imgUrls<-c(imgUrls,imgUrl);" + 
+				"  }" + 
+				"}");
+		conn.eval("articleDf<-rbind(articleDf,imgUrls)");//데이터프레임 작성  
+		conn.eval("articleDf<-rbind(articleDf,inUrls)");
+		conn.eval("articleDf<-as.data.frame(articleDf)"); 
+		REXP artDf = conn.eval("articleDf");
+		RList list = artDf.asList(); 
+		//배열에 정보 삽입
+		String [][] arr = new String[list.size()][];
+		for(int i=0;i<list.size();i++) 
+			arr[i]=list.at(i).asStrings();	
+		
+		//db에 저장(확인용 출력)
+		for(int i=0;i<list.size();i++) {
+			for(int j=0;j<arr[i].length;j++) {
+				System.out.print(arr[i][j]+" - ");
+			}
+			System.out.println();
+			//db에 저장
+			if(dbNum==1) {
+				CrawlBVO cwb1Vo = new CrawlBVO();
+				cwb1Vo.setCwb_num(i+1);
+				cwb1Vo.setCwb_title(arr[i][0]);
+				cwb1Vo.setCwb_img(arr[i][1]);
+				cwb1Vo.setCwb_url(arr[i][2]);
+				sql.insert("crawl.insertCrawlB1",cwb1Vo);
+			}else if(dbNum==2) {
+				CrawlBVO cwb1Vo = new CrawlBVO();
+				cwb1Vo.setCwb_num(i+1);
+				cwb1Vo.setCwb_title(arr[i][0]);
+				cwb1Vo.setCwb_img(arr[i][1]);
+				cwb1Vo.setCwb_url(arr[i][2]);
+				sql.insert("crawl.insertCrawlB2",cwb1Vo);
+			}else if(dbNum==3) {
+				CrawlBVO cwb1Vo = new CrawlBVO();
+				cwb1Vo.setCwb_num(i+1);
+				cwb1Vo.setCwb_title(arr[i][0]);
+				cwb1Vo.setCwb_img(arr[i][1]);
+				cwb1Vo.setCwb_url(arr[i][2]);
+				sql.insert("crawl.insertCrawlB3",cwb1Vo);
+			}
+			else if(dbNum==4) {
+				CrawlBVO cwb1Vo = new CrawlBVO();
+				cwb1Vo.setCwb_num(i+1);
+				cwb1Vo.setCwb_title(arr[i][0]);
+				cwb1Vo.setCwb_img(arr[i][1]);
+				cwb1Vo.setCwb_url(arr[i][2]);
+				sql.insert("crawl.insertCrawlB4",cwb1Vo);
+			}
+			else if(dbNum==5) {
+				CrawlBVO cwb1Vo = new CrawlBVO();
+				cwb1Vo.setCwb_num(i+1);
+				cwb1Vo.setCwb_title(arr[i][0]);
+				cwb1Vo.setCwb_img(arr[i][1]);
+				cwb1Vo.setCwb_url(arr[i][2]);
+				sql.insert("crawl.insertCrawlB5",cwb1Vo);
+			}
+			else if(dbNum==6) {
+				CrawlBVO cwb1Vo = new CrawlBVO();
+				cwb1Vo.setCwb_num(i+1);
+				cwb1Vo.setCwb_title(arr[i][0]);
+				cwb1Vo.setCwb_img(arr[i][1]);
+				cwb1Vo.setCwb_url(arr[i][2]);
+				sql.insert("crawl.insertCrawlB6",cwb1Vo);
+			}
+		}
+		
+		conn.eval("remDr$close()");
+		conn.close();
+		request.setAttribute("topURL", topURL);
+		return "/Crawl/doCrawlb";
+	}
+	/*Crawl_B : 대륙 별 기사 내용 > 출력 */
+	@RequestMapping("showCrawlb.mw")
+	public String showCrawlb(HttpServletRequest request,int dbNum) throws Exception{
+		String topURL="";
+		List allList =null;
+		if(dbNum==1) {
+			topURL = "https://www.yna.co.kr/international/all";
+			allList = sql.selectList("crawl.getCrawlB1");	
+		}else if(dbNum==2) {
+			topURL = "https://www.yna.co.kr/international/europe";
+			allList = sql.selectList("crawl.getCrawlB2");
+		}else if(dbNum==3) {
+			topURL = "https://www.yna.co.kr/international/middleeast-africa";
+			allList = sql.selectList("crawl.getCrawlB3");
+		}else if(dbNum==4) {
+			topURL = "https://www.yna.co.kr/international/asia-australia";
+			allList = sql.selectList("crawl.getCrawlB4");
+		}else if(dbNum==5) {
+			topURL = "https://www.yna.co.kr/international/northamerica";
+			allList = sql.selectList("crawl.getCrawlB5");
+		}else if(dbNum==6) {
+			topURL = "https://www.yna.co.kr/international/centralsouth-america";
+			allList = sql.selectList("crawl.getCrawlB6");
+		}
+		request.setAttribute("dbNum", dbNum);
+		request.setAttribute("topURL", topURL);
+		request.setAttribute("allList",allList); //리스트
+		return "/Crawl/showCrawlb";
 	}
 
 }
