@@ -118,16 +118,13 @@
 							});
 							
 							//ajax 구현- crawlb(ing)
-							/*
 							$.ajax({
 								type:"post",
-								url: "/MeetWhen/Main/crawl2.mw",
+								url: "/MeetWhen/Crawl/doShowCrawlc.mw",
 								data:{cont : total[i][0] },
 								success : showResult2,
 								error : reqError(2)
-							});
-							*/
-								
+							});		
 						}
 					})(marker, i));
 			if (marker) {

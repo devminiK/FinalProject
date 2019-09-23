@@ -169,8 +169,8 @@ public class CrawlBean {
 			}
 
 			//디비에 삽입.확인용 출력
-			System.out.println(currentNum+" "+currentCont+" "+con+" "+cap+" "
-					+rat+" "+imgSrc+" "+caseType);
+			//System.out.println(currentNum+" "+currentCont+" "+con+" "+cap+" "
+			//		+rat+" "+imgSrc+" "+caseType);
 
 			cwa1Vo = new CrawlA1VO();
 			cwa1Vo.setCwa1_num(currentNum);
@@ -476,6 +476,74 @@ public class CrawlBean {
 		request.setAttribute("topURL", topURL);
 		request.setAttribute("allList",allList); //리스트
 		return "/Crawl/showCrawlb";
+	}
+	
+	//안되고있음;;;;;;;;;;;;;;;;;;
+	/*Crawl_C : 나라별 추천명소 -----------------------------------------------------------------------------------------------------------------*/
+	@RequestMapping("doShowCrawlc.mw")
+	public String doShowCrawlc(HttpServletRequest request) throws Exception{
+		String clickCont = request.getParameter("cont");
+		System.out.println("클릭한 나라="+clickCont);
+		REXP test =null;
+		RConnection conn = new RConnection();
+		conn.eval("setwd('D:/R-workspace')");
+		conn.eval("install.packages(\"RSelenium\")");
+		conn.eval("library(RSelenium)");
+		conn.eval("remDr <- remoteDriver(remoteServerAdd=\"localhost\", port=4445, browserName=\"chrome\")");
+		conn.eval("remDr$open()");
+		conn.eval("remDr$navigate('https://www.google.com/travel/guide')");
+		
+		conn.eval("WebEle <- remDr$findElement(using='css','input.gb_gf')");
+		conn.eval("WebEle$sendKeysToElement(list('"+clickCont+"',key='enter'))");
+		conn.eval("library(rvest)");
+		conn.eval("library(httr)");
+		conn.eval("html<-remDr$getPageSource()[[1]]");
+		conn.eval("html<-read_html(html)");
+		conn.eval("source<-html_nodes(html,'div.gws-trips-modules__top-sight-card')");
+		conn.eval("source<-source[1:5]");
+		
+		test=conn.eval("source");
+		System.out.println(test.asStrings());
+		
+		//타이틀
+		conn.eval("title<-html_nodes(source,'a')");
+		conn.eval("title<-html_attr(title,'data-title')");
+		conn.eval("title<-title[!is.na(title)]");
+		conn.eval("recomDf<-title");
+		//url링크
+		conn.eval("href<-html_nodes(source,'a')");
+		conn.eval("href<-html_attr(href,'href')");
+		conn.eval("recomDf<-rbind(recomDf,href)");
+		//이미지 링크
+		conn.eval("imgs<-html_nodes(source,'img')");
+		conn.eval("imgs<-html_attr(imgs,'style')");
+		conn.eval("imgs<-gsub('background-image:url','',imgs)");
+		conn.eval("imgs<-gsub('\\\\(','',imgs)");
+		conn.eval("imgs<-gsub('\\\\)','',imgs)");
+		conn.eval("recomDf<-rbind(recomDf,imgs)");
+		conn.eval("recomDf<-as.data.frame(recomDf)");
+		
+		REXP Df = conn.eval("recomDf");
+		RList recom = Df.asList(); 
+		String[][] arr = new String[recom.size()][];
+		
+		System.out.println(recom.size());
+		
+		for(int i=0;i<recom.size();i++) { 
+			arr[i]=recom.at(i).asStrings(); 
+			} 
+		for(int i=0;i<recom.size();i++) { 
+			for(int j=0;j<recom.at(i).length();j++) {
+				System.out.print(arr[i][j]+" "); 
+				} System.out.println(); 
+			}
+		
+		
+		//conn.eval("remDr$close()");
+		//conn.close();
+		
+		request.setAttribute("clickCont", clickCont);
+		return "/Crawl/doShowCrawlc";
 	}
 
 }
