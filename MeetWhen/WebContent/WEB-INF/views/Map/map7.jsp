@@ -172,8 +172,8 @@
 	function getArticle(){
 		$.ajax({
 			type:"post",
-			url: "/MeetWhen/Main/crawl3.mw",
-			data:{cont : "전체" },
+			url: "/MeetWhen/Crawl/showCrawlb.mw",
+			data:{dbNum : 5 },
 			success : showResult3,
 			error : reqError(3)
 		});
@@ -190,7 +190,7 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-12 text-center">
-					<h2 class="section-heading text-uppercase">World Map</h2>
+					<h2 class="section-heading text-uppercase">N-America Map:<b id="contryName"></b></h2>
 					<h3 class="section-subheading text-muted">관심있는 지역을 클릭하여 방문자수를 파악해보세요</h3>
 				</div>
 			</div>

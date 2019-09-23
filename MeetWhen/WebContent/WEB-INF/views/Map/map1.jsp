@@ -169,7 +169,7 @@
 		$.ajax({
 			type:"post",
 			url: "/MeetWhen/Crawl/showCrawlb.mw",
-			data:{cont : "전체" },
+			data:{dbNum : 1 },
 			success : showResult3,
 			error : reqError(3)
 		});

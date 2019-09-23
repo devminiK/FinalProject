@@ -42,10 +42,10 @@ public class CrawlBean {
 		conList = sql.selectList("airport.getContry");
 
 		RConnection conn = new RConnection();
-		REXP contry=null, capital=null, rate=null;
+		REXP contry=null, capital=null, rate=null,imageSrc=null;
 		String con="", cap="", rat="",imgSrc="";
 
-		conn.eval("setwd('C:/R-workspace')");
+		conn.eval("setwd('D:/R-workspace')");
 		conn.eval("library(rvest)");
 		conn.eval("library(httr)");
 		conn.eval("install.packages(\"RSelenium\")");
@@ -59,8 +59,10 @@ public class CrawlBean {
 			int currentNum=vo.getC_num();
 			String currentCont = vo.getC_con();
 			int caseType=0;
-			//이름에 맞는 지역 정보 크롤링.vo.getC_con()
+			
+			//이름에 맞는 지역 정보 크롤링
 			int ContNum = sql.selectOne("airport.getContryNum",currentCont); //이미지 이름 (번호)부여
+			
 			String cNum=Integer.toString(ContNum);//이미지 이름, 단위000 맞춰주기 위함.
 			if(ContNum/100 == 0) {	
 				if(ContNum%100 < 10) {	//ContNum이 1-9 경우
@@ -138,16 +140,19 @@ public class CrawlBean {
 				conn.eval("html<-read_html(html)");
 				conn.eval("flag<-html_node(html,\"[alt='flag']\")");
 				conn.eval("flag<-html_attr(flag,\"src\")");
-				conn.eval("imgRes<-GET(flag)");
+				imageSrc =conn.eval("flag");
+				imgSrc = imageSrc.asString();
+				
+				//conn.eval("imgRes<-GET(flag)");
 
 				//로컬 폴더에(확인용)저장
-				conn.eval("writeBin(content(imgRes,'raw'),sprintf(paste0('C:/save/%03d.png'),"+ContNum+"))");
+				//conn.eval("writeBin(content(imgRes,'raw'),sprintf(paste0('C:/save/%03d.png'),"+ContNum+"))");
 				//project 폴더 내 저장
-				String orgPath = request.getRealPath("img"); //flag폴더 경로 못찾기때문에 img를 찾아 덧붙임
-				String newPath = orgPath.replace("\\","/")+"/flag";
+				//String orgPath = request.getRealPath("img"); //flag폴더 경로 못찾기때문에 img를 찾아 덧붙임
+				//String newPath = orgPath.replace("\\","/")+"/flag";
 
-				conn.eval("writeBin(content(imgRes,'raw'),sprintf(paste0('"+newPath+"/%03d.png'),"+ContNum+"))");
-				imgSrc="/MeetWhen/img/flag/"+cNum+".png";
+				//conn.eval("writeBin(content(imgRes,'raw'),sprintf(paste0('"+newPath+"/%03d.png'),"+ContNum+"))");
+				//imgSrc="/MeetWhen/img/flag/"+cNum+".png";
 
 				//국가 환율, 존재하지않을경우 예외처리
 				conn.eval("rate<-remDr$findElements(using='css',\"#dss_nation_tab_summary_content > dl.lst_overv > dd:not(.frst):not(._world_clock) \")");
