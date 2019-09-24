@@ -1,6 +1,7 @@
 package MeetWhen.spring.vo;
 
-public class MemberVO {
+public class MemberVO {//유효성 검사 추가하기.
+	
 	private int m_num;     //고유번화
 	private int m_state;   //회원상태
 	private String m_id;   //id
