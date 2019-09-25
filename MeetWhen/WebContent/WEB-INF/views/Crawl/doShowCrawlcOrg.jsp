@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
-	pageEncoding="EUC-KR"%>
+	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%--ũ�Ѹ�3: ������õ  --%>
+<%--크롤링3: 명소추천 :: 구현못해서 코드만 남겨둠. --%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,21 +9,13 @@
 <title>Insert title here</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
-* {
-	box-sizing: border-box
-}
-
-body {
-	font-family: Verdana, sans-serif;
-	margin: 0
-}
-
 .mySlides {
 	display: none
 }
 
 img {
 	vertical-align: middle;
+	index-z:10;
 }
 
 /* Slideshow container */
@@ -144,19 +136,57 @@ to {
 </style>
 </head>
 <body>
+
 	<div class="slideshow-container">
-		<h3>${clickCont}�� ��õ ����</h3>
+	<h3>${clickCont}의추천 명소</h3>
 	</div>
 	<div class="slideshow-container">
-		<c:forEach var="ent" begin="0" end="5">
+		<%-- 
+		<c:forEach items="${dataList}" var="ent" begin="0" step="1"	end="${dataSize}">
+		<img src="${ent.imgSrc}" style="width: 100%">
 		<div class="mySlides fade">
-			<div class="numbertext">${ent} / 5</div>
-			<img src="/MeetWhen/img/header-bg.jpg" style="width: 100%">
-			<div class="title">${ent}����̸�</div>
-			<div class="explain">����~~~~~~~~~~~~~~</div>
+			<div class="numbertext">0 / 5</div>
+			<img src="${ent.imgSrc}" style="width: 100%">
+			<div class="title">${ent.place}</div>
+			<div class="explain">${ent.explain}</div>
 		</div>
 		</c:forEach>
+		
+	--%>
+		<div class="mySlides fade">
+  <div class="numbertext">1 / 5</div>
+  <img src="/MeetWhen/img/recom/recom1.jpg" style="width:100%; z-indix:10;">
+  <div class="title">추천 장소 1</div>
+  <div class="explain">장소 설명.장소 설명.장소 설명.</div>
+</div>
 
+<div class="mySlides fade">
+  <div class="numbertext">2 / 5</div>
+  <img src="/MeetWhen/img/recom/recom1.jpg" style="width:100%">
+  <div class="title">장소이름</div>
+  <div class="explain">장소 설명.장소 설명.장소 설명.</div>
+</div>
+
+<div class="mySlides fade">
+  <div class="numbertext">3 / 5</div>
+  <img src="/MeetWhen/img/recom/recom1.jpg" style="width:100%">
+  <div class="title">장소이름</div>
+  <div class="explain">장소 설명.장소 설명.장소 설명.</div>
+</div>
+<div class="mySlides fade">
+  <div class="numbertext">4 / 5</div>
+  <img src="/MeetWhen/img/recom/recom1.jpg" style="width:100%">
+  <div class="title">장소이름</div>
+  <div class="explain">장소 설명.장소 설명.장소 설명.</div>
+</div>
+<div class="mySlides fade">
+  <div class="numbertext">5 / 5</div>
+  <img src="/MeetWhen/img/recom/recom1.jpg" style="width:100%">
+  <div class="title">장소이름</div>
+  <div class="explain">장소 설명.장소 설명.장소 설명.</div>
+</div>
+	
+		
 		<a class="prev" onclick="plusSlides(-1)">&#10094;</a> <a class="next"
 			onclick="plusSlides(1)">&#10095;</a>
 
@@ -164,13 +194,13 @@ to {
 	<br>
 
 	<div style="text-align: center">
-		<span class="dot" onclick="currentSlide(1)"></span> <span class="dot"
-			onclick="currentSlide(2)"></span> <span class="dot"
-			onclick="currentSlide(3)"></span> <span class="dot"
-			onclick="currentSlide(4)"></span> <span class="dot"
-			onclick="currentSlide(5)"></span>
+		<span class="dot" onclick="currentSlide(1)"></span> 
+		<span class="dot" onclick="currentSlide(2)"></span> 
+		<span class="dot" onclick="currentSlide(3)"></span> 
+		<span class="dot" onclick="currentSlide(4)"></span> 
+		<span class="dot"	onclick="currentSlide(5)"></span>
 	</div>
-
+	
 	<script>
 		var slideIndex = 1;
 		showSlides(slideIndex);
@@ -206,12 +236,15 @@ to {
 
 
 
+	
 	<%-- 
-	<h3>${clickCont}����õ ����</h3>
-	${clickCont}
 	<c:forEach items="${dataList}" var="ent" begin="0" step="1"
 		end="${dataSize}">
-		${ent.place} / ${ent.explain} /${ent.href}/${ent.imgSrc}
+		<div onclick="location.href='${ent.href}';">
+		<h4>${ent.place} </h4>
+		<p>: ${ent.explain}</p>
+		<img src="${ent.imgSrc}" height=200px;/>
+		</div>
 	</c:forEach>
 	--%>
 </body>

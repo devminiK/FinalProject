@@ -469,7 +469,7 @@ public class CrawlBean {
 		return "/Crawl/showCrawlb";
 	}
 	
-	/*Crawl_C : 나라별 추천명소 -----------------------------------------------------------------------------------------------------------------*/
+	/*Crawl_C : 나라별 추천명소 ------{R코드에 문제 있음, 우선 주석 처리}--------------------------------------------*/
 	@RequestMapping("doShowCrawlc.mw")
 	public String doShowCrawlc(HttpServletRequest request) throws Exception{
 		String clickCont = request.getParameter("cont");
@@ -555,12 +555,8 @@ public class CrawlBean {
 			System.out.println(recomPlace);
 			list.add(recomPlace);
 		}
-	
-		
-		
 		System.out.println(list);
 		System.out.println(dataSize);
-		
 		request.setAttribute("dataList", list);
 		request.setAttribute("dataSize", dataSize);
 		
@@ -568,11 +564,11 @@ public class CrawlBean {
 		request.setAttribute("clickCont", clickCont);
 		return "/Crawl/doShowCrawlc";
 	}
-	
-	@RequestMapping("test.mw")
-	public String test() {
-		
-		return"/Crawl/test";
+	/*CrawlControl : DB를 주기적으로 리셋&생성 시킴-----------------------------------------------------------------*/
+	@RequestMapping("doCrawlControl.mw")
+	public String doCrawlControl() {
+		System.out.println("특정 시간이 지나면 DB에 정보 리셋 후 저장 하는 페이지");
+		return"/Crawl/doCrawlControl";
 	}
 
 }

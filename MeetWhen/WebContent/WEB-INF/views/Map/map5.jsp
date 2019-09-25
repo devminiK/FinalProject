@@ -119,18 +119,16 @@
 								success : showResult1,
 								error : reqError(1)
 							});
-							/*
-							//ajax 구현- crawlb(ing)
+							//ajax 구현- crawlc(임의로 설정됨)
 							$.ajax({
 								type:"post",
-								url: "/MeetWhen/Main/crawl2.mw",
+								url: "/MeetWhen/Crawl/doShowCrawlc.mw",
 								data:{cont : total[i][0] },
 								success : showResult2,
 								error : reqError(2)
 							});
 							
 							
-							*/
 						}
 					})(marker, i));
 
@@ -219,8 +217,8 @@
 							<section class="page-section">
 								<div class="container">
 									<div class="row">
-										<div class="column1" style="background-color: yellow;">
-											<h4>[크롤링정보2)</h4>
+										<div class="column1" style="background-color: #ddd;">
+											
 											<div id="result2"></div>
 										</div>
 										<div class="column2" style="background-color: #ddd;">
