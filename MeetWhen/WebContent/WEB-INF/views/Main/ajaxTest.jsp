@@ -187,10 +187,6 @@ function callCrawlB6(){
 			<td><div id="resultB6"></div></td>
 		</tr>
 	</table>
-	
-	
-	
-	
 
 </body>
 </html>
