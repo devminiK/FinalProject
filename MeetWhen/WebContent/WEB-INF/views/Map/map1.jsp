@@ -21,7 +21,7 @@
 .column1 {
   float: left;
   width: 70%;
-  padding: 10px;
+  padding: 5px;
   height: 350px; /* Should be removed. Only for demonstration */
 }
 /* Create four equal columns that floats next to each other */
@@ -209,14 +209,13 @@
 					<div id="goMap"></div>
 				</div>
             </li>
-            <%--클롤링결과 1, 2 합치기 도전 --%>
+
             <li>
 				<!-- click evnet 결과: 크롤링1,2 -->
 				<section class="page-section">
 					<div class="container">
 						<div class="row">
-							<div class="column1" style="background-color: yellow;">
-								<h4>[크롤링정보2)</h4>
+							<div class="column1">
             					<div id="result2"></div>
 							</div>
 							<div class="column2" style="background-color: #ddd;">

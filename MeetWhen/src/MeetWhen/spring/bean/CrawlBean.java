@@ -1,10 +1,10 @@
 package MeetWhen.spring.bean;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -53,7 +53,7 @@ public class CrawlBean {
 		conn.eval("remDr <- remoteDriver(remoteServerAdd=\"localhost\", port=4445, browserName=\"chrome\")");
 		conn.eval("remDr$open()");
 
-		for(int i=0;i<conList.size();i++) { //conList.size()
+		for(int i=0;i<conList.size();i++) { 
 			vo=conList.get(i);
 
 			int currentNum=vo.getC_num();
@@ -279,10 +279,8 @@ public class CrawlBean {
 	@RequestMapping("showCrawla2.mw") 
 	public String showCrawla2(HttpServletRequest request) throws Exception{
 		String clickCont = request.getParameter("cont");
-		System.out.println(clickCont);
-
+		System.out.println("[showCrawla2]="+clickCont);
 		CrawlA2VO vo = sql.selectOne("crawl.getCrawlA2Click",clickCont);
-		System.out.println(vo.getCwa2_cont()+vo.getCwa2_ex1()+vo.getCwa2_ex2());
 
 		request.setAttribute("vo", vo);
 		request.setAttribute("cont", clickCont);
@@ -300,7 +298,7 @@ public class CrawlBean {
 		conn.eval("setwd('D:/R-workspace')");
 		conn.eval("library(rvest)");
 		conn.eval("library(httr)");
-		conn.eval("install.packages(\"RSelenium\")");
+		//conn.eval("install.packages(\"RSelenium\")");
 		conn.eval("library(RSelenium)");
 		conn.eval("remDr <- remoteDriver(remoteServerAdd=\"localhost\", port=4445, browserName=\"chrome\")");
 		conn.eval("remDr$open()");
@@ -317,38 +315,31 @@ public class CrawlBean {
 			topURL="https://www.yna.co.kr/international/europe";
 			sql.delete("crawl.deleCrawlB2");
 			System.out.println("[CrawlB"+dbNum+"]  리셋 완료");
-			
-			
+	
 		}else if(dbNum==3) {
 			System.out.println("[CrawlB3-아프리카&중동]");
 			topURL="https://www.yna.co.kr/international/middleeast-africa";
 			sql.delete("crawl.deleCrawlB3");
 			System.out.println("[CrawlB"+dbNum+"]  리셋 완료");
-			
-			
+	
 		}else if(dbNum==4) {
 			System.out.println("[CrawlB4-오세아니아&아시아]");
 			topURL="https://www.yna.co.kr/international/asia-australia";
 			sql.delete("crawl.deleCrawlB4");
 			System.out.println("[CrawlB"+dbNum+"]  리셋 완료");
-			
-			
+	
 		}else if(dbNum==5) {
 			System.out.println("[CrawlB5-북아메리카]");
 			topURL=" https://www.yna.co.kr/international/northamerica";
 			sql.delete("crawl.deleCrawlB5");
 			System.out.println("[CrawlB"+dbNum+"]  리셋 완료");
-			
-			
-			
-			
+	
 		}else if(dbNum==6) {
 			System.out.println("[CrawlB6-남아메리카]");
 			topURL="https://www.yna.co.kr/international/centralsouth-america";
 			sql.delete("crawl.deleCrawlB6");
 			System.out.println("[CrawlB"+dbNum+"]  리셋 완료");
-			
-			
+
 		}
 
 		conn.eval("remDr$navigate('"+topURL+"')");
@@ -478,72 +469,110 @@ public class CrawlBean {
 		return "/Crawl/showCrawlb";
 	}
 	
-	//안되고있음;;;;;;;;;;;;;;;;;;
 	/*Crawl_C : 나라별 추천명소 -----------------------------------------------------------------------------------------------------------------*/
 	@RequestMapping("doShowCrawlc.mw")
 	public String doShowCrawlc(HttpServletRequest request) throws Exception{
 		String clickCont = request.getParameter("cont");
-		System.out.println("클릭한 나라="+clickCont);
-		REXP test =null;
+		System.out.println("[doSHowCrawlc.mw:클릭한 나라]="+clickCont);
+		/*
 		RConnection conn = new RConnection();
-		conn.eval("setwd('D:/R-workspace')");
-		conn.eval("install.packages(\"RSelenium\")");
+		//conn.eval("setwd('D:/R-workspace')");
 		conn.eval("library(RSelenium)");
+		conn.eval("library(Rserve)");
 		conn.eval("remDr <- remoteDriver(remoteServerAdd=\"localhost\", port=4445, browserName=\"chrome\")");
 		conn.eval("remDr$open()");
 		conn.eval("remDr$navigate('https://www.google.com/travel/guide')");
-		
+		//나라검색
 		conn.eval("WebEle <- remDr$findElement(using='css','input.gb_gf')");
 		conn.eval("WebEle$sendKeysToElement(list('"+clickCont+"',key='enter'))");
-		conn.eval("library(rvest)");
-		conn.eval("library(httr)");
-		conn.eval("html<-remDr$getPageSource()[[1]]");
-		conn.eval("html<-read_html(html)");
-		conn.eval("source<-html_nodes(html,'div.gws-trips-modules__top-sight-card')");
-		conn.eval("source<-source[1:5]");
-		
-		test=conn.eval("source");
-		System.out.println(test.asStrings());
 		
 		//타이틀
-		conn.eval("title<-html_nodes(source,'a')");
-		conn.eval("title<-html_attr(title,'data-title')");
-		conn.eval("title<-title[!is.na(title)]");
-		conn.eval("recomDf<-title");
-		//url링크
-		conn.eval("href<-html_nodes(source,'a')");
-		conn.eval("href<-html_attr(href,'href')");
-		conn.eval("recomDf<-rbind(recomDf,href)");
-		//이미지 링크
-		conn.eval("imgs<-html_nodes(source,'img')");
-		conn.eval("imgs<-html_attr(imgs,'style')");
-		conn.eval("imgs<-gsub('background-image:url','',imgs)");
-		conn.eval("imgs<-gsub('\\\\(','',imgs)");
-		conn.eval("imgs<-gsub('\\\\)','',imgs)");
-		conn.eval("recomDf<-rbind(recomDf,imgs)");
+		conn.eval("Sys.sleep(1)");
+		conn.eval("title<-remDr$findElements(using='css',\"[class='ggmJKc GBwJj gws-trips-modules__top-sight-card']\");");
+		conn.eval("title<-sapply(title,function(x){x$getElementText()});");
+		conn.eval("title<-unlist(title)"); 
+		conn.eval("title<-strsplit(title,split='\\n')");
+		conn.eval("recomDf<-NULL");
+		conn.eval("for(i in 1:5){;" + 
+				"  if(is.na(title[[i]][3])==FALSE){;" + 
+				"    vec<-c(title[[i]][1],title[[i]][4]);" + 
+				"    recomDf<-rbind(recomDf,vec);" + 
+				"  }else{;" + 
+				"    vec<-c(title[[i]][1],title[[i]][2]);" + 
+				"    recomDf<-rbind(recomDf,vec);" + 
+				"  };" + 
+				"};");
+		conn.eval("colnames(recomDf)=c('place','explain')");
+		
+		//링크url
+		conn.eval("Sys.sleep(1)");
+		conn.eval("webElem1<-remDr$findElements(using='css',\"[data-m_t='lcl_akp']\")");
+		conn.eval("href<-sapply(webElem1,function(x){x$getElementAttribute(\"href\")})");
+		conn.eval("href<-href[1:5]");
+		conn.eval("href<-unlist(href)");
+		conn.eval("recomDf<-cbind(recomDf,href)");
+
+		//이미지src
+		conn.eval("Sys.sleep(1)");
+		conn.eval("webElem2<-remDr$findElements(using='css',\"[class='j7vNHc Bcr3Ab bh9Cef']\")");
+		conn.eval("imgSrc<-sapply(webElem2,function(x){x$getElementAttribute(\"style\")})");
+		conn.eval("imgSrc<-imgSrc[1:5]");
+		conn.eval("imgSrc<-gsub('background-image: url\\\\(\\\\\"','',imgSrc)");
+		conn.eval("imgSrc<-gsub('\\\\\"\\\\)\\\\;','',imgSrc)");
+		conn.eval("imgSrc<-unlist(imgSrc)");
+		conn.eval("recomDf<-cbind(recomDf,imgSrc)");
 		conn.eval("recomDf<-as.data.frame(recomDf)");
+
 		
 		REXP Df = conn.eval("recomDf");
+		//conn.eval("remDr$close()");
+		conn.close();
 		RList recom = Df.asList(); 
 		String[][] arr = new String[recom.size()][];
 		
-		System.out.println(recom.size());
-		
+		System.out.println(recom.size()+" / "+recom.at(1).length());
+		//arr에 값 저장.
 		for(int i=0;i<recom.size();i++) { 
 			arr[i]=recom.at(i).asStrings(); 
-			} 
-		for(int i=0;i<recom.size();i++) { 
-			for(int j=0;j<recom.at(i).length();j++) {
-				System.out.print(arr[i][j]+" "); 
-				} System.out.println(); 
+		} 
+		for(int i=0;i<recom.size();i++) {
+			for(int j=0;j<recom.at(1).length();j++) {
+				System.out.print(arr[i][j]+" ");
 			}
+			System.out.println();
+		}
+		
+		//vo없이 값 꺼내는 법.
+		ArrayList<Map<String,String>> list = new ArrayList<Map<String,String>>();
+		Map<String,String> recomPlace=null;
+		int dataSize = recom.at(1).length();
+		for(int i=0;i<dataSize;i++) {
+			recomPlace = new HashMap<>();
+			recomPlace.put("place", arr[0][i]);
+			recomPlace.put("explain", arr[1][i]);
+			recomPlace.put("href", arr[2][i]);
+			recomPlace.put("imgSrc", arr[3][i]);
+			System.out.println(recomPlace);
+			list.add(recomPlace);
+		}
+	
 		
 		
-		//conn.eval("remDr$close()");
-		//conn.close();
+		System.out.println(list);
+		System.out.println(dataSize);
 		
+		request.setAttribute("dataList", list);
+		request.setAttribute("dataSize", dataSize);
+		
+		*/
 		request.setAttribute("clickCont", clickCont);
 		return "/Crawl/doShowCrawlc";
+	}
+	
+	@RequestMapping("test.mw")
+	public String test() {
+		
+		return"/Crawl/test";
 	}
 
 }
