@@ -37,6 +37,11 @@ public class MainBean {
 	public String test() {
 		return "/Main/test";
 	}
+	
+	@RequestMapping("main.mw")//Å×½ºÆ®page
+	public String main() {
+		return "/Main/main";
+	}
 
 
 
