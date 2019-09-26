@@ -225,29 +225,19 @@
 					</div>
 				</section>            	
             </li>
+
             
-            <%-- 
-            <li> 
-				<div id="result1"></div>
-				<hr><br>
-            </li>
-            <li>
-            	<div id="result2"></div>
-            	<hr><br>
-            </li>
-            --%>
-            <%-- 크롤링3) 세계 뉴스: map1페이지가 실행될때. --%>
-            <li>
+            <li><%-- 크롤링3) 세계 뉴스: map1페이지가 실행될때. --%>
             	<div id="result3"></div>
             </li>
+            
+            
             
             
             <li class="timeline-inverted">
               <%-- <jsp:include page="/Main/test.mw"/>--%>
             </li>
-            
-            
-            <%-- 
+            <%-- 	
             <li>
               <div class="timeline-image">
                 <img class="rounded-circle img-fluid" src="/MeetWhen/img/about/3.jpg" alt="">

@@ -39,14 +39,15 @@ public class HelloBean {
 	public String ajaxTest() {
 		return "/Main/ajaxTest";
 	}
-	@RequestMapping("test2.mw")//테스트page
-	public String test2() {
-		return "/Main/test2";
-	}
+
 	
 	@RequestMapping("msg.mw")//테스트page
 	public String msg() {
 		return "/Main/msg";
+	}
+	@RequestMapping("test2.mw")//테스트page
+	public String test2() {
+		return "/Main/test2";
 	}
 
 

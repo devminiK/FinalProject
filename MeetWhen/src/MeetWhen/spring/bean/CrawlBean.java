@@ -30,12 +30,12 @@ public class CrawlBean {
 	private SqlSessionTemplate sql = null;
 
 	/*Crawl_A1 : 기본 정보 (네이버) -----------------------------------------------------------------------------------------------------------------*/
+	//Map1 페이지 실행되면 특정 시간 마다 재실행됨.
 	@RequestMapping("doCrawla1.mw")  
 	public String doCrawla1(HttpServletRequest request) throws Exception{
-		//Map1 페이지 실행되면 특정 시간 마다 재실행됨.
-		sql.delete("crawl.deleCrawlA1");  //리셋
 		System.out.println("[doCrawla1-RUNING...!]");
-
+		sql.delete("crawl.deleCrawlA1");  //리셋
+	
 		List<ContryVO> conList = new ArrayList<ContryVO>();
 		ContryVO vo = new ContryVO();
 		CrawlA1VO cwa1Vo = null;
@@ -52,16 +52,17 @@ public class CrawlBean {
 		conn.eval("library(RSelenium)");
 		conn.eval("remDr <- remoteDriver(remoteServerAdd=\"localhost\", port=4445, browserName=\"chrome\")");
 		conn.eval("remDr$open()");
-
+		
+		int caseType=0;
+		int ContNum=0;
 		for(int i=0;i<conList.size();i++) { 
 			vo=conList.get(i);
 
 			int currentNum=vo.getC_num();
 			String currentCont = vo.getC_con();
-			int caseType=0;
-			
+
 			//이름에 맞는 지역 정보 크롤링
-			int ContNum = sql.selectOne("airport.getContryNum",currentCont); //이미지 이름 (번호)부여
+			ContNum = sql.selectOne("airport.getContryNum",currentCont); //이미지 이름 (번호)부여
 			
 			String cNum=Integer.toString(ContNum);//이미지 이름, 단위000 맞춰주기 위함.
 			if(ContNum/100 == 0) {	
@@ -160,7 +161,7 @@ public class CrawlBean {
 					conn.eval("rate<-gsub('\\n','',rate[[1]])"); //에러발생
 					rate = conn.eval("rate");
 					rat = rate.asString();		
-				}catch(RserveException ex) {
+				}catch(RserveException ex) { //환율정보가 없을 경우 예외 처리.
 					ex.printStackTrace();
 					System.out.println("환율 정보 x");
 					rat="정보가 없습니다";
@@ -189,11 +190,9 @@ public class CrawlBean {
 	@RequestMapping("showCrawla1.mw")
 	public String showCrawla1(HttpServletRequest request) throws Exception{
 		String clickCont = request.getParameter("cont");
-		System.out.println(clickCont);
+		System.out.println("[showA1] "+clickCont);
 		
 		CrawlA1VO vo = sql.selectOne("crawl.getCrawlA1Click",clickCont);
-		//System.out.println(vo);
-		//System.out.println(vo.getCwa1_cont()+vo.getCwa1_con()+vo.getCwa1_cap());
 		request.setAttribute("vo", vo);
 		return "/Crawl/showCrawla1";
 	}	
@@ -202,9 +201,9 @@ public class CrawlBean {
 	/*Crawl_A2 : 기본 정보 (구글) -----------------------------------------------------------------------------------------------------------------*/
 	@RequestMapping("doCrawla2.mw") 
 	public String doCrawla2(HttpServletRequest request) throws Exception{
-		sql.delete("crawl.deleCrawlA2"); 
 		System.out.println("[doCrawla2-RUNING...!]");
-
+		
+		sql.delete("crawl.deleCrawlA2"); 
 		List<RegionVO> conList = new ArrayList<RegionVO>();
 		RegionVO vo = new RegionVO();
 		CrawlA2VO cwa2Vo = null;
@@ -234,8 +233,9 @@ public class CrawlBean {
 			try {
 				conn.eval("WebElem$sendKeysToElement(list('"+currentCont+"',key=\"enter\"))");
 			}catch(RserveException ex) {
-				System.out.println(currentCont+"정보없음");
+				System.out.print("[A2] "+currentCont+"의 정보없음");
 			}
+			
 			//검색 셋팅
 			if(currentCont.equals("씨엠립")|currentCont.equals("클락국제공항")) {//예외
 				System.out.println(currentCont+"->예외 정보");
@@ -378,7 +378,6 @@ public class CrawlBean {
 			arr[i]=list.at(i).asStrings();	
 		
 		//db에 저장(확인용 출력)
-		System.out.print("[B"+dbNum+"] ");
 		for(int i=0;i<list.size();i++) {
 			for(int j=0;j<arr[i].length;j++) {
 				System.out.println("[B"+dbNum+"] "+arr[i][j]);
@@ -441,6 +440,8 @@ public class CrawlBean {
 	/*Crawl_B : 대륙 별 기사 내용 > 출력 */
 	@RequestMapping("showCrawlb.mw")
 	public String showCrawlb(HttpServletRequest request,int dbNum) throws Exception{
+		System.out.println("[showB "+dbNum+" RUNNING..!]");
+		
 		String topURL="";
 		List allList =null;
 		if(dbNum==1) {
@@ -566,7 +567,7 @@ public class CrawlBean {
 	/*CrawlControl : DB를 주기적으로 리셋&생성 시킴-----------------------------------------------------------------*/
 	@RequestMapping("doCrawlControl.mw")
 	public String doCrawlControl() {
-		System.out.println("특정 시간이 지나면 DB에 정보 리셋 후 저장 하는 페이지");
+		System.out.println("[특정 시간이 지나면 DB에 정보 리셋 후 저장 하는 페이지]");
 		return"/Crawl/doCrawlControl";
 	}
 
