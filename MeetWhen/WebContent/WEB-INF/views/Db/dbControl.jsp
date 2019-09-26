@@ -115,5 +115,7 @@
   </script>
   <br><hr>
   <h3>크롤링 정보저장 DB</h3>
+  <button class="btn warning"
+	onclick="location.href='/MeetWhen/Crawl/CrawlControl.mw'">크롤링관련 리셋&생성 페이지</button>
 </body>
 </html>

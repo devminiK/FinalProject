@@ -34,7 +34,7 @@ public class CrawlBean {
 	public String doCrawla1(HttpServletRequest request) throws Exception{
 		//Map1 페이지 실행되면 특정 시간 마다 재실행됨.
 		sql.delete("crawl.deleCrawlA1");  //리셋
-		System.out.println("[doCrawl_CrawlA1 TABLE 리셋]");
+		System.out.println("[doCrawla1-RUNING...!]");
 
 		List<ContryVO> conList = new ArrayList<ContryVO>();
 		ContryVO vo = new ContryVO();
@@ -48,7 +48,7 @@ public class CrawlBean {
 		conn.eval("setwd('D:/R-workspace')");
 		conn.eval("library(rvest)");
 		conn.eval("library(httr)");
-		conn.eval("install.packages(\"RSelenium\")");
+		//conn.eval("install.packages(\"RSelenium\")");
 		conn.eval("library(RSelenium)");
 		conn.eval("remDr <- remoteDriver(remoteServerAdd=\"localhost\", port=4445, browserName=\"chrome\")");
 		conn.eval("remDr$open()");
@@ -143,17 +143,16 @@ public class CrawlBean {
 				imageSrc =conn.eval("flag");
 				imgSrc = imageSrc.asString();
 				
-				//conn.eval("imgRes<-GET(flag)");
-
-				//로컬 폴더에(확인용)저장
-				//conn.eval("writeBin(content(imgRes,'raw'),sprintf(paste0('C:/save/%03d.png'),"+ContNum+"))");
-				//project 폴더 내 저장
-				//String orgPath = request.getRealPath("img"); //flag폴더 경로 못찾기때문에 img를 찾아 덧붙임
-				//String newPath = orgPath.replace("\\","/")+"/flag";
-
-				//conn.eval("writeBin(content(imgRes,'raw'),sprintf(paste0('"+newPath+"/%03d.png'),"+ContNum+"))");
-				//imgSrc="/MeetWhen/img/flag/"+cNum+".png";
-
+				/*
+				 * conn.eval("imgRes<-GET(flag)"); //로컬 폴더에(확인용)저장 conn.eval(
+				 * "writeBin(content(imgRes,'raw'),sprintf(paste0('C:/save/%03d.png'),"+ContNum+
+				 * "))"); //project 폴더 내 저장 String orgPath = request.getRealPath("img");
+				 * //flag폴더 경로 못찾기때문에 img를 찾아 덧붙임 String newPath =
+				 * orgPath.replace("\\","/")+"/flag";
+				 * 
+				 * conn.eval("writeBin(content(imgRes,'raw'),sprintf(paste0('"+newPath+
+				 * "/%03d.png'),"+ContNum+"))"); imgSrc="/MeetWhen/img/flag/"+cNum+".png";
+				 */
 				//국가 환율, 존재하지않을경우 예외처리
 				conn.eval("rate<-remDr$findElements(using='css',\"#dss_nation_tab_summary_content > dl.lst_overv > dd:not(.frst):not(._world_clock) \")");
 				conn.eval("rate<-sapply(rate,function(x){x$getElementText()})");
@@ -169,8 +168,8 @@ public class CrawlBean {
 			}
 
 			//디비에 삽입.확인용 출력
-			//System.out.println(currentNum+" "+currentCont+" "+con+" "+cap+" "
-			//		+rat+" "+imgSrc+" "+caseType);
+			System.out.println("[A1] "+currentNum+" "+currentCont+" "+con+" "+cap+" "
+					+rat+" "+imgSrc+" "+caseType);
 
 			cwa1Vo = new CrawlA1VO();
 			cwa1Vo.setCwa1_num(currentNum);
@@ -193,8 +192,8 @@ public class CrawlBean {
 		System.out.println(clickCont);
 		
 		CrawlA1VO vo = sql.selectOne("crawl.getCrawlA1Click",clickCont);
-		System.out.println(vo);
-		System.out.println(vo.getCwa1_cont()+vo.getCwa1_con()+vo.getCwa1_cap());
+		//System.out.println(vo);
+		//System.out.println(vo.getCwa1_cont()+vo.getCwa1_con()+vo.getCwa1_cap());
 		request.setAttribute("vo", vo);
 		return "/Crawl/showCrawla1";
 	}	
@@ -204,7 +203,7 @@ public class CrawlBean {
 	@RequestMapping("doCrawla2.mw") 
 	public String doCrawla2(HttpServletRequest request) throws Exception{
 		sql.delete("crawl.deleCrawlA2"); 
-		System.out.println("[doCrawl_CrawlA2 TABLE 리셋]");
+		System.out.println("[doCrawla2-RUNING...!]");
 
 		List<RegionVO> conList = new ArrayList<RegionVO>();
 		RegionVO vo = new RegionVO();
@@ -218,7 +217,7 @@ public class CrawlBean {
 		conn.eval("setwd('D:/R-workspace')");
 		conn.eval("library(rvest)");
 		conn.eval("library(httr)");
-		conn.eval("install.packages(\"RSelenium\")");
+		//conn.eval("install.packages(\"RSelenium\")");
 		conn.eval("library(RSelenium)");
 		conn.eval("remDr <- remoteDriver(remoteServerAdd=\"localhost\", port=4445, browserName=\"chrome\")");
 		conn.eval("remDr$open()");
@@ -227,7 +226,7 @@ public class CrawlBean {
 			vo=conList.get(i);
 			int currentNum=vo.getR_num();
 			String currentCont = vo.getR_reg();
-			System.out.println(currentNum+currentCont);
+			System.out.println("[A2] "+currentNum+currentCont);
 			
 			conn.eval("remDr$navigate('https://www.google.com/')");
 			conn.eval("Sys.sleep(1)");
@@ -279,7 +278,7 @@ public class CrawlBean {
 	@RequestMapping("showCrawla2.mw") 
 	public String showCrawla2(HttpServletRequest request) throws Exception{
 		String clickCont = request.getParameter("cont");
-		System.out.println("[showCrawla2]="+clickCont);
+		System.out.println("[showA2]="+clickCont);
 		CrawlA2VO vo = sql.selectOne("crawl.getCrawlA2Click",clickCont);
 
 		request.setAttribute("vo", vo);
@@ -304,41 +303,40 @@ public class CrawlBean {
 		conn.eval("remDr$open()");
 		
 		if(dbNum==1) {
-			System.out.println("[CrawlB1-세계]");
+			System.out.println("[doCrawlB"+dbNum+", 세계 -RUNING...!]");
 			topURL="https://www.yna.co.kr/international/all";
 			sql.delete("crawl.deleCrawlB1");
-			System.out.println("[CrawlB"+dbNum+"]  리셋 완료");
-			
+			System.out.println("[CrawlB"+dbNum+"]-Format Success");
 			
 		}else if(dbNum==2) {
-			System.out.println("[CrawlB2-유럽]");
+			System.out.println("[doCrawlB"+dbNum+", 유럽 -RUNING...!]");
 			topURL="https://www.yna.co.kr/international/europe";
 			sql.delete("crawl.deleCrawlB2");
-			System.out.println("[CrawlB"+dbNum+"]  리셋 완료");
+			System.out.println("[CrawlB"+dbNum+"]-Format Success");
 	
 		}else if(dbNum==3) {
-			System.out.println("[CrawlB3-아프리카&중동]");
+			System.out.println("[doCrawlB"+dbNum+", 아프리카,중동 -RUNING...!]");
 			topURL="https://www.yna.co.kr/international/middleeast-africa";
 			sql.delete("crawl.deleCrawlB3");
-			System.out.println("[CrawlB"+dbNum+"]  리셋 완료");
+			System.out.println("[CrawlB"+dbNum+"]-Format Success");
 	
 		}else if(dbNum==4) {
-			System.out.println("[CrawlB4-오세아니아&아시아]");
+			System.out.println("[doCrawlB"+dbNum+", 오세아니아&아시아 -RUNING...!]");
 			topURL="https://www.yna.co.kr/international/asia-australia";
 			sql.delete("crawl.deleCrawlB4");
-			System.out.println("[CrawlB"+dbNum+"]  리셋 완료");
+			System.out.println("[CrawlB"+dbNum+"]-Format Success료");
 	
 		}else if(dbNum==5) {
-			System.out.println("[CrawlB5-북아메리카]");
+			System.out.println("[doCrawlB"+dbNum+", 북아메리카 -RUNING...!]");
 			topURL=" https://www.yna.co.kr/international/northamerica";
 			sql.delete("crawl.deleCrawlB5");
-			System.out.println("[CrawlB"+dbNum+"]  리셋 완료");
+			System.out.println("[CrawlB"+dbNum+"]-Format Success");
 	
 		}else if(dbNum==6) {
-			System.out.println("[CrawlB6-남아메리카]");
+			System.out.println("[doCrawlB"+dbNum+", 남아메리카 -RUNING...!]");
 			topURL="https://www.yna.co.kr/international/centralsouth-america";
 			sql.delete("crawl.deleCrawlB6");
-			System.out.println("[CrawlB"+dbNum+"]  리셋 완료");
+			System.out.println("[CrawlB"+dbNum+"]-Format Success");
 
 		}
 
@@ -380,9 +378,10 @@ public class CrawlBean {
 			arr[i]=list.at(i).asStrings();	
 		
 		//db에 저장(확인용 출력)
+		System.out.print("[B"+dbNum+"] ");
 		for(int i=0;i<list.size();i++) {
 			for(int j=0;j<arr[i].length;j++) {
-				System.out.print(arr[i][j]+" - ");
+				System.out.println("[B"+dbNum+"] "+arr[i][j]);
 			}
 			System.out.println();
 			//db에 저장
@@ -473,7 +472,7 @@ public class CrawlBean {
 	@RequestMapping("doShowCrawlc.mw")
 	public String doShowCrawlc(HttpServletRequest request) throws Exception{
 		String clickCont = request.getParameter("cont");
-		System.out.println("[doSHowCrawlc.mw:클릭한 나라]="+clickCont);
+		System.out.println("[showC]="+clickCont);
 		/*
 		RConnection conn = new RConnection();
 		//conn.eval("setwd('D:/R-workspace')");

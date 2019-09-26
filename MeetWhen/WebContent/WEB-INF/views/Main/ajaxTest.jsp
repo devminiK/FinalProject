@@ -22,31 +22,53 @@
 </style>
 <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
 <script type="text/javascript">
+
 function callCrawlA1(){
 	$(document).ready(function(){	
 			$.ajax({
 				type :"post",
-				url : "/MeetWhen/Crawl/doCrawla1.mw",
+				url : "test1.mw",
 				success : function(){
 					$("#resultA1").text("실행 완료!");	}, 
 				error : function(){
 					$("#resultA1").text("실행 오류...!!");}
 			});
 	});
+	//alert("[CrawlB1 재 생성_1시간 주기]");
 }
-function callCrawlA2(){
+
+setTimeout(function(){//3초뒤에 실행한다
+
+	var url = "msg.mw";
+    var name = "popup test";
+    var option = "width = 300, height = 400, top = 100, left = 200, location = no"
+
+    newWin = window.open(url, name, option);
+	st = setTimeout("newWin.close()", 54);
+	clearTimeout(st);
+    
+},3000)
+
+
+/* function callCrawlA2(){
 	$(document).ready(function(){	
 		$.ajax({
 			type :"post",
-			url : "/MeetWhen/Crawl/doCrawla2.mw",
+			url : "test3.mw",
 			success : function(){
 				$("#resultA2").text("실행 완료!");	}, 
 			error : function(){
 				$("#resultA2").text("실행 오류...!!");}
 		});	
 	});
-}
-function callCrawlB1(){
+} */
+
+/* setTimeout(function(){
+	alert("안녕!!");
+},3000)
+ */
+
+/* function callCrawlB1(){
 	$(document).ready(function(){	
 			$.ajax({
 				type :"post",
@@ -117,19 +139,23 @@ function callCrawlB6(){
 					$("#resultB6").text("실행 오류...!!");}
 			});
 	});
-}
+} */
 
 	function StartCrowling() {
 		var sec = 1000;
 		var min = sec * 60;
 		var hour = min * 60;
 
-		callCrawlA1();
-		setInterval(callCrawlA1, min*10);//10분  min*10
-		callCrawlA2();
-		setInterval(callCrawlA2, min*15);//20분   min*15
+		setTimeout(function(){
+			//alert("[CrawlB1_First FORMAT&CREATE]");
+			callCrawlA1();
+		},3000)
+		setInterval(callCrawlA1, sec*10);//10분  min*10
 
-		callCrawlB1();
+		callCrawlA2();
+		setInterval(callCrawlA2, sec*15);//20분   min*15
+
+		/* callCrawlB1();
 		setInterval(callCrawlB1,  hour);//1시간  hour
 		
 		callCrawlB2();
@@ -145,13 +171,14 @@ function callCrawlB6(){
 		setInterval(callCrawlB5,  hour+min*25); //1시간 25분  hour
 		
 		callCrawlB6();
-		setInterval(callCrawlB6,  hour+min*30); //1시간 30분 hour
+		setInterval(callCrawlB6,  hour+min*30); //1시간 30분 hour */
 	}
 </script>
 
 </head>
 
 <body onload="StartCrowling()">
+
 	<h3>DB 자동 리셋 및 생성 PAGE</h3>
 	<table class="tabb">
 		<tr>
@@ -162,6 +189,7 @@ function callCrawlB6(){
 			<td>대륙지도의 기본 정보 (구글):</td>
 			<td><div id="resultA2"></div></td>
 		</tr>
+		<%-- 
 		<tr>
 			<td>기사 검색(전체):</td>
 			<td><div id="resultB1"></div></td>
@@ -186,6 +214,7 @@ function callCrawlB6(){
 			<td>기사 검색(남미):</td>
 			<td><div id="resultB6"></div></td>
 		</tr>
+		--%>
 	</table>
 
 </body>

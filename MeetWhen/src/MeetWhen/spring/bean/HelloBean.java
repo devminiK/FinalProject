@@ -43,6 +43,11 @@ public class HelloBean {
 	public String test2() {
 		return "/Main/test2";
 	}
+	
+	@RequestMapping("msg.mw")//Å×½ºÆ®page
+	public String msg() {
+		return "/Main/msg";
+	}
 
 
 
