@@ -17,7 +17,6 @@
 	<mappers>
 		<mapper resource="/sql/airportSQL.xml" />
 		<mapper resource="/sql/latlonSQL.xml" />
-		<mapper resource="/sql/memberSQL.xml" />
 		<mapper resource="/sql/crawlSQL.xml" />
 	</mappers>
 </configuration>

@@ -9,12 +9,6 @@
 <body>
 	
 	
-	<div id="sss">ggg</div>
-	<script type="text/javascript">
-
-		var data=document.getTextById("sss");
-		console.log(data);
-		document.getElementById("sss").innerHTML=data+"gegeeg";
-	</script>
+	<h4>test¿ë</h4>
 </body>
 </html>
